@@ -1,0 +1,459 @@
+generator client {
+  provider = "prisma-client"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+// ─── Enums ───────────────────────────────────────────────────────────────────
+
+enum AccountType {
+  CONSUMER
+  TRAINER
+  GYM
+  ADMIN
+}
+
+enum TrainerTier {
+  FREE
+  STARTER
+  PRO
+}
+
+enum GymTier {
+  UNCLAIMED
+  BASIC
+  VERIFIED
+}
+
+enum SubscriptionStatus {
+  ACTIVE
+  CANCELED
+  PAST_DUE
+  TRIALING
+  INCOMPLETE
+}
+
+enum ReviewStatus {
+  PENDING
+  APPROVED
+  REJECTED
+  FLAGGED
+}
+
+enum ClaimStatus {
+  PENDING
+  APPROVED
+  REJECTED
+}
+
+enum ClaimMethod {
+  EMAIL_DOMAIN
+  POSTCARD
+}
+
+enum CompStructure {
+  SPLIT
+  HOURLY
+  OTHER
+}
+
+enum ProfileType {
+  PERSONAL_TRAINER
+  GROUP_FITNESS
+  NUTRITIONIST
+  WELLNESS_COACH
+  PHYSICAL_THERAPIST
+}
+
+// ─── NextAuth Models ─────────────────────────────────────────────────────────
+
+model User {
+  id            String    @id @default(cuid())
+  name          String?
+  email         String    @unique
+  emailVerified DateTime?
+  image         String?
+  password      String?
+  accountType   AccountType @default(CONSUMER)
+  isAdmin       Boolean   @default(false)
+  isSuspended   Boolean   @default(false)
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+
+  accounts      Account[]
+  sessions      Session[]
+  verificationTokens VerificationToken[]
+  passwordResetTokens PasswordResetToken[]
+
+  trainerProfile TrainerProfile?
+  gymProfile     GymProfile?
+  reviews        Review[]
+  contactRequests ContactRequest[] @relation("SentContactRequests")
+  reviewFlags    ReviewFlag[]
+
+  @@map("users")
+}
+
+model Account {
+  id                String  @id @default(cuid())
+  userId            String
+  type              String
+  provider          String
+  providerAccountId String
+  refresh_token     String? @db.Text
+  access_token      String? @db.Text
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String? @db.Text
+  session_state     String?
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([provider, providerAccountId])
+  @@map("accounts")
+}
+
+model Session {
+  id           String   @id @default(cuid())
+  sessionToken String   @unique
+  userId       String
+  expires      DateTime
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("sessions")
+}
+
+model VerificationToken {
+  id        String   @id @default(cuid())
+  token     String   @unique
+  userId    String
+  expires   DateTime
+  createdAt DateTime @default(now())
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("verification_tokens")
+}
+
+model PasswordResetToken {
+  id        String   @id @default(cuid())
+  token     String   @unique
+  userId    String
+  expires   DateTime
+  createdAt DateTime @default(now())
+  used      Boolean  @default(false)
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("password_reset_tokens")
+}
+
+// ─── Trainer Profile ─────────────────────────────────────────────────────────
+
+model TrainerProfile {
+  id              String      @id @default(cuid())
+  userId          String      @unique
+  slug            String      @unique
+  profileType     ProfileType @default(PERSONAL_TRAINER)
+  displayName     String
+  bio             String?     @db.VarChar(500)
+  photoUrl        String?
+  phone           String?
+  virtualAvailable Boolean    @default(false)
+  bookingUrl      String?
+  vslUrl          String?
+  addressLine1    String?
+  city            String?
+  state           String?
+  zip             String?
+  lat             Float?
+  lng             Float?
+
+  tier            TrainerTier @default(FREE)
+  stripeCustomerId String?    @unique
+  stripeSubscriptionId String? @unique
+  subscriptionStatus SubscriptionStatus?
+  currentPeriodEnd DateTime?
+
+  wizardComplete  Boolean     @default(false)
+  averageRating   Float?
+  reviewCount     Int         @default(0)
+
+  profileViews    ProfileView[]
+  certifications  TrainerCertification[]
+  specialties     TrainerSpecialty[]
+  reviews         Review[]    @relation("TrainerReviews")
+  contactRequests ContactRequest[] @relation("TrainerContactRequests")
+  gymLink         TrainerGymLink?
+
+  createdAt       DateTime    @default(now())
+  updatedAt       DateTime    @updatedAt
+
+  user            User        @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("trainer_profiles")
+}
+
+model TrainerCertification {
+  id              String   @id @default(cuid())
+  trainerProfileId String
+  name            String
+  isVerified      Boolean  @default(false)
+  certDocUrl      String?
+  verifiedAt      DateTime?
+  createdAt       DateTime @default(now())
+
+  trainerProfile  TrainerProfile @relation(fields: [trainerProfileId], references: [id], onDelete: Cascade)
+
+  @@map("trainer_certifications")
+}
+
+model TrainerSpecialty {
+  id              String   @id @default(cuid())
+  trainerProfileId String
+  specialty       String
+  sortOrder       Int      @default(0)
+
+  trainerProfile  TrainerProfile @relation(fields: [trainerProfileId], references: [id], onDelete: Cascade)
+
+  @@map("trainer_specialties")
+}
+
+model TrainerGymLink {
+  id              String   @id @default(cuid())
+  trainerProfileId String  @unique
+  gymProfileId    String
+
+  trainerProfile  TrainerProfile @relation(fields: [trainerProfileId], references: [id], onDelete: Cascade)
+  gymProfile      GymProfile     @relation(fields: [gymProfileId], references: [id], onDelete: Cascade)
+
+  createdAt       DateTime @default(now())
+
+  @@map("trainer_gym_links")
+}
+
+// ─── Gym Profile ─────────────────────────────────────────────────────────────
+
+model GymProfile {
+  id              String    @id @default(cuid())
+  userId          String?   @unique
+  slug            String    @unique
+  name            String
+  addressLine1    String
+  city            String
+  state           String
+  zip             String
+  phone           String?
+  website         String?
+  lat             Float?
+  lng             Float?
+
+  isClaimed       Boolean   @default(false)
+  claimStatus     ClaimStatus?
+  emailDomain     String?
+
+  pricingInfo     String?   @db.VarChar(300)
+  classesOffered  String?   @db.Text
+  socialLinks     Json?
+
+  tier            GymTier   @default(UNCLAIMED)
+  stripeCustomerId String?  @unique
+  stripeSubscriptionId String? @unique
+  subscriptionStatus SubscriptionStatus?
+  currentPeriodEnd DateTime?
+
+  averageRating   Float?
+  reviewCount     Int       @default(0)
+
+  // v2 Trainer-to-Gym Matching fields (nullable for v1)
+  trainerFriendly  Boolean?
+  memberFlowRating Int?
+  compStructure    CompStructure?
+  compRate         String?
+  trainerAmenities String?   @db.Text
+
+  photos          GymPhoto[]
+  hours           GymHours[]
+  amenities       GymAmenity[]
+  reviews         Review[]  @relation("GymReviews")
+  profileViews    ProfileView[]
+  trainerLinks    TrainerGymLink[]
+  contactRequests ContactRequest[] @relation("GymContactRequests")
+  claims          GymClaim[]
+
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
+
+  user            User?     @relation(fields: [userId], references: [id], onDelete: SetNull)
+
+  @@map("gym_profiles")
+}
+
+model GymPhoto {
+  id           String   @id @default(cuid())
+  gymProfileId String
+  url          String
+  publicId     String
+  sortOrder    Int      @default(0)
+  createdAt    DateTime @default(now())
+
+  gymProfile   GymProfile @relation(fields: [gymProfileId], references: [id], onDelete: Cascade)
+
+  @@map("gym_photos")
+}
+
+model GymHours {
+  id           String  @id @default(cuid())
+  gymProfileId String
+  dayOfWeek    Int
+  openTime     String?
+  closeTime    String?
+  isClosed     Boolean @default(false)
+
+  gymProfile   GymProfile @relation(fields: [gymProfileId], references: [id], onDelete: Cascade)
+
+  @@unique([gymProfileId, dayOfWeek])
+  @@map("gym_hours")
+}
+
+model GymAmenity {
+  id           String @id @default(cuid())
+  gymProfileId String
+  amenity      String
+
+  gymProfile   GymProfile @relation(fields: [gymProfileId], references: [id], onDelete: Cascade)
+
+  @@map("gym_amenities")
+}
+
+model GymClaim {
+  id               String      @id @default(cuid())
+  gymProfileId     String
+  userId           String
+  method           ClaimMethod
+  status           ClaimStatus @default(PENDING)
+  postcardCode     String?
+  postcardSentAt   DateTime?
+  postcardExpiresAt DateTime?
+  emailDomain      String?
+  verifiedAt       DateTime?
+  rejectedAt       DateTime?
+  rejectionReason  String?
+  createdAt        DateTime    @default(now())
+  updatedAt        DateTime    @updatedAt
+
+  gymProfile       GymProfile  @relation(fields: [gymProfileId], references: [id], onDelete: Cascade)
+
+  @@map("gym_claims")
+}
+
+// ─── Reviews ─────────────────────────────────────────────────────────────────
+
+model Review {
+  id               String       @id @default(cuid())
+  userId           String
+  trainerProfileId String?
+  gymProfileId     String?
+  overallRating    Int
+  writtenReview    String       @db.VarChar(1000)
+  status           ReviewStatus @default(PENDING)
+  confirmedTraining Boolean     @default(false)
+  rejectionReason  String?
+  flaggedAt        DateTime?
+  approvedAt       DateTime?
+  editableUntil    DateTime?
+  createdAt        DateTime     @default(now())
+  updatedAt        DateTime     @updatedAt
+
+  categoryRatings  ReviewCategoryRating[]
+  response         ReviewResponse?
+  flags            ReviewFlag[]
+
+  user             User           @relation(fields: [userId], references: [id], onDelete: Cascade)
+  trainerProfile   TrainerProfile? @relation("TrainerReviews", fields: [trainerProfileId], references: [id], onDelete: Cascade)
+  gymProfile       GymProfile?    @relation("GymReviews", fields: [gymProfileId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, trainerProfileId])
+  @@unique([userId, gymProfileId])
+  @@map("reviews")
+}
+
+model ReviewCategoryRating {
+  id       String @id @default(cuid())
+  reviewId String
+  category String
+  rating   Int
+
+  review   Review @relation(fields: [reviewId], references: [id], onDelete: Cascade)
+
+  @@unique([reviewId, category])
+  @@map("review_category_ratings")
+}
+
+model ReviewResponse {
+  id            String   @id @default(cuid())
+  reviewId      String   @unique
+  body          String   @db.VarChar(500)
+  editableUntil DateTime?
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  review        Review   @relation(fields: [reviewId], references: [id], onDelete: Cascade)
+
+  @@map("review_responses")
+}
+
+model ReviewFlag {
+  id        String   @id @default(cuid())
+  reviewId  String
+  userId    String
+  reason    String?
+  createdAt DateTime @default(now())
+
+  review    Review @relation(fields: [reviewId], references: [id], onDelete: Cascade)
+  user      User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([reviewId, userId])
+  @@map("review_flags")
+}
+
+// ─── Contact Requests ─────────────────────────────────────────────────────────
+
+model ContactRequest {
+  id               String   @id @default(cuid())
+  senderId         String
+  trainerProfileId String?
+  gymProfileId     String?
+  message          String   @db.Text
+  subject          String?
+  senderEmail      String
+  senderName       String
+  isRead           Boolean  @default(false)
+  createdAt        DateTime @default(now())
+
+  sender           User     @relation("SentContactRequests", fields: [senderId], references: [id], onDelete: Cascade)
+  trainerProfile   TrainerProfile? @relation("TrainerContactRequests", fields: [trainerProfileId], references: [id], onDelete: Cascade)
+  gymProfile       GymProfile?     @relation("GymContactRequests", fields: [gymProfileId], references: [id], onDelete: Cascade)
+
+  @@map("contact_requests")
+}
+
+// ─── Analytics ────────────────────────────────────────────────────────────────
+
+model ProfileView {
+  id               String   @id @default(cuid())
+  trainerProfileId String?
+  gymProfileId     String?
+  viewerIp         String?
+  viewedAt         DateTime @default(now())
+
+  trainerProfile   TrainerProfile? @relation(fields: [trainerProfileId], references: [id], onDelete: Cascade)
+  gymProfile       GymProfile?     @relation(fields: [gymProfileId], references: [id], onDelete: Cascade)
+
+  @@map("profile_views")
+}
