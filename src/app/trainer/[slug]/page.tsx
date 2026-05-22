@@ -42,7 +42,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
   return {
     title: `${trainer.displayName} — ${typeLabel}${location ? ` in ${location}` : ""}`,
-    description: trainer.bio ?? `${trainer.displayName} is a certified ${typeLabel.toLowerCase()} on FitWell.`,
+    description: trainer.bio ?? `${trainer.displayName} is a certified ${typeLabel.toLowerCase()} on FitHunter.`,
     openGraph: { images: trainer.photoUrl ? [trainer.photoUrl] : [] },
   };
 }
@@ -99,7 +99,7 @@ export default async function TrainerProfilePage({ params }: Props) {
                     {trainer.certifications.some((c) => c.isVerified) && (
                       <Badge variant="verified" className="mt-1">
                         <Shield className="h-3 w-3" />
-                        FitWell Verified
+                        FitHunter Verified
                       </Badge>
                     )}
                   </div>
@@ -232,7 +232,7 @@ export default async function TrainerProfilePage({ params }: Props) {
               )}
 
               <div className="text-xs text-gray-400 text-center pt-1">
-                Contact is sent directly to the trainer — FitWell doesn&apos;t share your info.
+                Contact is sent directly to the trainer — FitHunter doesn&apos;t share your info.
               </div>
             </div>
           </div>

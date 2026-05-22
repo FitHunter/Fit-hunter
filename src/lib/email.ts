@@ -1,7 +1,7 @@
 import { Resend } from "resend";
 
 const resend = new Resend(process.env.RESEND_API_KEY);
-const FROM = "FitWell <noreply@fitwellapp.com>";
+const FROM = "FitHunter <noreply@fithunter.app>";
 const APP_URL = process.env.NEXT_PUBLIC_APP_URL!;
 
 export async function sendVerificationEmail(email: string, token: string) {
@@ -9,7 +9,7 @@ export async function sendVerificationEmail(email: string, token: string) {
   return resend.emails.send({
     from: FROM,
     to: email,
-    subject: "Verify your FitWell account",
+    subject: "Verify your FitHunter account",
     html: `<p>Click <a href="${url}">here</a> to verify your email address. This link expires in 24 hours.</p>`,
   });
 }
@@ -19,7 +19,7 @@ export async function sendPasswordResetEmail(email: string, token: string) {
   return resend.emails.send({
     from: FROM,
     to: email,
-    subject: "Reset your FitWell password",
+    subject: "Reset your FitHunter password",
     html: `<p>Click <a href="${url}">here</a> to reset your password. This link expires in 1 hour.</p>`,
   });
 }
@@ -36,7 +36,7 @@ export async function sendContactNotificationToTrainer(opts: {
     to: opts.trainerEmail,
     subject: `New consult request from ${opts.senderName}`,
     html: `
-      <h2>You have a new contact request on FitWell</h2>
+      <h2>You have a new contact request on FitHunter</h2>
       <p><strong>From:</strong> ${opts.senderName} (${opts.senderEmail})</p>
       <p><strong>Message:</strong></p>
       <p>${opts.message}</p>
@@ -57,7 +57,7 @@ export async function sendContactConfirmationToSender(opts: {
     html: `
       <p>Hi ${opts.senderName},</p>
       <p>Your message to <strong>${opts.recipientName}</strong> has been sent. They'll be in touch with you soon.</p>
-      <p>— The FitWell Team</p>
+      <p>— The FitHunter Team</p>
     `,
   });
 }
@@ -90,7 +90,7 @@ export async function sendReviewSubmittedConfirmation(email: string) {
     from: FROM,
     to: email,
     subject: "Your review has been submitted",
-    html: `<p>Thank you for submitting a review on FitWell. It will be published after moderation (typically within 24–48 hours).</p>`,
+    html: `<p>Thank you for submitting a review on FitHunter. It will be published after moderation (typically within 24–48 hours).</p>`,
   });
 }
 
@@ -98,7 +98,7 @@ export async function sendReviewRejectedEmail(email: string, reason: string) {
   return resend.emails.send({
     from: FROM,
     to: email,
-    subject: "Your FitWell review was not approved",
+    subject: "Your FitHunter review was not approved",
     html: `<p>Unfortunately, your review was not approved.</p><p><strong>Reason:</strong> ${reason}</p>`,
   });
 }
@@ -119,7 +119,7 @@ export async function sendPaymentFailedEmail(email: string, name: string) {
     subject: "Action required: payment failed",
     html: `
       <p>Hi ${name},</p>
-      <p>We were unable to process your FitWell subscription payment. You have 7 days to update your payment method before your account is downgraded.</p>
+      <p>We were unable to process your FitHunter subscription payment. You have 7 days to update your payment method before your account is downgraded.</p>
       <p><a href="${APP_URL}/dashboard/billing">Update payment method</a></p>
     `,
   });

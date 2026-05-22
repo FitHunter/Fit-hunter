@@ -6,7 +6,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Users, Star, Building2, Dumbbell } from "lucide-react";
 import type { Metadata } from "next";
 
-export const metadata: Metadata = { title: "Admin — FitWell" };
+export const metadata: Metadata = { title: "Admin — FitHunter" };
 
 export default async function AdminPage() {
   const session = await auth();

@@ -66,7 +66,7 @@ export default function HomePage() {
       {/* Value props */}
       <section className="py-16 px-4">
         <div className="max-w-5xl mx-auto">
-          <h2 className="text-2xl font-bold text-center text-gray-900 mb-10">Why FitWell?</h2>
+          <h2 className="text-2xl font-bold text-center text-gray-900 mb-10">Why FitHunter?</h2>
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-8">
             <div className="flex flex-col items-center text-center gap-3">
               <Shield className="h-8 w-8 text-emerald-600" />
@@ -114,14 +114,14 @@ export default function HomePage() {
         <div className="max-w-5xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4">
           <div className="flex items-center gap-2 font-semibold text-white">
             <Dumbbell className="h-5 w-5 text-emerald-400" />
-            FitWell
+            FitHunter
           </div>
           <div className="flex gap-6">
             <Link href="/search" className="hover:text-white">Browse</Link>
             <Link href="/register" className="hover:text-white">Sign up</Link>
             <Link href="/login" className="hover:text-white">Log in</Link>
           </div>
-          <p className="text-xs text-gray-500">© {new Date().getFullYear()} FitWell. All rights reserved.</p>
+          <p className="text-xs text-gray-500">© {new Date().getFullYear()} FitHunter. All rights reserved.</p>
         </div>
       </footer>
     </div>

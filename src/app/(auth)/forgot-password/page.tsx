@@ -33,7 +33,7 @@ export default function ForgotPasswordPage() {
         <CardHeader className="text-center pb-2">
           <Link href="/" className="flex items-center justify-center gap-2 text-emerald-700 font-bold text-xl mb-4">
             <Dumbbell className="h-6 w-6" />
-            FitWell
+            FitHunter
           </Link>
           <CardTitle>Reset your password</CardTitle>
           <CardDescription>Enter your email to receive a reset link</CardDescription>
@@ -43,7 +43,7 @@ export default function ForgotPasswordPage() {
             <div className="text-center space-y-4">
               <div className="text-4xl">📬</div>
               <p className="text-sm text-gray-600">
-                If that email is associated with a FitWell account, you&apos;ll receive a reset link within a few minutes.
+                If that email is associated with a FitHunter account, you&apos;ll receive a reset link within a few minutes.
               </p>
               <Link href="/login">
                 <Button variant="outline" className="w-full">Back to login</Button>

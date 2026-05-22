@@ -9,12 +9,12 @@ const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
   title: {
-    default: "FitWell — Find Top Trainers & Gyms Near You",
-    template: "%s | FitWell",
+    default: "FitHunter — Find Top Trainers & Gyms Near You",
+    template: "%s | FitHunter",
   },
   description: "Discover verified personal trainers, fitness coaches, and gyms. Read real reviews, compare certifications, and find your perfect fitness match.",
   openGraph: {
-    title: "FitWell — Find Top Trainers & Gyms Near You",
+    title: "FitHunter — Find Top Trainers & Gyms Near You",
     description: "Discover verified personal trainers, fitness coaches, and gyms.",
     type: "website",
   },

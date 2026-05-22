@@ -84,7 +84,7 @@ export default function RegisterPage() {
         <CardHeader className="text-center pb-2">
           <Link href="/" className="flex items-center justify-center gap-2 text-emerald-700 font-bold text-xl mb-4">
             <Dumbbell className="h-6 w-6" />
-            FitWell
+            FitHunter
           </Link>
           <CardTitle>Create your account</CardTitle>
           <CardDescription>Join thousands of fitness seekers and professionals</CardDescription>
