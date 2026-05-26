@@ -3,20 +3,10 @@ import { PrismaPg } from "@prisma/adapter-pg";
 import { Pool } from "pg";
 
 function buildPool(): Pool {
-  // Prefer individual host/credential env vars (set by Supabase Vercel integration)
-  // because they bypass pg-connection-string SSL mode parsing entirely.
-  if (process.env.POSTGRES_HOST) {
-    return new Pool({
-      host: process.env.POSTGRES_HOST,
-      database: process.env.POSTGRES_DATABASE,
-      user: process.env.POSTGRES_USER,
-      password: process.env.POSTGRES_PASSWORD,
-      port: 5432,
-      ssl: { rejectUnauthorized: false },
-    });
-  }
-
-  // Fallback for local dev: parse the URL manually to avoid sslmode interference
+  // Parse the connection string URL into individual params so that
+  // pg.Pool never receives a connectionString argument. Without a
+  // connectionString, pg-connection-string is never invoked, meaning
+  // sslmode=require in the URL can never override ssl.rejectUnauthorized.
   const connectionString = process.env.POSTGRES_URL_NON_POOLING ?? process.env.DATABASE_URL!;
   const url = new URL(connectionString);
   return new Pool({
