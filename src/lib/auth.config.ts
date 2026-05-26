@@ -1,6 +1,5 @@
 import type { NextAuthConfig } from "next-auth";
 import Google from "next-auth/providers/google";
-import Credentials from "next-auth/providers/credentials";
 
 // Edge-compatible config — no Prisma imports
 export const authConfig: NextAuthConfig = {
@@ -13,7 +12,6 @@ export const authConfig: NextAuthConfig = {
       clientId: process.env.GOOGLE_CLIENT_ID!,
       clientSecret: process.env.GOOGLE_CLIENT_SECRET!,
     }),
-    Credentials({ credentials: {} }),
   ],
   callbacks: {
     authorized({ auth, request: { nextUrl } }) {
