@@ -1,7 +1,7 @@
 import { Resend } from "resend";
 
 const resend = new Resend(process.env.RESEND_API_KEY);
-const FROM = "FitHunter <noreply@fithunter.app>";
+const FROM = process.env.EMAIL_FROM ?? "FitHunter <onboarding@resend.dev>";
 const APP_URL = process.env.NEXT_PUBLIC_APP_URL!;
 
 export async function sendVerificationEmail(email: string, token: string) {
