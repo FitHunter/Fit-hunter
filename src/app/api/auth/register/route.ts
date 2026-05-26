@@ -3,7 +3,7 @@ import bcrypt from "bcryptjs";
 import { z } from "zod";
 import { prisma } from "@/lib/prisma";
 import { sendVerificationEmail } from "@/lib/email";
-import { generateRandomCode } from "@/lib/utils";
+import { generateRandomCode, slugify } from "@/lib/utils";
 import { AccountType } from "@/generated/prisma";
 import { addHours } from "date-fns";
 
@@ -12,6 +12,19 @@ const schema = z.object({
   email: z.string().email(),
   password: z.string().min(8),
   accountType: z.nativeEnum(AccountType).default(AccountType.CONSUMER),
+  // Trainer fields
+  phone: z.string().optional(),
+  city: z.string().optional(),
+  state: z.string().optional(),
+  trainingMode: z.enum(["in-person", "virtual", "both"]).optional(),
+  specialties: z.array(z.string()).optional(),
+  certifications: z.array(z.string()).optional(),
+  // Gym fields
+  gymName: z.string().optional(),
+  addressLine1: z.string().optional(),
+  zip: z.string().optional(),
+  knownFor: z.string().optional(),
+  amenities: z.array(z.string()).optional(),
 });
 
 export async function POST(req: NextRequest) {
@@ -27,19 +40,70 @@ export async function POST(req: NextRequest) {
     const hashedPassword = await bcrypt.hash(data.password, 12);
     const token = generateRandomCode(32);
 
-    const user = await prisma.user.create({
-      data: {
-        name: data.name,
-        email: data.email,
-        password: hashedPassword,
-        accountType: data.accountType,
-        verificationTokens: {
-          create: {
-            token,
-            expires: addHours(new Date(), 24),
+    const user = await prisma.$transaction(async (tx) => {
+      const newUser = await tx.user.create({
+        data: {
+          name: data.name,
+          email: data.email,
+          password: hashedPassword,
+          accountType: data.accountType,
+          verificationTokens: {
+            create: {
+              token,
+              expires: addHours(new Date(), 24),
+            },
           },
         },
-      },
+      });
+
+      if (data.accountType === AccountType.TRAINER) {
+        const slug = `${slugify(data.name)}-${generateRandomCode(6).toLowerCase()}`;
+        const virtualAvailable =
+          data.trainingMode === "virtual" || data.trainingMode === "both";
+
+        await tx.trainerProfile.create({
+          data: {
+            userId: newUser.id,
+            slug,
+            displayName: data.name,
+            phone: data.phone || null,
+            city: data.city || null,
+            state: data.state || null,
+            virtualAvailable,
+            specialties: data.specialties?.length
+              ? { create: data.specialties.map((s, i) => ({ specialty: s, sortOrder: i })) }
+              : undefined,
+            certifications: data.certifications?.length
+              ? { create: data.certifications.map((c) => ({ name: c })) }
+              : undefined,
+          },
+        });
+      }
+
+      if (data.accountType === AccountType.GYM) {
+        const gymSlug = `${slugify(data.gymName || data.name)}-${generateRandomCode(6).toLowerCase()}`;
+
+        await tx.gymProfile.create({
+          data: {
+            userId: newUser.id,
+            slug: gymSlug,
+            name: data.gymName || data.name,
+            addressLine1: data.addressLine1 || "",
+            city: data.city || "",
+            state: data.state || "",
+            zip: data.zip || "",
+            phone: data.phone || null,
+            classesOffered: data.knownFor || null,
+            isClaimed: true,
+            claimStatus: "APPROVED",
+            amenities: data.amenities?.length
+              ? { create: data.amenities.map((a) => ({ amenity: a })) }
+              : undefined,
+          },
+        });
+      }
+
+      return newUser;
     });
 
     sendVerificationEmail(data.email, token).catch((err) =>
