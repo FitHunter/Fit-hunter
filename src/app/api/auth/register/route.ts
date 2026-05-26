@@ -42,7 +42,9 @@ export async function POST(req: NextRequest) {
       },
     });
 
-    await sendVerificationEmail(data.email, token);
+    sendVerificationEmail(data.email, token).catch((err) =>
+      console.error("[register] email send failed:", err)
+    );
 
     return NextResponse.json({ success: true, userId: user.id }, { status: 201 });
   } catch (err) {
