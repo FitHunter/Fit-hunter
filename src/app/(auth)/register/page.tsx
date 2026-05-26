@@ -152,6 +152,12 @@ export default function RegisterPage() {
 
   function validateStep3() {
     const errs: Record<string, string> = {};
+    if (formData.accountType === "TRAINER") {
+      if (!formData.city.trim()) errs.city = "City is required";
+      if (!formData.state) errs.state = "State is required";
+      if (formData.specialties.length === 0) errs.specialties = "Select at least one specialty";
+      if (formData.certifications.length === 0) errs.certifications = "Add at least one certification";
+    }
     if (formData.accountType === "GYM") {
       if (!formData.addressLine1.trim()) errs.addressLine1 = "Street address is required";
       if (!formData.city.trim()) errs.city = "City is required";
@@ -399,25 +405,27 @@ export default function RegisterPage() {
 
               <div className="grid grid-cols-2 gap-3">
                 <div className="space-y-1.5">
-                  <Label>City <span className="text-gray-400 font-normal">(optional)</span></Label>
+                  <Label>City</Label>
                   <Input
                     value={formData.city}
                     onChange={(e) => update("city", e.target.value)}
                     placeholder="Los Angeles"
                   />
+                  {fieldErrors.city && <p className="text-xs text-red-600">{fieldErrors.city}</p>}
                 </div>
                 <div className="space-y-1.5">
-                  <Label>State <span className="text-gray-400 font-normal">(optional)</span></Label>
+                  <Label>State</Label>
                   <select
-                    className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500"
+                    className="flex h-10 w-full rounded-md border border-gray-300 bg-white px-3 py-2 text-sm text-gray-900 focus:outline-none focus:ring-2 focus:ring-emerald-500"
                     value={formData.state}
                     onChange={(e) => update("state", e.target.value)}
                   >
-                    <option value="">Select...</option>
+                    <option value="">Select state</option>
                     {US_STATES.map((s) => (
                       <option key={s} value={s}>{s}</option>
                     ))}
                   </select>
+                  {fieldErrors.state && <p className="text-xs text-red-600">{fieldErrors.state}</p>}
                 </div>
               </div>
 
@@ -432,16 +440,16 @@ export default function RegisterPage() {
               </div>
 
               <div className="space-y-2">
-                <Label>
-                  Your specialties{" "}
-                  <span className="text-gray-400 font-normal">(optional — select all that apply)</span>
-                </Label>
+                <Label>Your specialties <span className="text-gray-400 font-normal text-xs">(select all that apply)</span></Label>
                 <div className="flex flex-wrap gap-2">
                   {TRAINER_SPECIALTIES.map((s) => (
                     <button
                       key={s}
                       type="button"
-                      onClick={() => toggleSpecialty(s)}
+                      onClick={() => {
+                        toggleSpecialty(s);
+                        setFieldErrors((prev) => ({ ...prev, specialties: "" }));
+                      }}
                       className={cn(
                         "px-3 py-1.5 rounded-full border text-sm transition-colors",
                         formData.specialties.includes(s)
@@ -453,13 +461,13 @@ export default function RegisterPage() {
                     </button>
                   ))}
                 </div>
+                {fieldErrors.specialties && (
+                  <p className="text-xs text-red-600">{fieldErrors.specialties}</p>
+                )}
               </div>
 
               <div className="space-y-2">
-                <Label>
-                  Certifications{" "}
-                  <span className="text-gray-400 font-normal">(optional)</span>
-                </Label>
+                <Label>Certifications</Label>
                 <div className="flex gap-2">
                   <Input
                     value={certInput}
@@ -469,10 +477,19 @@ export default function RegisterPage() {
                       if (e.key === "Enter") {
                         e.preventDefault();
                         addCert();
+                        setFieldErrors((prev) => ({ ...prev, certifications: "" }));
                       }
                     }}
                   />
-                  <Button type="button" variant="outline" size="icon" onClick={addCert}>
+                  <Button
+                    type="button"
+                    variant="outline"
+                    size="icon"
+                    onClick={() => {
+                      addCert();
+                      setFieldErrors((prev) => ({ ...prev, certifications: "" }));
+                    }}
+                  >
                     <Plus className="h-4 w-4" />
                   </Button>
                 </div>
@@ -495,6 +512,12 @@ export default function RegisterPage() {
                     ))}
                   </div>
                 )}
+                {fieldErrors.certifications && (
+                  <p className="text-xs text-red-600">{fieldErrors.certifications}</p>
+                )}
+                <p className="text-xs text-gray-400">
+                  Our team will verify your certifications within 48 hours of registration.
+                </p>
               </div>
 
               {serverError && (
@@ -539,11 +562,11 @@ export default function RegisterPage() {
                 <div className="col-span-2 space-y-1.5">
                   <Label>State</Label>
                   <select
-                    className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500"
+                    className="flex h-10 w-full rounded-md border border-gray-300 bg-white px-3 py-2 text-sm text-gray-900 focus:outline-none focus:ring-2 focus:ring-emerald-500"
                     value={formData.state}
                     onChange={(e) => update("state", e.target.value)}
                   >
-                    <option value="">Select...</option>
+                    <option value="">Select state</option>
                     {US_STATES.map((s) => (
                       <option key={s} value={s}>{s}</option>
                     ))}
