@@ -49,14 +49,32 @@ export function Navbar() {
                   <ChevronDown className="h-4 w-4" />
                 </button>
                 {profileOpen && (
-                  <div className="absolute right-0 mt-2 w-48 rounded-lg border border-gray-200 bg-white shadow-lg py-1 z-50">
+                  <div className="absolute right-0 mt-2 w-52 rounded-lg border border-gray-200 bg-white shadow-lg py-1 z-50">
                     <Link
                       href={dashboardHref}
                       className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-50"
                       onClick={() => setProfileOpen(false)}
                     >
-                      Dashboard
+                      My Dashboard
                     </Link>
+                    {session.user.accountType === "TRAINER" && (
+                      <Link
+                        href="/dashboard/trainer/edit"
+                        className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-50"
+                        onClick={() => setProfileOpen(false)}
+                      >
+                        Edit My Profile
+                      </Link>
+                    )}
+                    {session.user.accountType === "GYM" && (
+                      <Link
+                        href="/dashboard/gym"
+                        className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-50"
+                        onClick={() => setProfileOpen(false)}
+                      >
+                        Edit My Profile
+                      </Link>
+                    )}
                     {session.user.isAdmin && (
                       <Link
                         href="/admin"
@@ -66,12 +84,14 @@ export function Navbar() {
                         Admin Panel
                       </Link>
                     )}
-                    <button
-                      onClick={() => signOut({ callbackUrl: "/" })}
-                      className="w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-gray-50"
-                    >
-                      Sign out
-                    </button>
+                    <div className="border-t border-gray-100 mt-1 pt-1">
+                      <button
+                        onClick={() => signOut({ callbackUrl: "/" })}
+                        className="w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-gray-50"
+                      >
+                        Sign out
+                      </button>
+                    </div>
                   </div>
                 )}
               </div>
@@ -116,8 +136,13 @@ export function Navbar() {
           {session ? (
             <>
               <Link href={dashboardHref} className="block text-sm font-medium text-gray-700" onClick={() => setMobileOpen(false)}>
-                Dashboard
+                My Dashboard
               </Link>
+              {session.user.accountType === "TRAINER" && (
+                <Link href="/dashboard/trainer/edit" className="block text-sm font-medium text-gray-700" onClick={() => setMobileOpen(false)}>
+                  Edit My Profile
+                </Link>
+              )}
               <button
                 onClick={() => signOut({ callbackUrl: "/" })}
                 className="block text-sm font-medium text-red-600"

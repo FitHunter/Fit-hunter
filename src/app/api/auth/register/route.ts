@@ -72,6 +72,7 @@ export async function POST(req: NextRequest) {
             city: data.city || null,
             state: data.state || null,
             virtualAvailable,
+            wizardComplete: true,
             specialties: data.specialties?.length
               ? { create: data.specialties.map((s, i) => ({ specialty: s, sortOrder: i })) }
               : undefined,
