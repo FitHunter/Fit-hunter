@@ -5,7 +5,7 @@ const FROM = process.env.EMAIL_FROM ?? "FitHunter <onboarding@resend.dev>";
 const APP_URL = process.env.NEXT_PUBLIC_APP_URL!;
 
 export async function sendVerificationEmail(email: string, token: string) {
-  const url = `${APP_URL}/verify-email?token=${token}`;
+  const url = `${APP_URL}/api/auth/verify-email?token=${token}`;
   return resend.emails.send({
     from: FROM,
     to: email,
