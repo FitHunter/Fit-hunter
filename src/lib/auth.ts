@@ -19,21 +19,25 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         password: { label: "Password", type: "password" },
       },
       async authorize(credentials) {
-        if (!credentials?.email || !credentials?.password) return null;
+        if (!credentials?.email || !credentials?.password) {
+          console.log("[auth] missing credentials");
+          return null;
+        }
 
         const user = await prisma.user.findUnique({
           where: { email: credentials.email as string },
         });
 
+        console.log("[auth] login attempt:", credentials.email, "userFound:", !!user, "hasPassword:", !!user?.password, "emailVerified:", user?.emailVerified);
+
         if (!user || !user.password) return null;
-        // Email verification re-enabled once Resend domain (fithunter.app) is verified
-        // if (!user.emailVerified) return null;
         if (user.isSuspended) return null;
 
         const passwordMatch = await bcrypt.compare(
           credentials.password as string,
           user.password
         );
+        console.log("[auth] passwordMatch:", passwordMatch);
         if (!passwordMatch) return null;
 
         return {
