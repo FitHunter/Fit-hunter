@@ -47,6 +47,8 @@ export async function POST(req: NextRequest) {
           email: data.email,
           password: hashedPassword,
           accountType: data.accountType,
+          // Auto-verify until Resend domain (fithunter.app) is verified and EMAIL_FROM is set
+          emailVerified: new Date(),
           verificationTokens: {
             create: {
               token,

@@ -26,7 +26,8 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         });
 
         if (!user || !user.password) return null;
-        if (!user.emailVerified) return null;
+        // Email verification re-enabled once Resend domain (fithunter.app) is verified
+        // if (!user.emailVerified) return null;
         if (user.isSuspended) return null;
 
         const passwordMatch = await bcrypt.compare(
