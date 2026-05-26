@@ -27,6 +27,7 @@ export type AggregateTrainerProfile = {
 }
 
 export type TrainerProfileAvgAggregateOutputType = {
+  yearsExperience: number | null
   lat: number | null
   lng: number | null
   averageRating: number | null
@@ -34,6 +35,7 @@ export type TrainerProfileAvgAggregateOutputType = {
 }
 
 export type TrainerProfileSumAggregateOutputType = {
+  yearsExperience: number | null
   lat: number | null
   lng: number | null
   averageRating: number | null
@@ -46,7 +48,11 @@ export type TrainerProfileMinAggregateOutputType = {
   slug: string | null
   profileType: $Enums.ProfileType | null
   displayName: string | null
+  headline: string | null
   bio: string | null
+  experience: string | null
+  whoIWorkWith: string | null
+  yearsExperience: number | null
   photoUrl: string | null
   phone: string | null
   virtualAvailable: boolean | null
@@ -76,7 +82,11 @@ export type TrainerProfileMaxAggregateOutputType = {
   slug: string | null
   profileType: $Enums.ProfileType | null
   displayName: string | null
+  headline: string | null
   bio: string | null
+  experience: string | null
+  whoIWorkWith: string | null
+  yearsExperience: number | null
   photoUrl: string | null
   phone: string | null
   virtualAvailable: boolean | null
@@ -106,7 +116,11 @@ export type TrainerProfileCountAggregateOutputType = {
   slug: number
   profileType: number
   displayName: number
+  headline: number
   bio: number
+  experience: number
+  whoIWorkWith: number
+  yearsExperience: number
   photoUrl: number
   phone: number
   virtualAvailable: number
@@ -133,6 +147,7 @@ export type TrainerProfileCountAggregateOutputType = {
 
 
 export type TrainerProfileAvgAggregateInputType = {
+  yearsExperience?: true
   lat?: true
   lng?: true
   averageRating?: true
@@ -140,6 +155,7 @@ export type TrainerProfileAvgAggregateInputType = {
 }
 
 export type TrainerProfileSumAggregateInputType = {
+  yearsExperience?: true
   lat?: true
   lng?: true
   averageRating?: true
@@ -152,7 +168,11 @@ export type TrainerProfileMinAggregateInputType = {
   slug?: true
   profileType?: true
   displayName?: true
+  headline?: true
   bio?: true
+  experience?: true
+  whoIWorkWith?: true
+  yearsExperience?: true
   photoUrl?: true
   phone?: true
   virtualAvailable?: true
@@ -182,7 +202,11 @@ export type TrainerProfileMaxAggregateInputType = {
   slug?: true
   profileType?: true
   displayName?: true
+  headline?: true
   bio?: true
+  experience?: true
+  whoIWorkWith?: true
+  yearsExperience?: true
   photoUrl?: true
   phone?: true
   virtualAvailable?: true
@@ -212,7 +236,11 @@ export type TrainerProfileCountAggregateInputType = {
   slug?: true
   profileType?: true
   displayName?: true
+  headline?: true
   bio?: true
+  experience?: true
+  whoIWorkWith?: true
+  yearsExperience?: true
   photoUrl?: true
   phone?: true
   virtualAvailable?: true
@@ -329,7 +357,11 @@ export type TrainerProfileGroupByOutputType = {
   slug: string
   profileType: $Enums.ProfileType
   displayName: string
+  headline: string | null
   bio: string | null
+  experience: string | null
+  whoIWorkWith: string | null
+  yearsExperience: number | null
   photoUrl: string | null
   phone: string | null
   virtualAvailable: boolean
@@ -382,7 +414,11 @@ export type TrainerProfileWhereInput = {
   slug?: Prisma.StringFilter<"TrainerProfile"> | string
   profileType?: Prisma.EnumProfileTypeFilter<"TrainerProfile"> | $Enums.ProfileType
   displayName?: Prisma.StringFilter<"TrainerProfile"> | string
+  headline?: Prisma.StringNullableFilter<"TrainerProfile"> | string | null
   bio?: Prisma.StringNullableFilter<"TrainerProfile"> | string | null
+  experience?: Prisma.StringNullableFilter<"TrainerProfile"> | string | null
+  whoIWorkWith?: Prisma.StringNullableFilter<"TrainerProfile"> | string | null
+  yearsExperience?: Prisma.IntNullableFilter<"TrainerProfile"> | number | null
   photoUrl?: Prisma.StringNullableFilter<"TrainerProfile"> | string | null
   phone?: Prisma.StringNullableFilter<"TrainerProfile"> | string | null
   virtualAvailable?: Prisma.BoolFilter<"TrainerProfile"> | boolean
@@ -407,6 +443,7 @@ export type TrainerProfileWhereInput = {
   profileViews?: Prisma.ProfileViewListRelationFilter
   certifications?: Prisma.TrainerCertificationListRelationFilter
   specialties?: Prisma.TrainerSpecialtyListRelationFilter
+  photos?: Prisma.TrainerPhotoListRelationFilter
   reviews?: Prisma.ReviewListRelationFilter
   contactRequests?: Prisma.ContactRequestListRelationFilter
   gymLink?: Prisma.XOR<Prisma.TrainerGymLinkNullableScalarRelationFilter, Prisma.TrainerGymLinkWhereInput> | null
@@ -419,7 +456,11 @@ export type TrainerProfileOrderByWithRelationInput = {
   slug?: Prisma.SortOrder
   profileType?: Prisma.SortOrder
   displayName?: Prisma.SortOrder
+  headline?: Prisma.SortOrderInput | Prisma.SortOrder
   bio?: Prisma.SortOrderInput | Prisma.SortOrder
+  experience?: Prisma.SortOrderInput | Prisma.SortOrder
+  whoIWorkWith?: Prisma.SortOrderInput | Prisma.SortOrder
+  yearsExperience?: Prisma.SortOrderInput | Prisma.SortOrder
   photoUrl?: Prisma.SortOrderInput | Prisma.SortOrder
   phone?: Prisma.SortOrderInput | Prisma.SortOrder
   virtualAvailable?: Prisma.SortOrder
@@ -444,6 +485,7 @@ export type TrainerProfileOrderByWithRelationInput = {
   profileViews?: Prisma.ProfileViewOrderByRelationAggregateInput
   certifications?: Prisma.TrainerCertificationOrderByRelationAggregateInput
   specialties?: Prisma.TrainerSpecialtyOrderByRelationAggregateInput
+  photos?: Prisma.TrainerPhotoOrderByRelationAggregateInput
   reviews?: Prisma.ReviewOrderByRelationAggregateInput
   contactRequests?: Prisma.ContactRequestOrderByRelationAggregateInput
   gymLink?: Prisma.TrainerGymLinkOrderByWithRelationInput
@@ -461,7 +503,11 @@ export type TrainerProfileWhereUniqueInput = Prisma.AtLeast<{
   NOT?: Prisma.TrainerProfileWhereInput | Prisma.TrainerProfileWhereInput[]
   profileType?: Prisma.EnumProfileTypeFilter<"TrainerProfile"> | $Enums.ProfileType
   displayName?: Prisma.StringFilter<"TrainerProfile"> | string
+  headline?: Prisma.StringNullableFilter<"TrainerProfile"> | string | null
   bio?: Prisma.StringNullableFilter<"TrainerProfile"> | string | null
+  experience?: Prisma.StringNullableFilter<"TrainerProfile"> | string | null
+  whoIWorkWith?: Prisma.StringNullableFilter<"TrainerProfile"> | string | null
+  yearsExperience?: Prisma.IntNullableFilter<"TrainerProfile"> | number | null
   photoUrl?: Prisma.StringNullableFilter<"TrainerProfile"> | string | null
   phone?: Prisma.StringNullableFilter<"TrainerProfile"> | string | null
   virtualAvailable?: Prisma.BoolFilter<"TrainerProfile"> | boolean
@@ -484,6 +530,7 @@ export type TrainerProfileWhereUniqueInput = Prisma.AtLeast<{
   profileViews?: Prisma.ProfileViewListRelationFilter
   certifications?: Prisma.TrainerCertificationListRelationFilter
   specialties?: Prisma.TrainerSpecialtyListRelationFilter
+  photos?: Prisma.TrainerPhotoListRelationFilter
   reviews?: Prisma.ReviewListRelationFilter
   contactRequests?: Prisma.ContactRequestListRelationFilter
   gymLink?: Prisma.XOR<Prisma.TrainerGymLinkNullableScalarRelationFilter, Prisma.TrainerGymLinkWhereInput> | null
@@ -496,7 +543,11 @@ export type TrainerProfileOrderByWithAggregationInput = {
   slug?: Prisma.SortOrder
   profileType?: Prisma.SortOrder
   displayName?: Prisma.SortOrder
+  headline?: Prisma.SortOrderInput | Prisma.SortOrder
   bio?: Prisma.SortOrderInput | Prisma.SortOrder
+  experience?: Prisma.SortOrderInput | Prisma.SortOrder
+  whoIWorkWith?: Prisma.SortOrderInput | Prisma.SortOrder
+  yearsExperience?: Prisma.SortOrderInput | Prisma.SortOrder
   photoUrl?: Prisma.SortOrderInput | Prisma.SortOrder
   phone?: Prisma.SortOrderInput | Prisma.SortOrder
   virtualAvailable?: Prisma.SortOrder
@@ -534,7 +585,11 @@ export type TrainerProfileScalarWhereWithAggregatesInput = {
   slug?: Prisma.StringWithAggregatesFilter<"TrainerProfile"> | string
   profileType?: Prisma.EnumProfileTypeWithAggregatesFilter<"TrainerProfile"> | $Enums.ProfileType
   displayName?: Prisma.StringWithAggregatesFilter<"TrainerProfile"> | string
+  headline?: Prisma.StringNullableWithAggregatesFilter<"TrainerProfile"> | string | null
   bio?: Prisma.StringNullableWithAggregatesFilter<"TrainerProfile"> | string | null
+  experience?: Prisma.StringNullableWithAggregatesFilter<"TrainerProfile"> | string | null
+  whoIWorkWith?: Prisma.StringNullableWithAggregatesFilter<"TrainerProfile"> | string | null
+  yearsExperience?: Prisma.IntNullableWithAggregatesFilter<"TrainerProfile"> | number | null
   photoUrl?: Prisma.StringNullableWithAggregatesFilter<"TrainerProfile"> | string | null
   phone?: Prisma.StringNullableWithAggregatesFilter<"TrainerProfile"> | string | null
   virtualAvailable?: Prisma.BoolWithAggregatesFilter<"TrainerProfile"> | boolean
@@ -563,7 +618,11 @@ export type TrainerProfileCreateInput = {
   slug: string
   profileType?: $Enums.ProfileType
   displayName: string
+  headline?: string | null
   bio?: string | null
+  experience?: string | null
+  whoIWorkWith?: string | null
+  yearsExperience?: number | null
   photoUrl?: string | null
   phone?: string | null
   virtualAvailable?: boolean
@@ -588,6 +647,7 @@ export type TrainerProfileCreateInput = {
   profileViews?: Prisma.ProfileViewCreateNestedManyWithoutTrainerProfileInput
   certifications?: Prisma.TrainerCertificationCreateNestedManyWithoutTrainerProfileInput
   specialties?: Prisma.TrainerSpecialtyCreateNestedManyWithoutTrainerProfileInput
+  photos?: Prisma.TrainerPhotoCreateNestedManyWithoutTrainerProfileInput
   reviews?: Prisma.ReviewCreateNestedManyWithoutTrainerProfileInput
   contactRequests?: Prisma.ContactRequestCreateNestedManyWithoutTrainerProfileInput
   gymLink?: Prisma.TrainerGymLinkCreateNestedOneWithoutTrainerProfileInput
@@ -600,7 +660,11 @@ export type TrainerProfileUncheckedCreateInput = {
   slug: string
   profileType?: $Enums.ProfileType
   displayName: string
+  headline?: string | null
   bio?: string | null
+  experience?: string | null
+  whoIWorkWith?: string | null
+  yearsExperience?: number | null
   photoUrl?: string | null
   phone?: string | null
   virtualAvailable?: boolean
@@ -625,6 +689,7 @@ export type TrainerProfileUncheckedCreateInput = {
   profileViews?: Prisma.ProfileViewUncheckedCreateNestedManyWithoutTrainerProfileInput
   certifications?: Prisma.TrainerCertificationUncheckedCreateNestedManyWithoutTrainerProfileInput
   specialties?: Prisma.TrainerSpecialtyUncheckedCreateNestedManyWithoutTrainerProfileInput
+  photos?: Prisma.TrainerPhotoUncheckedCreateNestedManyWithoutTrainerProfileInput
   reviews?: Prisma.ReviewUncheckedCreateNestedManyWithoutTrainerProfileInput
   contactRequests?: Prisma.ContactRequestUncheckedCreateNestedManyWithoutTrainerProfileInput
   gymLink?: Prisma.TrainerGymLinkUncheckedCreateNestedOneWithoutTrainerProfileInput
@@ -635,7 +700,11 @@ export type TrainerProfileUpdateInput = {
   slug?: Prisma.StringFieldUpdateOperationsInput | string
   profileType?: Prisma.EnumProfileTypeFieldUpdateOperationsInput | $Enums.ProfileType
   displayName?: Prisma.StringFieldUpdateOperationsInput | string
+  headline?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  experience?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  whoIWorkWith?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  yearsExperience?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   photoUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   virtualAvailable?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -660,6 +729,7 @@ export type TrainerProfileUpdateInput = {
   profileViews?: Prisma.ProfileViewUpdateManyWithoutTrainerProfileNestedInput
   certifications?: Prisma.TrainerCertificationUpdateManyWithoutTrainerProfileNestedInput
   specialties?: Prisma.TrainerSpecialtyUpdateManyWithoutTrainerProfileNestedInput
+  photos?: Prisma.TrainerPhotoUpdateManyWithoutTrainerProfileNestedInput
   reviews?: Prisma.ReviewUpdateManyWithoutTrainerProfileNestedInput
   contactRequests?: Prisma.ContactRequestUpdateManyWithoutTrainerProfileNestedInput
   gymLink?: Prisma.TrainerGymLinkUpdateOneWithoutTrainerProfileNestedInput
@@ -672,7 +742,11 @@ export type TrainerProfileUncheckedUpdateInput = {
   slug?: Prisma.StringFieldUpdateOperationsInput | string
   profileType?: Prisma.EnumProfileTypeFieldUpdateOperationsInput | $Enums.ProfileType
   displayName?: Prisma.StringFieldUpdateOperationsInput | string
+  headline?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  experience?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  whoIWorkWith?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  yearsExperience?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   photoUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   virtualAvailable?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -697,6 +771,7 @@ export type TrainerProfileUncheckedUpdateInput = {
   profileViews?: Prisma.ProfileViewUncheckedUpdateManyWithoutTrainerProfileNestedInput
   certifications?: Prisma.TrainerCertificationUncheckedUpdateManyWithoutTrainerProfileNestedInput
   specialties?: Prisma.TrainerSpecialtyUncheckedUpdateManyWithoutTrainerProfileNestedInput
+  photos?: Prisma.TrainerPhotoUncheckedUpdateManyWithoutTrainerProfileNestedInput
   reviews?: Prisma.ReviewUncheckedUpdateManyWithoutTrainerProfileNestedInput
   contactRequests?: Prisma.ContactRequestUncheckedUpdateManyWithoutTrainerProfileNestedInput
   gymLink?: Prisma.TrainerGymLinkUncheckedUpdateOneWithoutTrainerProfileNestedInput
@@ -708,7 +783,11 @@ export type TrainerProfileCreateManyInput = {
   slug: string
   profileType?: $Enums.ProfileType
   displayName: string
+  headline?: string | null
   bio?: string | null
+  experience?: string | null
+  whoIWorkWith?: string | null
+  yearsExperience?: number | null
   photoUrl?: string | null
   phone?: string | null
   virtualAvailable?: boolean
@@ -737,7 +816,11 @@ export type TrainerProfileUpdateManyMutationInput = {
   slug?: Prisma.StringFieldUpdateOperationsInput | string
   profileType?: Prisma.EnumProfileTypeFieldUpdateOperationsInput | $Enums.ProfileType
   displayName?: Prisma.StringFieldUpdateOperationsInput | string
+  headline?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  experience?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  whoIWorkWith?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  yearsExperience?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   photoUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   virtualAvailable?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -767,7 +850,11 @@ export type TrainerProfileUncheckedUpdateManyInput = {
   slug?: Prisma.StringFieldUpdateOperationsInput | string
   profileType?: Prisma.EnumProfileTypeFieldUpdateOperationsInput | $Enums.ProfileType
   displayName?: Prisma.StringFieldUpdateOperationsInput | string
+  headline?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  experience?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  whoIWorkWith?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  yearsExperience?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   photoUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   virtualAvailable?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -802,7 +889,11 @@ export type TrainerProfileCountOrderByAggregateInput = {
   slug?: Prisma.SortOrder
   profileType?: Prisma.SortOrder
   displayName?: Prisma.SortOrder
+  headline?: Prisma.SortOrder
   bio?: Prisma.SortOrder
+  experience?: Prisma.SortOrder
+  whoIWorkWith?: Prisma.SortOrder
+  yearsExperience?: Prisma.SortOrder
   photoUrl?: Prisma.SortOrder
   phone?: Prisma.SortOrder
   virtualAvailable?: Prisma.SortOrder
@@ -827,6 +918,7 @@ export type TrainerProfileCountOrderByAggregateInput = {
 }
 
 export type TrainerProfileAvgOrderByAggregateInput = {
+  yearsExperience?: Prisma.SortOrder
   lat?: Prisma.SortOrder
   lng?: Prisma.SortOrder
   averageRating?: Prisma.SortOrder
@@ -839,7 +931,11 @@ export type TrainerProfileMaxOrderByAggregateInput = {
   slug?: Prisma.SortOrder
   profileType?: Prisma.SortOrder
   displayName?: Prisma.SortOrder
+  headline?: Prisma.SortOrder
   bio?: Prisma.SortOrder
+  experience?: Prisma.SortOrder
+  whoIWorkWith?: Prisma.SortOrder
+  yearsExperience?: Prisma.SortOrder
   photoUrl?: Prisma.SortOrder
   phone?: Prisma.SortOrder
   virtualAvailable?: Prisma.SortOrder
@@ -869,7 +965,11 @@ export type TrainerProfileMinOrderByAggregateInput = {
   slug?: Prisma.SortOrder
   profileType?: Prisma.SortOrder
   displayName?: Prisma.SortOrder
+  headline?: Prisma.SortOrder
   bio?: Prisma.SortOrder
+  experience?: Prisma.SortOrder
+  whoIWorkWith?: Prisma.SortOrder
+  yearsExperience?: Prisma.SortOrder
   photoUrl?: Prisma.SortOrder
   phone?: Prisma.SortOrder
   virtualAvailable?: Prisma.SortOrder
@@ -894,6 +994,7 @@ export type TrainerProfileMinOrderByAggregateInput = {
 }
 
 export type TrainerProfileSumOrderByAggregateInput = {
+  yearsExperience?: Prisma.SortOrder
   lat?: Prisma.SortOrder
   lng?: Prisma.SortOrder
   averageRating?: Prisma.SortOrder
@@ -1007,6 +1108,20 @@ export type TrainerProfileUpdateOneRequiredWithoutGymLinkNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.TrainerProfileUpdateToOneWithWhereWithoutGymLinkInput, Prisma.TrainerProfileUpdateWithoutGymLinkInput>, Prisma.TrainerProfileUncheckedUpdateWithoutGymLinkInput>
 }
 
+export type TrainerProfileCreateNestedOneWithoutPhotosInput = {
+  create?: Prisma.XOR<Prisma.TrainerProfileCreateWithoutPhotosInput, Prisma.TrainerProfileUncheckedCreateWithoutPhotosInput>
+  connectOrCreate?: Prisma.TrainerProfileCreateOrConnectWithoutPhotosInput
+  connect?: Prisma.TrainerProfileWhereUniqueInput
+}
+
+export type TrainerProfileUpdateOneRequiredWithoutPhotosNestedInput = {
+  create?: Prisma.XOR<Prisma.TrainerProfileCreateWithoutPhotosInput, Prisma.TrainerProfileUncheckedCreateWithoutPhotosInput>
+  connectOrCreate?: Prisma.TrainerProfileCreateOrConnectWithoutPhotosInput
+  upsert?: Prisma.TrainerProfileUpsertWithoutPhotosInput
+  connect?: Prisma.TrainerProfileWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.TrainerProfileUpdateToOneWithWhereWithoutPhotosInput, Prisma.TrainerProfileUpdateWithoutPhotosInput>, Prisma.TrainerProfileUncheckedUpdateWithoutPhotosInput>
+}
+
 export type TrainerProfileCreateNestedOneWithoutReviewsInput = {
   create?: Prisma.XOR<Prisma.TrainerProfileCreateWithoutReviewsInput, Prisma.TrainerProfileUncheckedCreateWithoutReviewsInput>
   connectOrCreate?: Prisma.TrainerProfileCreateOrConnectWithoutReviewsInput
@@ -1060,7 +1175,11 @@ export type TrainerProfileCreateWithoutUserInput = {
   slug: string
   profileType?: $Enums.ProfileType
   displayName: string
+  headline?: string | null
   bio?: string | null
+  experience?: string | null
+  whoIWorkWith?: string | null
+  yearsExperience?: number | null
   photoUrl?: string | null
   phone?: string | null
   virtualAvailable?: boolean
@@ -1085,6 +1204,7 @@ export type TrainerProfileCreateWithoutUserInput = {
   profileViews?: Prisma.ProfileViewCreateNestedManyWithoutTrainerProfileInput
   certifications?: Prisma.TrainerCertificationCreateNestedManyWithoutTrainerProfileInput
   specialties?: Prisma.TrainerSpecialtyCreateNestedManyWithoutTrainerProfileInput
+  photos?: Prisma.TrainerPhotoCreateNestedManyWithoutTrainerProfileInput
   reviews?: Prisma.ReviewCreateNestedManyWithoutTrainerProfileInput
   contactRequests?: Prisma.ContactRequestCreateNestedManyWithoutTrainerProfileInput
   gymLink?: Prisma.TrainerGymLinkCreateNestedOneWithoutTrainerProfileInput
@@ -1095,7 +1215,11 @@ export type TrainerProfileUncheckedCreateWithoutUserInput = {
   slug: string
   profileType?: $Enums.ProfileType
   displayName: string
+  headline?: string | null
   bio?: string | null
+  experience?: string | null
+  whoIWorkWith?: string | null
+  yearsExperience?: number | null
   photoUrl?: string | null
   phone?: string | null
   virtualAvailable?: boolean
@@ -1120,6 +1244,7 @@ export type TrainerProfileUncheckedCreateWithoutUserInput = {
   profileViews?: Prisma.ProfileViewUncheckedCreateNestedManyWithoutTrainerProfileInput
   certifications?: Prisma.TrainerCertificationUncheckedCreateNestedManyWithoutTrainerProfileInput
   specialties?: Prisma.TrainerSpecialtyUncheckedCreateNestedManyWithoutTrainerProfileInput
+  photos?: Prisma.TrainerPhotoUncheckedCreateNestedManyWithoutTrainerProfileInput
   reviews?: Prisma.ReviewUncheckedCreateNestedManyWithoutTrainerProfileInput
   contactRequests?: Prisma.ContactRequestUncheckedCreateNestedManyWithoutTrainerProfileInput
   gymLink?: Prisma.TrainerGymLinkUncheckedCreateNestedOneWithoutTrainerProfileInput
@@ -1146,7 +1271,11 @@ export type TrainerProfileUpdateWithoutUserInput = {
   slug?: Prisma.StringFieldUpdateOperationsInput | string
   profileType?: Prisma.EnumProfileTypeFieldUpdateOperationsInput | $Enums.ProfileType
   displayName?: Prisma.StringFieldUpdateOperationsInput | string
+  headline?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  experience?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  whoIWorkWith?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  yearsExperience?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   photoUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   virtualAvailable?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -1171,6 +1300,7 @@ export type TrainerProfileUpdateWithoutUserInput = {
   profileViews?: Prisma.ProfileViewUpdateManyWithoutTrainerProfileNestedInput
   certifications?: Prisma.TrainerCertificationUpdateManyWithoutTrainerProfileNestedInput
   specialties?: Prisma.TrainerSpecialtyUpdateManyWithoutTrainerProfileNestedInput
+  photos?: Prisma.TrainerPhotoUpdateManyWithoutTrainerProfileNestedInput
   reviews?: Prisma.ReviewUpdateManyWithoutTrainerProfileNestedInput
   contactRequests?: Prisma.ContactRequestUpdateManyWithoutTrainerProfileNestedInput
   gymLink?: Prisma.TrainerGymLinkUpdateOneWithoutTrainerProfileNestedInput
@@ -1181,7 +1311,11 @@ export type TrainerProfileUncheckedUpdateWithoutUserInput = {
   slug?: Prisma.StringFieldUpdateOperationsInput | string
   profileType?: Prisma.EnumProfileTypeFieldUpdateOperationsInput | $Enums.ProfileType
   displayName?: Prisma.StringFieldUpdateOperationsInput | string
+  headline?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  experience?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  whoIWorkWith?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  yearsExperience?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   photoUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   virtualAvailable?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -1206,6 +1340,7 @@ export type TrainerProfileUncheckedUpdateWithoutUserInput = {
   profileViews?: Prisma.ProfileViewUncheckedUpdateManyWithoutTrainerProfileNestedInput
   certifications?: Prisma.TrainerCertificationUncheckedUpdateManyWithoutTrainerProfileNestedInput
   specialties?: Prisma.TrainerSpecialtyUncheckedUpdateManyWithoutTrainerProfileNestedInput
+  photos?: Prisma.TrainerPhotoUncheckedUpdateManyWithoutTrainerProfileNestedInput
   reviews?: Prisma.ReviewUncheckedUpdateManyWithoutTrainerProfileNestedInput
   contactRequests?: Prisma.ContactRequestUncheckedUpdateManyWithoutTrainerProfileNestedInput
   gymLink?: Prisma.TrainerGymLinkUncheckedUpdateOneWithoutTrainerProfileNestedInput
@@ -1216,7 +1351,11 @@ export type TrainerProfileCreateWithoutCertificationsInput = {
   slug: string
   profileType?: $Enums.ProfileType
   displayName: string
+  headline?: string | null
   bio?: string | null
+  experience?: string | null
+  whoIWorkWith?: string | null
+  yearsExperience?: number | null
   photoUrl?: string | null
   phone?: string | null
   virtualAvailable?: boolean
@@ -1240,6 +1379,7 @@ export type TrainerProfileCreateWithoutCertificationsInput = {
   updatedAt?: Date | string
   profileViews?: Prisma.ProfileViewCreateNestedManyWithoutTrainerProfileInput
   specialties?: Prisma.TrainerSpecialtyCreateNestedManyWithoutTrainerProfileInput
+  photos?: Prisma.TrainerPhotoCreateNestedManyWithoutTrainerProfileInput
   reviews?: Prisma.ReviewCreateNestedManyWithoutTrainerProfileInput
   contactRequests?: Prisma.ContactRequestCreateNestedManyWithoutTrainerProfileInput
   gymLink?: Prisma.TrainerGymLinkCreateNestedOneWithoutTrainerProfileInput
@@ -1252,7 +1392,11 @@ export type TrainerProfileUncheckedCreateWithoutCertificationsInput = {
   slug: string
   profileType?: $Enums.ProfileType
   displayName: string
+  headline?: string | null
   bio?: string | null
+  experience?: string | null
+  whoIWorkWith?: string | null
+  yearsExperience?: number | null
   photoUrl?: string | null
   phone?: string | null
   virtualAvailable?: boolean
@@ -1276,6 +1420,7 @@ export type TrainerProfileUncheckedCreateWithoutCertificationsInput = {
   updatedAt?: Date | string
   profileViews?: Prisma.ProfileViewUncheckedCreateNestedManyWithoutTrainerProfileInput
   specialties?: Prisma.TrainerSpecialtyUncheckedCreateNestedManyWithoutTrainerProfileInput
+  photos?: Prisma.TrainerPhotoUncheckedCreateNestedManyWithoutTrainerProfileInput
   reviews?: Prisma.ReviewUncheckedCreateNestedManyWithoutTrainerProfileInput
   contactRequests?: Prisma.ContactRequestUncheckedCreateNestedManyWithoutTrainerProfileInput
   gymLink?: Prisma.TrainerGymLinkUncheckedCreateNestedOneWithoutTrainerProfileInput
@@ -1302,7 +1447,11 @@ export type TrainerProfileUpdateWithoutCertificationsInput = {
   slug?: Prisma.StringFieldUpdateOperationsInput | string
   profileType?: Prisma.EnumProfileTypeFieldUpdateOperationsInput | $Enums.ProfileType
   displayName?: Prisma.StringFieldUpdateOperationsInput | string
+  headline?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  experience?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  whoIWorkWith?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  yearsExperience?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   photoUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   virtualAvailable?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -1326,6 +1475,7 @@ export type TrainerProfileUpdateWithoutCertificationsInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   profileViews?: Prisma.ProfileViewUpdateManyWithoutTrainerProfileNestedInput
   specialties?: Prisma.TrainerSpecialtyUpdateManyWithoutTrainerProfileNestedInput
+  photos?: Prisma.TrainerPhotoUpdateManyWithoutTrainerProfileNestedInput
   reviews?: Prisma.ReviewUpdateManyWithoutTrainerProfileNestedInput
   contactRequests?: Prisma.ContactRequestUpdateManyWithoutTrainerProfileNestedInput
   gymLink?: Prisma.TrainerGymLinkUpdateOneWithoutTrainerProfileNestedInput
@@ -1338,7 +1488,11 @@ export type TrainerProfileUncheckedUpdateWithoutCertificationsInput = {
   slug?: Prisma.StringFieldUpdateOperationsInput | string
   profileType?: Prisma.EnumProfileTypeFieldUpdateOperationsInput | $Enums.ProfileType
   displayName?: Prisma.StringFieldUpdateOperationsInput | string
+  headline?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  experience?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  whoIWorkWith?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  yearsExperience?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   photoUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   virtualAvailable?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -1362,6 +1516,7 @@ export type TrainerProfileUncheckedUpdateWithoutCertificationsInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   profileViews?: Prisma.ProfileViewUncheckedUpdateManyWithoutTrainerProfileNestedInput
   specialties?: Prisma.TrainerSpecialtyUncheckedUpdateManyWithoutTrainerProfileNestedInput
+  photos?: Prisma.TrainerPhotoUncheckedUpdateManyWithoutTrainerProfileNestedInput
   reviews?: Prisma.ReviewUncheckedUpdateManyWithoutTrainerProfileNestedInput
   contactRequests?: Prisma.ContactRequestUncheckedUpdateManyWithoutTrainerProfileNestedInput
   gymLink?: Prisma.TrainerGymLinkUncheckedUpdateOneWithoutTrainerProfileNestedInput
@@ -1372,7 +1527,11 @@ export type TrainerProfileCreateWithoutSpecialtiesInput = {
   slug: string
   profileType?: $Enums.ProfileType
   displayName: string
+  headline?: string | null
   bio?: string | null
+  experience?: string | null
+  whoIWorkWith?: string | null
+  yearsExperience?: number | null
   photoUrl?: string | null
   phone?: string | null
   virtualAvailable?: boolean
@@ -1396,6 +1555,7 @@ export type TrainerProfileCreateWithoutSpecialtiesInput = {
   updatedAt?: Date | string
   profileViews?: Prisma.ProfileViewCreateNestedManyWithoutTrainerProfileInput
   certifications?: Prisma.TrainerCertificationCreateNestedManyWithoutTrainerProfileInput
+  photos?: Prisma.TrainerPhotoCreateNestedManyWithoutTrainerProfileInput
   reviews?: Prisma.ReviewCreateNestedManyWithoutTrainerProfileInput
   contactRequests?: Prisma.ContactRequestCreateNestedManyWithoutTrainerProfileInput
   gymLink?: Prisma.TrainerGymLinkCreateNestedOneWithoutTrainerProfileInput
@@ -1408,7 +1568,11 @@ export type TrainerProfileUncheckedCreateWithoutSpecialtiesInput = {
   slug: string
   profileType?: $Enums.ProfileType
   displayName: string
+  headline?: string | null
   bio?: string | null
+  experience?: string | null
+  whoIWorkWith?: string | null
+  yearsExperience?: number | null
   photoUrl?: string | null
   phone?: string | null
   virtualAvailable?: boolean
@@ -1432,6 +1596,7 @@ export type TrainerProfileUncheckedCreateWithoutSpecialtiesInput = {
   updatedAt?: Date | string
   profileViews?: Prisma.ProfileViewUncheckedCreateNestedManyWithoutTrainerProfileInput
   certifications?: Prisma.TrainerCertificationUncheckedCreateNestedManyWithoutTrainerProfileInput
+  photos?: Prisma.TrainerPhotoUncheckedCreateNestedManyWithoutTrainerProfileInput
   reviews?: Prisma.ReviewUncheckedCreateNestedManyWithoutTrainerProfileInput
   contactRequests?: Prisma.ContactRequestUncheckedCreateNestedManyWithoutTrainerProfileInput
   gymLink?: Prisma.TrainerGymLinkUncheckedCreateNestedOneWithoutTrainerProfileInput
@@ -1458,7 +1623,11 @@ export type TrainerProfileUpdateWithoutSpecialtiesInput = {
   slug?: Prisma.StringFieldUpdateOperationsInput | string
   profileType?: Prisma.EnumProfileTypeFieldUpdateOperationsInput | $Enums.ProfileType
   displayName?: Prisma.StringFieldUpdateOperationsInput | string
+  headline?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  experience?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  whoIWorkWith?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  yearsExperience?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   photoUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   virtualAvailable?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -1482,6 +1651,7 @@ export type TrainerProfileUpdateWithoutSpecialtiesInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   profileViews?: Prisma.ProfileViewUpdateManyWithoutTrainerProfileNestedInput
   certifications?: Prisma.TrainerCertificationUpdateManyWithoutTrainerProfileNestedInput
+  photos?: Prisma.TrainerPhotoUpdateManyWithoutTrainerProfileNestedInput
   reviews?: Prisma.ReviewUpdateManyWithoutTrainerProfileNestedInput
   contactRequests?: Prisma.ContactRequestUpdateManyWithoutTrainerProfileNestedInput
   gymLink?: Prisma.TrainerGymLinkUpdateOneWithoutTrainerProfileNestedInput
@@ -1494,7 +1664,11 @@ export type TrainerProfileUncheckedUpdateWithoutSpecialtiesInput = {
   slug?: Prisma.StringFieldUpdateOperationsInput | string
   profileType?: Prisma.EnumProfileTypeFieldUpdateOperationsInput | $Enums.ProfileType
   displayName?: Prisma.StringFieldUpdateOperationsInput | string
+  headline?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  experience?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  whoIWorkWith?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  yearsExperience?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   photoUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   virtualAvailable?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -1518,6 +1692,7 @@ export type TrainerProfileUncheckedUpdateWithoutSpecialtiesInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   profileViews?: Prisma.ProfileViewUncheckedUpdateManyWithoutTrainerProfileNestedInput
   certifications?: Prisma.TrainerCertificationUncheckedUpdateManyWithoutTrainerProfileNestedInput
+  photos?: Prisma.TrainerPhotoUncheckedUpdateManyWithoutTrainerProfileNestedInput
   reviews?: Prisma.ReviewUncheckedUpdateManyWithoutTrainerProfileNestedInput
   contactRequests?: Prisma.ContactRequestUncheckedUpdateManyWithoutTrainerProfileNestedInput
   gymLink?: Prisma.TrainerGymLinkUncheckedUpdateOneWithoutTrainerProfileNestedInput
@@ -1528,7 +1703,11 @@ export type TrainerProfileCreateWithoutGymLinkInput = {
   slug: string
   profileType?: $Enums.ProfileType
   displayName: string
+  headline?: string | null
   bio?: string | null
+  experience?: string | null
+  whoIWorkWith?: string | null
+  yearsExperience?: number | null
   photoUrl?: string | null
   phone?: string | null
   virtualAvailable?: boolean
@@ -1553,6 +1732,7 @@ export type TrainerProfileCreateWithoutGymLinkInput = {
   profileViews?: Prisma.ProfileViewCreateNestedManyWithoutTrainerProfileInput
   certifications?: Prisma.TrainerCertificationCreateNestedManyWithoutTrainerProfileInput
   specialties?: Prisma.TrainerSpecialtyCreateNestedManyWithoutTrainerProfileInput
+  photos?: Prisma.TrainerPhotoCreateNestedManyWithoutTrainerProfileInput
   reviews?: Prisma.ReviewCreateNestedManyWithoutTrainerProfileInput
   contactRequests?: Prisma.ContactRequestCreateNestedManyWithoutTrainerProfileInput
   user: Prisma.UserCreateNestedOneWithoutTrainerProfileInput
@@ -1564,7 +1744,11 @@ export type TrainerProfileUncheckedCreateWithoutGymLinkInput = {
   slug: string
   profileType?: $Enums.ProfileType
   displayName: string
+  headline?: string | null
   bio?: string | null
+  experience?: string | null
+  whoIWorkWith?: string | null
+  yearsExperience?: number | null
   photoUrl?: string | null
   phone?: string | null
   virtualAvailable?: boolean
@@ -1589,6 +1773,7 @@ export type TrainerProfileUncheckedCreateWithoutGymLinkInput = {
   profileViews?: Prisma.ProfileViewUncheckedCreateNestedManyWithoutTrainerProfileInput
   certifications?: Prisma.TrainerCertificationUncheckedCreateNestedManyWithoutTrainerProfileInput
   specialties?: Prisma.TrainerSpecialtyUncheckedCreateNestedManyWithoutTrainerProfileInput
+  photos?: Prisma.TrainerPhotoUncheckedCreateNestedManyWithoutTrainerProfileInput
   reviews?: Prisma.ReviewUncheckedCreateNestedManyWithoutTrainerProfileInput
   contactRequests?: Prisma.ContactRequestUncheckedCreateNestedManyWithoutTrainerProfileInput
 }
@@ -1614,7 +1799,11 @@ export type TrainerProfileUpdateWithoutGymLinkInput = {
   slug?: Prisma.StringFieldUpdateOperationsInput | string
   profileType?: Prisma.EnumProfileTypeFieldUpdateOperationsInput | $Enums.ProfileType
   displayName?: Prisma.StringFieldUpdateOperationsInput | string
+  headline?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  experience?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  whoIWorkWith?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  yearsExperience?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   photoUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   virtualAvailable?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -1639,6 +1828,7 @@ export type TrainerProfileUpdateWithoutGymLinkInput = {
   profileViews?: Prisma.ProfileViewUpdateManyWithoutTrainerProfileNestedInput
   certifications?: Prisma.TrainerCertificationUpdateManyWithoutTrainerProfileNestedInput
   specialties?: Prisma.TrainerSpecialtyUpdateManyWithoutTrainerProfileNestedInput
+  photos?: Prisma.TrainerPhotoUpdateManyWithoutTrainerProfileNestedInput
   reviews?: Prisma.ReviewUpdateManyWithoutTrainerProfileNestedInput
   contactRequests?: Prisma.ContactRequestUpdateManyWithoutTrainerProfileNestedInput
   user?: Prisma.UserUpdateOneRequiredWithoutTrainerProfileNestedInput
@@ -1650,7 +1840,11 @@ export type TrainerProfileUncheckedUpdateWithoutGymLinkInput = {
   slug?: Prisma.StringFieldUpdateOperationsInput | string
   profileType?: Prisma.EnumProfileTypeFieldUpdateOperationsInput | $Enums.ProfileType
   displayName?: Prisma.StringFieldUpdateOperationsInput | string
+  headline?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  experience?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  whoIWorkWith?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  yearsExperience?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   photoUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   virtualAvailable?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -1675,172 +1869,21 @@ export type TrainerProfileUncheckedUpdateWithoutGymLinkInput = {
   profileViews?: Prisma.ProfileViewUncheckedUpdateManyWithoutTrainerProfileNestedInput
   certifications?: Prisma.TrainerCertificationUncheckedUpdateManyWithoutTrainerProfileNestedInput
   specialties?: Prisma.TrainerSpecialtyUncheckedUpdateManyWithoutTrainerProfileNestedInput
+  photos?: Prisma.TrainerPhotoUncheckedUpdateManyWithoutTrainerProfileNestedInput
   reviews?: Prisma.ReviewUncheckedUpdateManyWithoutTrainerProfileNestedInput
   contactRequests?: Prisma.ContactRequestUncheckedUpdateManyWithoutTrainerProfileNestedInput
 }
 
-export type TrainerProfileCreateWithoutReviewsInput = {
+export type TrainerProfileCreateWithoutPhotosInput = {
   id?: string
   slug: string
   profileType?: $Enums.ProfileType
   displayName: string
+  headline?: string | null
   bio?: string | null
-  photoUrl?: string | null
-  phone?: string | null
-  virtualAvailable?: boolean
-  bookingUrl?: string | null
-  vslUrl?: string | null
-  addressLine1?: string | null
-  city?: string | null
-  state?: string | null
-  zip?: string | null
-  lat?: number | null
-  lng?: number | null
-  tier?: $Enums.TrainerTier
-  stripeCustomerId?: string | null
-  stripeSubscriptionId?: string | null
-  subscriptionStatus?: $Enums.SubscriptionStatus | null
-  currentPeriodEnd?: Date | string | null
-  wizardComplete?: boolean
-  averageRating?: number | null
-  reviewCount?: number
-  createdAt?: Date | string
-  updatedAt?: Date | string
-  profileViews?: Prisma.ProfileViewCreateNestedManyWithoutTrainerProfileInput
-  certifications?: Prisma.TrainerCertificationCreateNestedManyWithoutTrainerProfileInput
-  specialties?: Prisma.TrainerSpecialtyCreateNestedManyWithoutTrainerProfileInput
-  contactRequests?: Prisma.ContactRequestCreateNestedManyWithoutTrainerProfileInput
-  gymLink?: Prisma.TrainerGymLinkCreateNestedOneWithoutTrainerProfileInput
-  user: Prisma.UserCreateNestedOneWithoutTrainerProfileInput
-}
-
-export type TrainerProfileUncheckedCreateWithoutReviewsInput = {
-  id?: string
-  userId: string
-  slug: string
-  profileType?: $Enums.ProfileType
-  displayName: string
-  bio?: string | null
-  photoUrl?: string | null
-  phone?: string | null
-  virtualAvailable?: boolean
-  bookingUrl?: string | null
-  vslUrl?: string | null
-  addressLine1?: string | null
-  city?: string | null
-  state?: string | null
-  zip?: string | null
-  lat?: number | null
-  lng?: number | null
-  tier?: $Enums.TrainerTier
-  stripeCustomerId?: string | null
-  stripeSubscriptionId?: string | null
-  subscriptionStatus?: $Enums.SubscriptionStatus | null
-  currentPeriodEnd?: Date | string | null
-  wizardComplete?: boolean
-  averageRating?: number | null
-  reviewCount?: number
-  createdAt?: Date | string
-  updatedAt?: Date | string
-  profileViews?: Prisma.ProfileViewUncheckedCreateNestedManyWithoutTrainerProfileInput
-  certifications?: Prisma.TrainerCertificationUncheckedCreateNestedManyWithoutTrainerProfileInput
-  specialties?: Prisma.TrainerSpecialtyUncheckedCreateNestedManyWithoutTrainerProfileInput
-  contactRequests?: Prisma.ContactRequestUncheckedCreateNestedManyWithoutTrainerProfileInput
-  gymLink?: Prisma.TrainerGymLinkUncheckedCreateNestedOneWithoutTrainerProfileInput
-}
-
-export type TrainerProfileCreateOrConnectWithoutReviewsInput = {
-  where: Prisma.TrainerProfileWhereUniqueInput
-  create: Prisma.XOR<Prisma.TrainerProfileCreateWithoutReviewsInput, Prisma.TrainerProfileUncheckedCreateWithoutReviewsInput>
-}
-
-export type TrainerProfileUpsertWithoutReviewsInput = {
-  update: Prisma.XOR<Prisma.TrainerProfileUpdateWithoutReviewsInput, Prisma.TrainerProfileUncheckedUpdateWithoutReviewsInput>
-  create: Prisma.XOR<Prisma.TrainerProfileCreateWithoutReviewsInput, Prisma.TrainerProfileUncheckedCreateWithoutReviewsInput>
-  where?: Prisma.TrainerProfileWhereInput
-}
-
-export type TrainerProfileUpdateToOneWithWhereWithoutReviewsInput = {
-  where?: Prisma.TrainerProfileWhereInput
-  data: Prisma.XOR<Prisma.TrainerProfileUpdateWithoutReviewsInput, Prisma.TrainerProfileUncheckedUpdateWithoutReviewsInput>
-}
-
-export type TrainerProfileUpdateWithoutReviewsInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  slug?: Prisma.StringFieldUpdateOperationsInput | string
-  profileType?: Prisma.EnumProfileTypeFieldUpdateOperationsInput | $Enums.ProfileType
-  displayName?: Prisma.StringFieldUpdateOperationsInput | string
-  bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  photoUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  virtualAvailable?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  bookingUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  vslUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  addressLine1?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  state?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  zip?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  lat?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
-  lng?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
-  tier?: Prisma.EnumTrainerTierFieldUpdateOperationsInput | $Enums.TrainerTier
-  stripeCustomerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  stripeSubscriptionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  subscriptionStatus?: Prisma.NullableEnumSubscriptionStatusFieldUpdateOperationsInput | $Enums.SubscriptionStatus | null
-  currentPeriodEnd?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  wizardComplete?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  averageRating?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
-  reviewCount?: Prisma.IntFieldUpdateOperationsInput | number
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  profileViews?: Prisma.ProfileViewUpdateManyWithoutTrainerProfileNestedInput
-  certifications?: Prisma.TrainerCertificationUpdateManyWithoutTrainerProfileNestedInput
-  specialties?: Prisma.TrainerSpecialtyUpdateManyWithoutTrainerProfileNestedInput
-  contactRequests?: Prisma.ContactRequestUpdateManyWithoutTrainerProfileNestedInput
-  gymLink?: Prisma.TrainerGymLinkUpdateOneWithoutTrainerProfileNestedInput
-  user?: Prisma.UserUpdateOneRequiredWithoutTrainerProfileNestedInput
-}
-
-export type TrainerProfileUncheckedUpdateWithoutReviewsInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  userId?: Prisma.StringFieldUpdateOperationsInput | string
-  slug?: Prisma.StringFieldUpdateOperationsInput | string
-  profileType?: Prisma.EnumProfileTypeFieldUpdateOperationsInput | $Enums.ProfileType
-  displayName?: Prisma.StringFieldUpdateOperationsInput | string
-  bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  photoUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  virtualAvailable?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  bookingUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  vslUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  addressLine1?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  state?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  zip?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  lat?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
-  lng?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
-  tier?: Prisma.EnumTrainerTierFieldUpdateOperationsInput | $Enums.TrainerTier
-  stripeCustomerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  stripeSubscriptionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  subscriptionStatus?: Prisma.NullableEnumSubscriptionStatusFieldUpdateOperationsInput | $Enums.SubscriptionStatus | null
-  currentPeriodEnd?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  wizardComplete?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  averageRating?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
-  reviewCount?: Prisma.IntFieldUpdateOperationsInput | number
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  profileViews?: Prisma.ProfileViewUncheckedUpdateManyWithoutTrainerProfileNestedInput
-  certifications?: Prisma.TrainerCertificationUncheckedUpdateManyWithoutTrainerProfileNestedInput
-  specialties?: Prisma.TrainerSpecialtyUncheckedUpdateManyWithoutTrainerProfileNestedInput
-  contactRequests?: Prisma.ContactRequestUncheckedUpdateManyWithoutTrainerProfileNestedInput
-  gymLink?: Prisma.TrainerGymLinkUncheckedUpdateOneWithoutTrainerProfileNestedInput
-}
-
-export type TrainerProfileCreateWithoutContactRequestsInput = {
-  id?: string
-  slug: string
-  profileType?: $Enums.ProfileType
-  displayName: string
-  bio?: string | null
+  experience?: string | null
+  whoIWorkWith?: string | null
+  yearsExperience?: number | null
   photoUrl?: string | null
   phone?: string | null
   virtualAvailable?: boolean
@@ -1866,17 +1909,22 @@ export type TrainerProfileCreateWithoutContactRequestsInput = {
   certifications?: Prisma.TrainerCertificationCreateNestedManyWithoutTrainerProfileInput
   specialties?: Prisma.TrainerSpecialtyCreateNestedManyWithoutTrainerProfileInput
   reviews?: Prisma.ReviewCreateNestedManyWithoutTrainerProfileInput
+  contactRequests?: Prisma.ContactRequestCreateNestedManyWithoutTrainerProfileInput
   gymLink?: Prisma.TrainerGymLinkCreateNestedOneWithoutTrainerProfileInput
   user: Prisma.UserCreateNestedOneWithoutTrainerProfileInput
 }
 
-export type TrainerProfileUncheckedCreateWithoutContactRequestsInput = {
+export type TrainerProfileUncheckedCreateWithoutPhotosInput = {
   id?: string
   userId: string
   slug: string
   profileType?: $Enums.ProfileType
   displayName: string
+  headline?: string | null
   bio?: string | null
+  experience?: string | null
+  whoIWorkWith?: string | null
+  yearsExperience?: number | null
   photoUrl?: string | null
   phone?: string | null
   virtualAvailable?: boolean
@@ -1902,31 +1950,36 @@ export type TrainerProfileUncheckedCreateWithoutContactRequestsInput = {
   certifications?: Prisma.TrainerCertificationUncheckedCreateNestedManyWithoutTrainerProfileInput
   specialties?: Prisma.TrainerSpecialtyUncheckedCreateNestedManyWithoutTrainerProfileInput
   reviews?: Prisma.ReviewUncheckedCreateNestedManyWithoutTrainerProfileInput
+  contactRequests?: Prisma.ContactRequestUncheckedCreateNestedManyWithoutTrainerProfileInput
   gymLink?: Prisma.TrainerGymLinkUncheckedCreateNestedOneWithoutTrainerProfileInput
 }
 
-export type TrainerProfileCreateOrConnectWithoutContactRequestsInput = {
+export type TrainerProfileCreateOrConnectWithoutPhotosInput = {
   where: Prisma.TrainerProfileWhereUniqueInput
-  create: Prisma.XOR<Prisma.TrainerProfileCreateWithoutContactRequestsInput, Prisma.TrainerProfileUncheckedCreateWithoutContactRequestsInput>
+  create: Prisma.XOR<Prisma.TrainerProfileCreateWithoutPhotosInput, Prisma.TrainerProfileUncheckedCreateWithoutPhotosInput>
 }
 
-export type TrainerProfileUpsertWithoutContactRequestsInput = {
-  update: Prisma.XOR<Prisma.TrainerProfileUpdateWithoutContactRequestsInput, Prisma.TrainerProfileUncheckedUpdateWithoutContactRequestsInput>
-  create: Prisma.XOR<Prisma.TrainerProfileCreateWithoutContactRequestsInput, Prisma.TrainerProfileUncheckedCreateWithoutContactRequestsInput>
+export type TrainerProfileUpsertWithoutPhotosInput = {
+  update: Prisma.XOR<Prisma.TrainerProfileUpdateWithoutPhotosInput, Prisma.TrainerProfileUncheckedUpdateWithoutPhotosInput>
+  create: Prisma.XOR<Prisma.TrainerProfileCreateWithoutPhotosInput, Prisma.TrainerProfileUncheckedCreateWithoutPhotosInput>
   where?: Prisma.TrainerProfileWhereInput
 }
 
-export type TrainerProfileUpdateToOneWithWhereWithoutContactRequestsInput = {
+export type TrainerProfileUpdateToOneWithWhereWithoutPhotosInput = {
   where?: Prisma.TrainerProfileWhereInput
-  data: Prisma.XOR<Prisma.TrainerProfileUpdateWithoutContactRequestsInput, Prisma.TrainerProfileUncheckedUpdateWithoutContactRequestsInput>
+  data: Prisma.XOR<Prisma.TrainerProfileUpdateWithoutPhotosInput, Prisma.TrainerProfileUncheckedUpdateWithoutPhotosInput>
 }
 
-export type TrainerProfileUpdateWithoutContactRequestsInput = {
+export type TrainerProfileUpdateWithoutPhotosInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   slug?: Prisma.StringFieldUpdateOperationsInput | string
   profileType?: Prisma.EnumProfileTypeFieldUpdateOperationsInput | $Enums.ProfileType
   displayName?: Prisma.StringFieldUpdateOperationsInput | string
+  headline?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  experience?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  whoIWorkWith?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  yearsExperience?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   photoUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   virtualAvailable?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -1952,17 +2005,22 @@ export type TrainerProfileUpdateWithoutContactRequestsInput = {
   certifications?: Prisma.TrainerCertificationUpdateManyWithoutTrainerProfileNestedInput
   specialties?: Prisma.TrainerSpecialtyUpdateManyWithoutTrainerProfileNestedInput
   reviews?: Prisma.ReviewUpdateManyWithoutTrainerProfileNestedInput
+  contactRequests?: Prisma.ContactRequestUpdateManyWithoutTrainerProfileNestedInput
   gymLink?: Prisma.TrainerGymLinkUpdateOneWithoutTrainerProfileNestedInput
   user?: Prisma.UserUpdateOneRequiredWithoutTrainerProfileNestedInput
 }
 
-export type TrainerProfileUncheckedUpdateWithoutContactRequestsInput = {
+export type TrainerProfileUncheckedUpdateWithoutPhotosInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   userId?: Prisma.StringFieldUpdateOperationsInput | string
   slug?: Prisma.StringFieldUpdateOperationsInput | string
   profileType?: Prisma.EnumProfileTypeFieldUpdateOperationsInput | $Enums.ProfileType
   displayName?: Prisma.StringFieldUpdateOperationsInput | string
+  headline?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  experience?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  whoIWorkWith?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  yearsExperience?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   photoUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   virtualAvailable?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -1988,6 +2046,359 @@ export type TrainerProfileUncheckedUpdateWithoutContactRequestsInput = {
   certifications?: Prisma.TrainerCertificationUncheckedUpdateManyWithoutTrainerProfileNestedInput
   specialties?: Prisma.TrainerSpecialtyUncheckedUpdateManyWithoutTrainerProfileNestedInput
   reviews?: Prisma.ReviewUncheckedUpdateManyWithoutTrainerProfileNestedInput
+  contactRequests?: Prisma.ContactRequestUncheckedUpdateManyWithoutTrainerProfileNestedInput
+  gymLink?: Prisma.TrainerGymLinkUncheckedUpdateOneWithoutTrainerProfileNestedInput
+}
+
+export type TrainerProfileCreateWithoutReviewsInput = {
+  id?: string
+  slug: string
+  profileType?: $Enums.ProfileType
+  displayName: string
+  headline?: string | null
+  bio?: string | null
+  experience?: string | null
+  whoIWorkWith?: string | null
+  yearsExperience?: number | null
+  photoUrl?: string | null
+  phone?: string | null
+  virtualAvailable?: boolean
+  bookingUrl?: string | null
+  vslUrl?: string | null
+  addressLine1?: string | null
+  city?: string | null
+  state?: string | null
+  zip?: string | null
+  lat?: number | null
+  lng?: number | null
+  tier?: $Enums.TrainerTier
+  stripeCustomerId?: string | null
+  stripeSubscriptionId?: string | null
+  subscriptionStatus?: $Enums.SubscriptionStatus | null
+  currentPeriodEnd?: Date | string | null
+  wizardComplete?: boolean
+  averageRating?: number | null
+  reviewCount?: number
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  profileViews?: Prisma.ProfileViewCreateNestedManyWithoutTrainerProfileInput
+  certifications?: Prisma.TrainerCertificationCreateNestedManyWithoutTrainerProfileInput
+  specialties?: Prisma.TrainerSpecialtyCreateNestedManyWithoutTrainerProfileInput
+  photos?: Prisma.TrainerPhotoCreateNestedManyWithoutTrainerProfileInput
+  contactRequests?: Prisma.ContactRequestCreateNestedManyWithoutTrainerProfileInput
+  gymLink?: Prisma.TrainerGymLinkCreateNestedOneWithoutTrainerProfileInput
+  user: Prisma.UserCreateNestedOneWithoutTrainerProfileInput
+}
+
+export type TrainerProfileUncheckedCreateWithoutReviewsInput = {
+  id?: string
+  userId: string
+  slug: string
+  profileType?: $Enums.ProfileType
+  displayName: string
+  headline?: string | null
+  bio?: string | null
+  experience?: string | null
+  whoIWorkWith?: string | null
+  yearsExperience?: number | null
+  photoUrl?: string | null
+  phone?: string | null
+  virtualAvailable?: boolean
+  bookingUrl?: string | null
+  vslUrl?: string | null
+  addressLine1?: string | null
+  city?: string | null
+  state?: string | null
+  zip?: string | null
+  lat?: number | null
+  lng?: number | null
+  tier?: $Enums.TrainerTier
+  stripeCustomerId?: string | null
+  stripeSubscriptionId?: string | null
+  subscriptionStatus?: $Enums.SubscriptionStatus | null
+  currentPeriodEnd?: Date | string | null
+  wizardComplete?: boolean
+  averageRating?: number | null
+  reviewCount?: number
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  profileViews?: Prisma.ProfileViewUncheckedCreateNestedManyWithoutTrainerProfileInput
+  certifications?: Prisma.TrainerCertificationUncheckedCreateNestedManyWithoutTrainerProfileInput
+  specialties?: Prisma.TrainerSpecialtyUncheckedCreateNestedManyWithoutTrainerProfileInput
+  photos?: Prisma.TrainerPhotoUncheckedCreateNestedManyWithoutTrainerProfileInput
+  contactRequests?: Prisma.ContactRequestUncheckedCreateNestedManyWithoutTrainerProfileInput
+  gymLink?: Prisma.TrainerGymLinkUncheckedCreateNestedOneWithoutTrainerProfileInput
+}
+
+export type TrainerProfileCreateOrConnectWithoutReviewsInput = {
+  where: Prisma.TrainerProfileWhereUniqueInput
+  create: Prisma.XOR<Prisma.TrainerProfileCreateWithoutReviewsInput, Prisma.TrainerProfileUncheckedCreateWithoutReviewsInput>
+}
+
+export type TrainerProfileUpsertWithoutReviewsInput = {
+  update: Prisma.XOR<Prisma.TrainerProfileUpdateWithoutReviewsInput, Prisma.TrainerProfileUncheckedUpdateWithoutReviewsInput>
+  create: Prisma.XOR<Prisma.TrainerProfileCreateWithoutReviewsInput, Prisma.TrainerProfileUncheckedCreateWithoutReviewsInput>
+  where?: Prisma.TrainerProfileWhereInput
+}
+
+export type TrainerProfileUpdateToOneWithWhereWithoutReviewsInput = {
+  where?: Prisma.TrainerProfileWhereInput
+  data: Prisma.XOR<Prisma.TrainerProfileUpdateWithoutReviewsInput, Prisma.TrainerProfileUncheckedUpdateWithoutReviewsInput>
+}
+
+export type TrainerProfileUpdateWithoutReviewsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  slug?: Prisma.StringFieldUpdateOperationsInput | string
+  profileType?: Prisma.EnumProfileTypeFieldUpdateOperationsInput | $Enums.ProfileType
+  displayName?: Prisma.StringFieldUpdateOperationsInput | string
+  headline?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  experience?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  whoIWorkWith?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  yearsExperience?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  photoUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  virtualAvailable?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  bookingUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  vslUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  addressLine1?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  state?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  zip?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  lat?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  lng?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  tier?: Prisma.EnumTrainerTierFieldUpdateOperationsInput | $Enums.TrainerTier
+  stripeCustomerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  stripeSubscriptionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  subscriptionStatus?: Prisma.NullableEnumSubscriptionStatusFieldUpdateOperationsInput | $Enums.SubscriptionStatus | null
+  currentPeriodEnd?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  wizardComplete?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  averageRating?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  reviewCount?: Prisma.IntFieldUpdateOperationsInput | number
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  profileViews?: Prisma.ProfileViewUpdateManyWithoutTrainerProfileNestedInput
+  certifications?: Prisma.TrainerCertificationUpdateManyWithoutTrainerProfileNestedInput
+  specialties?: Prisma.TrainerSpecialtyUpdateManyWithoutTrainerProfileNestedInput
+  photos?: Prisma.TrainerPhotoUpdateManyWithoutTrainerProfileNestedInput
+  contactRequests?: Prisma.ContactRequestUpdateManyWithoutTrainerProfileNestedInput
+  gymLink?: Prisma.TrainerGymLinkUpdateOneWithoutTrainerProfileNestedInput
+  user?: Prisma.UserUpdateOneRequiredWithoutTrainerProfileNestedInput
+}
+
+export type TrainerProfileUncheckedUpdateWithoutReviewsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  userId?: Prisma.StringFieldUpdateOperationsInput | string
+  slug?: Prisma.StringFieldUpdateOperationsInput | string
+  profileType?: Prisma.EnumProfileTypeFieldUpdateOperationsInput | $Enums.ProfileType
+  displayName?: Prisma.StringFieldUpdateOperationsInput | string
+  headline?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  experience?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  whoIWorkWith?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  yearsExperience?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  photoUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  virtualAvailable?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  bookingUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  vslUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  addressLine1?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  state?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  zip?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  lat?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  lng?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  tier?: Prisma.EnumTrainerTierFieldUpdateOperationsInput | $Enums.TrainerTier
+  stripeCustomerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  stripeSubscriptionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  subscriptionStatus?: Prisma.NullableEnumSubscriptionStatusFieldUpdateOperationsInput | $Enums.SubscriptionStatus | null
+  currentPeriodEnd?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  wizardComplete?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  averageRating?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  reviewCount?: Prisma.IntFieldUpdateOperationsInput | number
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  profileViews?: Prisma.ProfileViewUncheckedUpdateManyWithoutTrainerProfileNestedInput
+  certifications?: Prisma.TrainerCertificationUncheckedUpdateManyWithoutTrainerProfileNestedInput
+  specialties?: Prisma.TrainerSpecialtyUncheckedUpdateManyWithoutTrainerProfileNestedInput
+  photos?: Prisma.TrainerPhotoUncheckedUpdateManyWithoutTrainerProfileNestedInput
+  contactRequests?: Prisma.ContactRequestUncheckedUpdateManyWithoutTrainerProfileNestedInput
+  gymLink?: Prisma.TrainerGymLinkUncheckedUpdateOneWithoutTrainerProfileNestedInput
+}
+
+export type TrainerProfileCreateWithoutContactRequestsInput = {
+  id?: string
+  slug: string
+  profileType?: $Enums.ProfileType
+  displayName: string
+  headline?: string | null
+  bio?: string | null
+  experience?: string | null
+  whoIWorkWith?: string | null
+  yearsExperience?: number | null
+  photoUrl?: string | null
+  phone?: string | null
+  virtualAvailable?: boolean
+  bookingUrl?: string | null
+  vslUrl?: string | null
+  addressLine1?: string | null
+  city?: string | null
+  state?: string | null
+  zip?: string | null
+  lat?: number | null
+  lng?: number | null
+  tier?: $Enums.TrainerTier
+  stripeCustomerId?: string | null
+  stripeSubscriptionId?: string | null
+  subscriptionStatus?: $Enums.SubscriptionStatus | null
+  currentPeriodEnd?: Date | string | null
+  wizardComplete?: boolean
+  averageRating?: number | null
+  reviewCount?: number
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  profileViews?: Prisma.ProfileViewCreateNestedManyWithoutTrainerProfileInput
+  certifications?: Prisma.TrainerCertificationCreateNestedManyWithoutTrainerProfileInput
+  specialties?: Prisma.TrainerSpecialtyCreateNestedManyWithoutTrainerProfileInput
+  photos?: Prisma.TrainerPhotoCreateNestedManyWithoutTrainerProfileInput
+  reviews?: Prisma.ReviewCreateNestedManyWithoutTrainerProfileInput
+  gymLink?: Prisma.TrainerGymLinkCreateNestedOneWithoutTrainerProfileInput
+  user: Prisma.UserCreateNestedOneWithoutTrainerProfileInput
+}
+
+export type TrainerProfileUncheckedCreateWithoutContactRequestsInput = {
+  id?: string
+  userId: string
+  slug: string
+  profileType?: $Enums.ProfileType
+  displayName: string
+  headline?: string | null
+  bio?: string | null
+  experience?: string | null
+  whoIWorkWith?: string | null
+  yearsExperience?: number | null
+  photoUrl?: string | null
+  phone?: string | null
+  virtualAvailable?: boolean
+  bookingUrl?: string | null
+  vslUrl?: string | null
+  addressLine1?: string | null
+  city?: string | null
+  state?: string | null
+  zip?: string | null
+  lat?: number | null
+  lng?: number | null
+  tier?: $Enums.TrainerTier
+  stripeCustomerId?: string | null
+  stripeSubscriptionId?: string | null
+  subscriptionStatus?: $Enums.SubscriptionStatus | null
+  currentPeriodEnd?: Date | string | null
+  wizardComplete?: boolean
+  averageRating?: number | null
+  reviewCount?: number
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  profileViews?: Prisma.ProfileViewUncheckedCreateNestedManyWithoutTrainerProfileInput
+  certifications?: Prisma.TrainerCertificationUncheckedCreateNestedManyWithoutTrainerProfileInput
+  specialties?: Prisma.TrainerSpecialtyUncheckedCreateNestedManyWithoutTrainerProfileInput
+  photos?: Prisma.TrainerPhotoUncheckedCreateNestedManyWithoutTrainerProfileInput
+  reviews?: Prisma.ReviewUncheckedCreateNestedManyWithoutTrainerProfileInput
+  gymLink?: Prisma.TrainerGymLinkUncheckedCreateNestedOneWithoutTrainerProfileInput
+}
+
+export type TrainerProfileCreateOrConnectWithoutContactRequestsInput = {
+  where: Prisma.TrainerProfileWhereUniqueInput
+  create: Prisma.XOR<Prisma.TrainerProfileCreateWithoutContactRequestsInput, Prisma.TrainerProfileUncheckedCreateWithoutContactRequestsInput>
+}
+
+export type TrainerProfileUpsertWithoutContactRequestsInput = {
+  update: Prisma.XOR<Prisma.TrainerProfileUpdateWithoutContactRequestsInput, Prisma.TrainerProfileUncheckedUpdateWithoutContactRequestsInput>
+  create: Prisma.XOR<Prisma.TrainerProfileCreateWithoutContactRequestsInput, Prisma.TrainerProfileUncheckedCreateWithoutContactRequestsInput>
+  where?: Prisma.TrainerProfileWhereInput
+}
+
+export type TrainerProfileUpdateToOneWithWhereWithoutContactRequestsInput = {
+  where?: Prisma.TrainerProfileWhereInput
+  data: Prisma.XOR<Prisma.TrainerProfileUpdateWithoutContactRequestsInput, Prisma.TrainerProfileUncheckedUpdateWithoutContactRequestsInput>
+}
+
+export type TrainerProfileUpdateWithoutContactRequestsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  slug?: Prisma.StringFieldUpdateOperationsInput | string
+  profileType?: Prisma.EnumProfileTypeFieldUpdateOperationsInput | $Enums.ProfileType
+  displayName?: Prisma.StringFieldUpdateOperationsInput | string
+  headline?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  experience?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  whoIWorkWith?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  yearsExperience?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  photoUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  virtualAvailable?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  bookingUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  vslUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  addressLine1?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  state?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  zip?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  lat?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  lng?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  tier?: Prisma.EnumTrainerTierFieldUpdateOperationsInput | $Enums.TrainerTier
+  stripeCustomerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  stripeSubscriptionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  subscriptionStatus?: Prisma.NullableEnumSubscriptionStatusFieldUpdateOperationsInput | $Enums.SubscriptionStatus | null
+  currentPeriodEnd?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  wizardComplete?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  averageRating?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  reviewCount?: Prisma.IntFieldUpdateOperationsInput | number
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  profileViews?: Prisma.ProfileViewUpdateManyWithoutTrainerProfileNestedInput
+  certifications?: Prisma.TrainerCertificationUpdateManyWithoutTrainerProfileNestedInput
+  specialties?: Prisma.TrainerSpecialtyUpdateManyWithoutTrainerProfileNestedInput
+  photos?: Prisma.TrainerPhotoUpdateManyWithoutTrainerProfileNestedInput
+  reviews?: Prisma.ReviewUpdateManyWithoutTrainerProfileNestedInput
+  gymLink?: Prisma.TrainerGymLinkUpdateOneWithoutTrainerProfileNestedInput
+  user?: Prisma.UserUpdateOneRequiredWithoutTrainerProfileNestedInput
+}
+
+export type TrainerProfileUncheckedUpdateWithoutContactRequestsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  userId?: Prisma.StringFieldUpdateOperationsInput | string
+  slug?: Prisma.StringFieldUpdateOperationsInput | string
+  profileType?: Prisma.EnumProfileTypeFieldUpdateOperationsInput | $Enums.ProfileType
+  displayName?: Prisma.StringFieldUpdateOperationsInput | string
+  headline?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  experience?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  whoIWorkWith?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  yearsExperience?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  photoUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  virtualAvailable?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  bookingUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  vslUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  addressLine1?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  state?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  zip?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  lat?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  lng?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  tier?: Prisma.EnumTrainerTierFieldUpdateOperationsInput | $Enums.TrainerTier
+  stripeCustomerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  stripeSubscriptionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  subscriptionStatus?: Prisma.NullableEnumSubscriptionStatusFieldUpdateOperationsInput | $Enums.SubscriptionStatus | null
+  currentPeriodEnd?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  wizardComplete?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  averageRating?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  reviewCount?: Prisma.IntFieldUpdateOperationsInput | number
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  profileViews?: Prisma.ProfileViewUncheckedUpdateManyWithoutTrainerProfileNestedInput
+  certifications?: Prisma.TrainerCertificationUncheckedUpdateManyWithoutTrainerProfileNestedInput
+  specialties?: Prisma.TrainerSpecialtyUncheckedUpdateManyWithoutTrainerProfileNestedInput
+  photos?: Prisma.TrainerPhotoUncheckedUpdateManyWithoutTrainerProfileNestedInput
+  reviews?: Prisma.ReviewUncheckedUpdateManyWithoutTrainerProfileNestedInput
   gymLink?: Prisma.TrainerGymLinkUncheckedUpdateOneWithoutTrainerProfileNestedInput
 }
 
@@ -1996,7 +2407,11 @@ export type TrainerProfileCreateWithoutProfileViewsInput = {
   slug: string
   profileType?: $Enums.ProfileType
   displayName: string
+  headline?: string | null
   bio?: string | null
+  experience?: string | null
+  whoIWorkWith?: string | null
+  yearsExperience?: number | null
   photoUrl?: string | null
   phone?: string | null
   virtualAvailable?: boolean
@@ -2020,6 +2435,7 @@ export type TrainerProfileCreateWithoutProfileViewsInput = {
   updatedAt?: Date | string
   certifications?: Prisma.TrainerCertificationCreateNestedManyWithoutTrainerProfileInput
   specialties?: Prisma.TrainerSpecialtyCreateNestedManyWithoutTrainerProfileInput
+  photos?: Prisma.TrainerPhotoCreateNestedManyWithoutTrainerProfileInput
   reviews?: Prisma.ReviewCreateNestedManyWithoutTrainerProfileInput
   contactRequests?: Prisma.ContactRequestCreateNestedManyWithoutTrainerProfileInput
   gymLink?: Prisma.TrainerGymLinkCreateNestedOneWithoutTrainerProfileInput
@@ -2032,7 +2448,11 @@ export type TrainerProfileUncheckedCreateWithoutProfileViewsInput = {
   slug: string
   profileType?: $Enums.ProfileType
   displayName: string
+  headline?: string | null
   bio?: string | null
+  experience?: string | null
+  whoIWorkWith?: string | null
+  yearsExperience?: number | null
   photoUrl?: string | null
   phone?: string | null
   virtualAvailable?: boolean
@@ -2056,6 +2476,7 @@ export type TrainerProfileUncheckedCreateWithoutProfileViewsInput = {
   updatedAt?: Date | string
   certifications?: Prisma.TrainerCertificationUncheckedCreateNestedManyWithoutTrainerProfileInput
   specialties?: Prisma.TrainerSpecialtyUncheckedCreateNestedManyWithoutTrainerProfileInput
+  photos?: Prisma.TrainerPhotoUncheckedCreateNestedManyWithoutTrainerProfileInput
   reviews?: Prisma.ReviewUncheckedCreateNestedManyWithoutTrainerProfileInput
   contactRequests?: Prisma.ContactRequestUncheckedCreateNestedManyWithoutTrainerProfileInput
   gymLink?: Prisma.TrainerGymLinkUncheckedCreateNestedOneWithoutTrainerProfileInput
@@ -2082,7 +2503,11 @@ export type TrainerProfileUpdateWithoutProfileViewsInput = {
   slug?: Prisma.StringFieldUpdateOperationsInput | string
   profileType?: Prisma.EnumProfileTypeFieldUpdateOperationsInput | $Enums.ProfileType
   displayName?: Prisma.StringFieldUpdateOperationsInput | string
+  headline?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  experience?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  whoIWorkWith?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  yearsExperience?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   photoUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   virtualAvailable?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -2106,6 +2531,7 @@ export type TrainerProfileUpdateWithoutProfileViewsInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   certifications?: Prisma.TrainerCertificationUpdateManyWithoutTrainerProfileNestedInput
   specialties?: Prisma.TrainerSpecialtyUpdateManyWithoutTrainerProfileNestedInput
+  photos?: Prisma.TrainerPhotoUpdateManyWithoutTrainerProfileNestedInput
   reviews?: Prisma.ReviewUpdateManyWithoutTrainerProfileNestedInput
   contactRequests?: Prisma.ContactRequestUpdateManyWithoutTrainerProfileNestedInput
   gymLink?: Prisma.TrainerGymLinkUpdateOneWithoutTrainerProfileNestedInput
@@ -2118,7 +2544,11 @@ export type TrainerProfileUncheckedUpdateWithoutProfileViewsInput = {
   slug?: Prisma.StringFieldUpdateOperationsInput | string
   profileType?: Prisma.EnumProfileTypeFieldUpdateOperationsInput | $Enums.ProfileType
   displayName?: Prisma.StringFieldUpdateOperationsInput | string
+  headline?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  experience?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  whoIWorkWith?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  yearsExperience?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   photoUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   virtualAvailable?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -2142,6 +2572,7 @@ export type TrainerProfileUncheckedUpdateWithoutProfileViewsInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   certifications?: Prisma.TrainerCertificationUncheckedUpdateManyWithoutTrainerProfileNestedInput
   specialties?: Prisma.TrainerSpecialtyUncheckedUpdateManyWithoutTrainerProfileNestedInput
+  photos?: Prisma.TrainerPhotoUncheckedUpdateManyWithoutTrainerProfileNestedInput
   reviews?: Prisma.ReviewUncheckedUpdateManyWithoutTrainerProfileNestedInput
   contactRequests?: Prisma.ContactRequestUncheckedUpdateManyWithoutTrainerProfileNestedInput
   gymLink?: Prisma.TrainerGymLinkUncheckedUpdateOneWithoutTrainerProfileNestedInput
@@ -2156,6 +2587,7 @@ export type TrainerProfileCountOutputType = {
   profileViews: number
   certifications: number
   specialties: number
+  photos: number
   reviews: number
   contactRequests: number
 }
@@ -2164,6 +2596,7 @@ export type TrainerProfileCountOutputTypeSelect<ExtArgs extends runtime.Types.Ex
   profileViews?: boolean | TrainerProfileCountOutputTypeCountProfileViewsArgs
   certifications?: boolean | TrainerProfileCountOutputTypeCountCertificationsArgs
   specialties?: boolean | TrainerProfileCountOutputTypeCountSpecialtiesArgs
+  photos?: boolean | TrainerProfileCountOutputTypeCountPhotosArgs
   reviews?: boolean | TrainerProfileCountOutputTypeCountReviewsArgs
   contactRequests?: boolean | TrainerProfileCountOutputTypeCountContactRequestsArgs
 }
@@ -2202,6 +2635,13 @@ export type TrainerProfileCountOutputTypeCountSpecialtiesArgs<ExtArgs extends ru
 /**
  * TrainerProfileCountOutputType without action
  */
+export type TrainerProfileCountOutputTypeCountPhotosArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.TrainerPhotoWhereInput
+}
+
+/**
+ * TrainerProfileCountOutputType without action
+ */
 export type TrainerProfileCountOutputTypeCountReviewsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   where?: Prisma.ReviewWhereInput
 }
@@ -2220,7 +2660,11 @@ export type TrainerProfileSelect<ExtArgs extends runtime.Types.Extensions.Intern
   slug?: boolean
   profileType?: boolean
   displayName?: boolean
+  headline?: boolean
   bio?: boolean
+  experience?: boolean
+  whoIWorkWith?: boolean
+  yearsExperience?: boolean
   photoUrl?: boolean
   phone?: boolean
   virtualAvailable?: boolean
@@ -2245,6 +2689,7 @@ export type TrainerProfileSelect<ExtArgs extends runtime.Types.Extensions.Intern
   profileViews?: boolean | Prisma.TrainerProfile$profileViewsArgs<ExtArgs>
   certifications?: boolean | Prisma.TrainerProfile$certificationsArgs<ExtArgs>
   specialties?: boolean | Prisma.TrainerProfile$specialtiesArgs<ExtArgs>
+  photos?: boolean | Prisma.TrainerProfile$photosArgs<ExtArgs>
   reviews?: boolean | Prisma.TrainerProfile$reviewsArgs<ExtArgs>
   contactRequests?: boolean | Prisma.TrainerProfile$contactRequestsArgs<ExtArgs>
   gymLink?: boolean | Prisma.TrainerProfile$gymLinkArgs<ExtArgs>
@@ -2258,7 +2703,11 @@ export type TrainerProfileSelectCreateManyAndReturn<ExtArgs extends runtime.Type
   slug?: boolean
   profileType?: boolean
   displayName?: boolean
+  headline?: boolean
   bio?: boolean
+  experience?: boolean
+  whoIWorkWith?: boolean
+  yearsExperience?: boolean
   photoUrl?: boolean
   phone?: boolean
   virtualAvailable?: boolean
@@ -2289,7 +2738,11 @@ export type TrainerProfileSelectUpdateManyAndReturn<ExtArgs extends runtime.Type
   slug?: boolean
   profileType?: boolean
   displayName?: boolean
+  headline?: boolean
   bio?: boolean
+  experience?: boolean
+  whoIWorkWith?: boolean
+  yearsExperience?: boolean
   photoUrl?: boolean
   phone?: boolean
   virtualAvailable?: boolean
@@ -2320,7 +2773,11 @@ export type TrainerProfileSelectScalar = {
   slug?: boolean
   profileType?: boolean
   displayName?: boolean
+  headline?: boolean
   bio?: boolean
+  experience?: boolean
+  whoIWorkWith?: boolean
+  yearsExperience?: boolean
   photoUrl?: boolean
   phone?: boolean
   virtualAvailable?: boolean
@@ -2344,11 +2801,12 @@ export type TrainerProfileSelectScalar = {
   updatedAt?: boolean
 }
 
-export type TrainerProfileOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "userId" | "slug" | "profileType" | "displayName" | "bio" | "photoUrl" | "phone" | "virtualAvailable" | "bookingUrl" | "vslUrl" | "addressLine1" | "city" | "state" | "zip" | "lat" | "lng" | "tier" | "stripeCustomerId" | "stripeSubscriptionId" | "subscriptionStatus" | "currentPeriodEnd" | "wizardComplete" | "averageRating" | "reviewCount" | "createdAt" | "updatedAt", ExtArgs["result"]["trainerProfile"]>
+export type TrainerProfileOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "userId" | "slug" | "profileType" | "displayName" | "headline" | "bio" | "experience" | "whoIWorkWith" | "yearsExperience" | "photoUrl" | "phone" | "virtualAvailable" | "bookingUrl" | "vslUrl" | "addressLine1" | "city" | "state" | "zip" | "lat" | "lng" | "tier" | "stripeCustomerId" | "stripeSubscriptionId" | "subscriptionStatus" | "currentPeriodEnd" | "wizardComplete" | "averageRating" | "reviewCount" | "createdAt" | "updatedAt", ExtArgs["result"]["trainerProfile"]>
 export type TrainerProfileInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   profileViews?: boolean | Prisma.TrainerProfile$profileViewsArgs<ExtArgs>
   certifications?: boolean | Prisma.TrainerProfile$certificationsArgs<ExtArgs>
   specialties?: boolean | Prisma.TrainerProfile$specialtiesArgs<ExtArgs>
+  photos?: boolean | Prisma.TrainerProfile$photosArgs<ExtArgs>
   reviews?: boolean | Prisma.TrainerProfile$reviewsArgs<ExtArgs>
   contactRequests?: boolean | Prisma.TrainerProfile$contactRequestsArgs<ExtArgs>
   gymLink?: boolean | Prisma.TrainerProfile$gymLinkArgs<ExtArgs>
@@ -2368,6 +2826,7 @@ export type $TrainerProfilePayload<ExtArgs extends runtime.Types.Extensions.Inte
     profileViews: Prisma.$ProfileViewPayload<ExtArgs>[]
     certifications: Prisma.$TrainerCertificationPayload<ExtArgs>[]
     specialties: Prisma.$TrainerSpecialtyPayload<ExtArgs>[]
+    photos: Prisma.$TrainerPhotoPayload<ExtArgs>[]
     reviews: Prisma.$ReviewPayload<ExtArgs>[]
     contactRequests: Prisma.$ContactRequestPayload<ExtArgs>[]
     gymLink: Prisma.$TrainerGymLinkPayload<ExtArgs> | null
@@ -2379,7 +2838,11 @@ export type $TrainerProfilePayload<ExtArgs extends runtime.Types.Extensions.Inte
     slug: string
     profileType: $Enums.ProfileType
     displayName: string
+    headline: string | null
     bio: string | null
+    experience: string | null
+    whoIWorkWith: string | null
+    yearsExperience: number | null
     photoUrl: string | null
     phone: string | null
     virtualAvailable: boolean
@@ -2798,6 +3261,7 @@ export interface Prisma__TrainerProfileClient<T, Null = never, ExtArgs extends r
   profileViews<T extends Prisma.TrainerProfile$profileViewsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.TrainerProfile$profileViewsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ProfileViewPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   certifications<T extends Prisma.TrainerProfile$certificationsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.TrainerProfile$certificationsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$TrainerCertificationPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   specialties<T extends Prisma.TrainerProfile$specialtiesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.TrainerProfile$specialtiesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$TrainerSpecialtyPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  photos<T extends Prisma.TrainerProfile$photosArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.TrainerProfile$photosArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$TrainerPhotoPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   reviews<T extends Prisma.TrainerProfile$reviewsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.TrainerProfile$reviewsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ReviewPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   contactRequests<T extends Prisma.TrainerProfile$contactRequestsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.TrainerProfile$contactRequestsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ContactRequestPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   gymLink<T extends Prisma.TrainerProfile$gymLinkArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.TrainerProfile$gymLinkArgs<ExtArgs>>): Prisma.Prisma__TrainerGymLinkClient<runtime.Types.Result.GetResult<Prisma.$TrainerGymLinkPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
@@ -2836,7 +3300,11 @@ export interface TrainerProfileFieldRefs {
   readonly slug: Prisma.FieldRef<"TrainerProfile", 'String'>
   readonly profileType: Prisma.FieldRef<"TrainerProfile", 'ProfileType'>
   readonly displayName: Prisma.FieldRef<"TrainerProfile", 'String'>
+  readonly headline: Prisma.FieldRef<"TrainerProfile", 'String'>
   readonly bio: Prisma.FieldRef<"TrainerProfile", 'String'>
+  readonly experience: Prisma.FieldRef<"TrainerProfile", 'String'>
+  readonly whoIWorkWith: Prisma.FieldRef<"TrainerProfile", 'String'>
+  readonly yearsExperience: Prisma.FieldRef<"TrainerProfile", 'Int'>
   readonly photoUrl: Prisma.FieldRef<"TrainerProfile", 'String'>
   readonly phone: Prisma.FieldRef<"TrainerProfile", 'String'>
   readonly virtualAvailable: Prisma.FieldRef<"TrainerProfile", 'Boolean'>
@@ -3328,6 +3796,30 @@ export type TrainerProfile$specialtiesArgs<ExtArgs extends runtime.Types.Extensi
   take?: number
   skip?: number
   distinct?: Prisma.TrainerSpecialtyScalarFieldEnum | Prisma.TrainerSpecialtyScalarFieldEnum[]
+}
+
+/**
+ * TrainerProfile.photos
+ */
+export type TrainerProfile$photosArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the TrainerPhoto
+   */
+  select?: Prisma.TrainerPhotoSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the TrainerPhoto
+   */
+  omit?: Prisma.TrainerPhotoOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.TrainerPhotoInclude<ExtArgs> | null
+  where?: Prisma.TrainerPhotoWhereInput
+  orderBy?: Prisma.TrainerPhotoOrderByWithRelationInput | Prisma.TrainerPhotoOrderByWithRelationInput[]
+  cursor?: Prisma.TrainerPhotoWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.TrainerPhotoScalarFieldEnum | Prisma.TrainerPhotoScalarFieldEnum[]
 }
 
 /**

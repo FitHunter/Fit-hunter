@@ -393,6 +393,7 @@ export const ModelName = {
   TrainerCertification: 'TrainerCertification',
   TrainerSpecialty: 'TrainerSpecialty',
   TrainerGymLink: 'TrainerGymLink',
+  TrainerPhoto: 'TrainerPhoto',
   GymProfile: 'GymProfile',
   GymPhoto: 'GymPhoto',
   GymHours: 'GymHours',
@@ -419,7 +420,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "user" | "account" | "session" | "verificationToken" | "passwordResetToken" | "trainerProfile" | "trainerCertification" | "trainerSpecialty" | "trainerGymLink" | "gymProfile" | "gymPhoto" | "gymHours" | "gymAmenity" | "gymClaim" | "review" | "reviewCategoryRating" | "reviewResponse" | "reviewFlag" | "contactRequest" | "profileView"
+    modelProps: "user" | "account" | "session" | "verificationToken" | "passwordResetToken" | "trainerProfile" | "trainerCertification" | "trainerSpecialty" | "trainerGymLink" | "trainerPhoto" | "gymProfile" | "gymPhoto" | "gymHours" | "gymAmenity" | "gymClaim" | "review" | "reviewCategoryRating" | "reviewResponse" | "reviewFlag" | "contactRequest" | "profileView"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -1086,6 +1087,80 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         count: {
           args: Prisma.TrainerGymLinkCountArgs<ExtArgs>
           result: runtime.Types.Utils.Optional<Prisma.TrainerGymLinkCountAggregateOutputType> | number
+        }
+      }
+    }
+    TrainerPhoto: {
+      payload: Prisma.$TrainerPhotoPayload<ExtArgs>
+      fields: Prisma.TrainerPhotoFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.TrainerPhotoFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TrainerPhotoPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.TrainerPhotoFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TrainerPhotoPayload>
+        }
+        findFirst: {
+          args: Prisma.TrainerPhotoFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TrainerPhotoPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.TrainerPhotoFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TrainerPhotoPayload>
+        }
+        findMany: {
+          args: Prisma.TrainerPhotoFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TrainerPhotoPayload>[]
+        }
+        create: {
+          args: Prisma.TrainerPhotoCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TrainerPhotoPayload>
+        }
+        createMany: {
+          args: Prisma.TrainerPhotoCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.TrainerPhotoCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TrainerPhotoPayload>[]
+        }
+        delete: {
+          args: Prisma.TrainerPhotoDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TrainerPhotoPayload>
+        }
+        update: {
+          args: Prisma.TrainerPhotoUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TrainerPhotoPayload>
+        }
+        deleteMany: {
+          args: Prisma.TrainerPhotoDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.TrainerPhotoUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.TrainerPhotoUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TrainerPhotoPayload>[]
+        }
+        upsert: {
+          args: Prisma.TrainerPhotoUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TrainerPhotoPayload>
+        }
+        aggregate: {
+          args: Prisma.TrainerPhotoAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateTrainerPhoto>
+        }
+        groupBy: {
+          args: Prisma.TrainerPhotoGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.TrainerPhotoGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.TrainerPhotoCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.TrainerPhotoCountAggregateOutputType> | number
         }
       }
     }
@@ -2016,7 +2091,11 @@ export const TrainerProfileScalarFieldEnum = {
   slug: 'slug',
   profileType: 'profileType',
   displayName: 'displayName',
+  headline: 'headline',
   bio: 'bio',
+  experience: 'experience',
+  whoIWorkWith: 'whoIWorkWith',
+  yearsExperience: 'yearsExperience',
   photoUrl: 'photoUrl',
   phone: 'phone',
   virtualAvailable: 'virtualAvailable',
@@ -2074,6 +2153,19 @@ export const TrainerGymLinkScalarFieldEnum = {
 } as const
 
 export type TrainerGymLinkScalarFieldEnum = (typeof TrainerGymLinkScalarFieldEnum)[keyof typeof TrainerGymLinkScalarFieldEnum]
+
+
+export const TrainerPhotoScalarFieldEnum = {
+  id: 'id',
+  trainerProfileId: 'trainerProfileId',
+  url: 'url',
+  publicId: 'publicId',
+  caption: 'caption',
+  sortOrder: 'sortOrder',
+  createdAt: 'createdAt'
+} as const
+
+export type TrainerPhotoScalarFieldEnum = (typeof TrainerPhotoScalarFieldEnum)[keyof typeof TrainerPhotoScalarFieldEnum]
 
 
 export const GymProfileScalarFieldEnum = {
@@ -2615,6 +2707,7 @@ export type GlobalOmitConfig = {
   trainerCertification?: Prisma.TrainerCertificationOmit
   trainerSpecialty?: Prisma.TrainerSpecialtyOmit
   trainerGymLink?: Prisma.TrainerGymLinkOmit
+  trainerPhoto?: Prisma.TrainerPhotoOmit
   gymProfile?: Prisma.GymProfileOmit
   gymPhoto?: Prisma.GymPhotoOmit
   gymHours?: Prisma.GymHoursOmit

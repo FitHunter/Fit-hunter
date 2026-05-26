@@ -60,6 +60,7 @@ export const ModelName = {
   TrainerCertification: 'TrainerCertification',
   TrainerSpecialty: 'TrainerSpecialty',
   TrainerGymLink: 'TrainerGymLink',
+  TrainerPhoto: 'TrainerPhoto',
   GymProfile: 'GymProfile',
   GymPhoto: 'GymPhoto',
   GymHours: 'GymHours',
@@ -163,7 +164,11 @@ export const TrainerProfileScalarFieldEnum = {
   slug: 'slug',
   profileType: 'profileType',
   displayName: 'displayName',
+  headline: 'headline',
   bio: 'bio',
+  experience: 'experience',
+  whoIWorkWith: 'whoIWorkWith',
+  yearsExperience: 'yearsExperience',
   photoUrl: 'photoUrl',
   phone: 'phone',
   virtualAvailable: 'virtualAvailable',
@@ -221,6 +226,19 @@ export const TrainerGymLinkScalarFieldEnum = {
 } as const
 
 export type TrainerGymLinkScalarFieldEnum = (typeof TrainerGymLinkScalarFieldEnum)[keyof typeof TrainerGymLinkScalarFieldEnum]
+
+
+export const TrainerPhotoScalarFieldEnum = {
+  id: 'id',
+  trainerProfileId: 'trainerProfileId',
+  url: 'url',
+  publicId: 'publicId',
+  caption: 'caption',
+  sortOrder: 'sortOrder',
+  createdAt: 'createdAt'
+} as const
+
+export type TrainerPhotoScalarFieldEnum = (typeof TrainerPhotoScalarFieldEnum)[keyof typeof TrainerPhotoScalarFieldEnum]
 
 
 export const GymProfileScalarFieldEnum = {

@@ -63,6 +63,11 @@ export type TrainerSpecialty = Prisma.TrainerSpecialtyModel
  */
 export type TrainerGymLink = Prisma.TrainerGymLinkModel
 /**
+ * Model TrainerPhoto
+ * 
+ */
+export type TrainerPhoto = Prisma.TrainerPhotoModel
+/**
  * Model GymProfile
  * 
  */

@@ -22,6 +22,7 @@ async function getTrainer(slug: string) {
     include: {
       certifications: true,
       specialties: { orderBy: { sortOrder: "asc" } },
+      photos: { orderBy: { sortOrder: "asc" } },
       gymLink: { include: { gymProfile: { select: { id: true, name: true, slug: true, city: true, state: true } } } },
       reviews: {
         where: { status: "APPROVED" },
@@ -103,7 +104,14 @@ export default async function TrainerProfilePage({ params }: Props) {
                       </Badge>
                     )}
                   </div>
-                  <p className="text-gray-500 mt-1">{typeLabel}</p>
+                  {trainer.headline ? (
+                    <p className="text-gray-700 font-medium mt-1">{trainer.headline}</p>
+                  ) : (
+                    <p className="text-gray-500 mt-1">{typeLabel}</p>
+                  )}
+                  {trainer.yearsExperience != null && (
+                    <p className="text-sm text-gray-400 mt-0.5">{trainer.yearsExperience} years of experience</p>
+                  )}
                   <div className="flex items-center gap-3 mt-2 flex-wrap">
                     {trainer.averageRating ? (
                       <span className="flex items-center gap-1 text-amber-500 font-semibold">
@@ -159,6 +167,36 @@ export default async function TrainerProfilePage({ params }: Props) {
                 <div className="flex flex-wrap gap-2">
                   {trainer.specialties.map((s) => (
                     <Badge key={s.id} variant="outline">{s.specialty}</Badge>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {/* Experience */}
+            {trainer.experience && (
+              <div className="bg-white rounded-xl border border-gray-200 p-6">
+                <h2 className="font-semibold text-gray-900 mb-3">Experience &amp; background</h2>
+                <p className="text-gray-700 leading-relaxed whitespace-pre-line">{trainer.experience}</p>
+              </div>
+            )}
+
+            {/* Who I work with */}
+            {trainer.whoIWorkWith && (
+              <div className="bg-white rounded-xl border border-gray-200 p-6">
+                <h2 className="font-semibold text-gray-900 mb-3">Who I work with</h2>
+                <p className="text-gray-700 leading-relaxed whitespace-pre-line">{trainer.whoIWorkWith}</p>
+              </div>
+            )}
+
+            {/* Photo gallery */}
+            {trainer.photos.length > 0 && (
+              <div className="bg-white rounded-xl border border-gray-200 p-6">
+                <h2 className="font-semibold text-gray-900 mb-4">Photos</h2>
+                <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
+                  {trainer.photos.map((photo) => (
+                    <div key={photo.id} className="relative aspect-square rounded-lg overflow-hidden bg-gray-100">
+                      <Image src={photo.url} alt={photo.caption ?? "Training photo"} fill className="object-cover" sizes="200px" />
+                    </div>
                   ))}
                 </div>
               </div>

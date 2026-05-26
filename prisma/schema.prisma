@@ -161,7 +161,11 @@ model TrainerProfile {
   slug            String      @unique
   profileType     ProfileType @default(PERSONAL_TRAINER)
   displayName     String
-  bio             String?     @db.VarChar(500)
+  headline        String?
+  bio             String?     @db.Text
+  experience      String?     @db.Text
+  whoIWorkWith    String?     @db.Text
+  yearsExperience Int?
   photoUrl        String?
   phone           String?
   virtualAvailable Boolean    @default(false)
@@ -187,6 +191,7 @@ model TrainerProfile {
   profileViews    ProfileView[]
   certifications  TrainerCertification[]
   specialties     TrainerSpecialty[]
+  photos          TrainerPhoto[]
   reviews         Review[]    @relation("TrainerReviews")
   contactRequests ContactRequest[] @relation("TrainerContactRequests")
   gymLink         TrainerGymLink?
@@ -235,6 +240,20 @@ model TrainerGymLink {
   createdAt       DateTime @default(now())
 
   @@map("trainer_gym_links")
+}
+
+model TrainerPhoto {
+  id              String   @id @default(cuid())
+  trainerProfileId String
+  url             String
+  publicId        String
+  caption         String?
+  sortOrder       Int      @default(0)
+  createdAt       DateTime @default(now())
+
+  trainerProfile  TrainerProfile @relation(fields: [trainerProfileId], references: [id], onDelete: Cascade)
+
+  @@map("trainer_photos")
 }
 
 // ─── Gym Profile ─────────────────────────────────────────────────────────────

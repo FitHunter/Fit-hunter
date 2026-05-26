@@ -134,6 +134,85 @@ export async function POST(req: NextRequest) {
   }
 }
 
+const editSchema = z.object({
+  displayName: z.string().min(1).max(100).optional(),
+  headline: z.string().max(120).optional(),
+  bio: z.string().max(2000).optional(),
+  experience: z.string().max(2000).optional(),
+  whoIWorkWith: z.string().max(1000).optional(),
+  yearsExperience: z.number().int().min(0).max(60).optional().nullable(),
+  photoUrl: z.string().url().optional().or(z.literal("")),
+  phone: z.string().optional(),
+  city: z.string().optional(),
+  state: z.string().optional(),
+  virtualAvailable: z.boolean().optional(),
+  bookingUrl: z.string().optional(),
+  certifications: z.array(z.string()).optional(),
+  specialties: z.array(z.string()).optional(),
+});
+
+export async function PATCH(req: NextRequest) {
+  const session = await auth();
+  if (!session || session.user.accountType !== "TRAINER") {
+    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  }
+
+  try {
+    const data = editSchema.parse(await req.json());
+    const trainer = await prisma.trainerProfile.findUnique({ where: { userId: session.user.id } });
+    if (!trainer) return NextResponse.json({ error: "Profile not found" }, { status: 404 });
+
+    const updates: Record<string, unknown> = {};
+    if (data.displayName !== undefined) updates.displayName = data.displayName;
+    if (data.headline !== undefined) updates.headline = data.headline || null;
+    if (data.bio !== undefined) updates.bio = data.bio || null;
+    if (data.experience !== undefined) updates.experience = data.experience || null;
+    if (data.whoIWorkWith !== undefined) updates.whoIWorkWith = data.whoIWorkWith || null;
+    if (data.yearsExperience !== undefined) updates.yearsExperience = data.yearsExperience;
+    if (data.photoUrl !== undefined) updates.photoUrl = data.photoUrl || null;
+    if (data.phone !== undefined) updates.phone = data.phone || null;
+    if (data.city !== undefined) updates.city = data.city || null;
+    if (data.state !== undefined) updates.state = data.state || null;
+    if (data.virtualAvailable !== undefined) updates.virtualAvailable = data.virtualAvailable;
+    if (data.bookingUrl !== undefined) {
+      if (data.bookingUrl && !isValidUrl(data.bookingUrl)) {
+        return NextResponse.json({ error: "Invalid booking URL" }, { status: 400 });
+      }
+      updates.bookingUrl = data.bookingUrl || null;
+    }
+
+    await prisma.$transaction(async (tx: Parameters<Parameters<typeof prisma.$transaction>[0]>[0]) => {
+      if (Object.keys(updates).length) {
+        await tx.trainerProfile.update({ where: { id: trainer.id }, data: updates });
+      }
+      if (data.certifications !== undefined) {
+        await tx.trainerCertification.deleteMany({ where: { trainerProfileId: trainer.id } });
+        if (data.certifications.length) {
+          await tx.trainerCertification.createMany({
+            data: data.certifications.map((name) => ({ trainerProfileId: trainer.id, name })),
+          });
+        }
+      }
+      if (data.specialties !== undefined) {
+        await tx.trainerSpecialty.deleteMany({ where: { trainerProfileId: trainer.id } });
+        if (data.specialties.length) {
+          await tx.trainerSpecialty.createMany({
+            data: data.specialties.map((specialty, i) => ({ trainerProfileId: trainer.id, specialty, sortOrder: i })),
+          });
+        }
+      }
+    });
+
+    return NextResponse.json({ success: true });
+  } catch (err) {
+    if (err instanceof z.ZodError) {
+      return NextResponse.json({ error: err.issues[0].message }, { status: 400 });
+    }
+    console.error("[trainer/profile PATCH]", err);
+    return NextResponse.json({ error: "Failed to save." }, { status: 500 });
+  }
+}
+
 export async function GET() {
   const session = await auth();
   if (!session) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
@@ -143,6 +222,7 @@ export async function GET() {
     include: {
       certifications: true,
       specialties: { orderBy: { sortOrder: "asc" } },
+      photos: { orderBy: { sortOrder: "asc" } },
       gymLink: { include: { gymProfile: { select: { id: true, name: true } } } },
     },
   });
