@@ -1,8 +1,31 @@
-import NextAuth from "next-auth";
-import { authConfig } from "@/lib/auth.config";
+import { NextResponse } from "next/server";
+import type { NextRequest } from "next/server";
 
-export const { auth: middleware } = NextAuth(authConfig);
+// Minimal middleware: no edge JWT decoding.
+// Server components handle their own auth via auth() from auth.ts.
+// We only redirect logged-in users away from auth pages using the
+// __Secure-authjs.session-token / authjs.session-token cookie presence.
+export function middleware(request: NextRequest) {
+  const { pathname } = request.nextUrl;
+
+  const AUTH_PAGES = ["/login", "/register", "/forgot-password", "/reset-password"];
+  const isAuthPage = AUTH_PAGES.some((p) => pathname.startsWith(p));
+
+  if (isAuthPage) {
+    const sessionCookie =
+      request.cookies.get("__Secure-authjs.session-token") ??
+      request.cookies.get("authjs.session-token") ??
+      request.cookies.get("next-auth.session-token") ??
+      request.cookies.get("__Secure-next-auth.session-token");
+
+    if (sessionCookie) {
+      return NextResponse.redirect(new URL("/", request.url));
+    }
+  }
+
+  return NextResponse.next();
+}
 
 export const config = {
-  matcher: ["/((?!_next/static|_next/image|favicon.ico|api/auth).*)"],
+  matcher: ["/((?!_next/static|_next/image|favicon.ico|api).*)"],
 };
