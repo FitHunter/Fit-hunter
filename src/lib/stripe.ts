@@ -39,6 +39,7 @@ export async function createCheckoutSession(opts: {
     success_url: opts.successUrl,
     cancel_url: opts.cancelUrl,
     metadata: opts.metadata,
+    allow_promotion_codes: true,
   });
 }
 
