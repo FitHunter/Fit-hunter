@@ -13,6 +13,8 @@ export async function GET(req: NextRequest) {
   const verifiedOnly = sp.get("verified") === "1";
   const sortBy = sp.get("sort") ?? "rating";
   const page = Math.max(1, parseInt(sp.get("page") ?? "1", 10));
+  const cityFilter = sp.get("city") ?? "";
+  const stateFilter = sp.get("state") ?? "";
   const lat = parseFloat(sp.get("lat") ?? "");
   const lng = parseFloat(sp.get("lng") ?? "");
 
@@ -41,6 +43,8 @@ export async function GET(req: NextRequest) {
         ...(minRating > 0 ? { averageRating: { gte: minRating } } : {}),
         ...(availability === "Virtual" ? { virtualAvailable: true } : {}),
         ...(availability === "In-Person" ? { virtualAvailable: false } : {}),
+        ...(cityFilter ? { city: { contains: cityFilter, mode: "insensitive" as const } } : {}),
+        ...(stateFilter ? { state: stateFilter } : {}),
       },
       include: {
         specialties: { orderBy: { sortOrder: "asc" }, take: 3 },
@@ -86,6 +90,8 @@ export async function GET(req: NextRequest) {
         } : {}),
         ...(verifiedOnly ? { tier: "VERIFIED" } : {}),
         ...(minRating > 0 ? { averageRating: { gte: minRating } } : {}),
+        ...(cityFilter ? { city: { contains: cityFilter, mode: "insensitive" as const } } : {}),
+        ...(stateFilter ? { state: stateFilter } : {}),
       },
       orderBy: sortBy === "reviews" ? { reviewCount: "desc" } : { averageRating: "desc" },
       skip: isGymSearch ? skip : 0,

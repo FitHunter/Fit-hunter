@@ -4,6 +4,7 @@ import { auth } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import { slugify, generateUniqueSlug, isYoutubeOrVimeoUrl, isValidUrl } from "@/lib/utils";
 import { MAX_TRAINER_SPECIALTIES_STARTER, MAX_TRAINER_SPECIALTIES_PRO } from "@/lib/constants";
+import { geocodeCityState } from "@/lib/geocode";
 import type { ProfileType } from "@/generated/prisma";
 
 const createSchema = z.object({
@@ -69,6 +70,20 @@ export async function POST(req: NextRequest) {
     if (data.city !== undefined) updates.city = data.city;
     if (data.state !== undefined) updates.state = data.state;
     if (data.zip !== undefined) updates.zip = data.zip;
+
+    // Geocode coordinates when city/state are provided (fire-and-forget)
+    const geocodeCity = (data.city ?? trainer?.city) as string | null;
+    const geocodeState = (data.state ?? trainer?.state) as string | null;
+    if (geocodeCity && geocodeState) {
+      geocodeCityState(geocodeCity, geocodeState).then((coords) => {
+        if (coords) {
+          prisma.trainerProfile.update({
+            where: { id: trainer!.id },
+            data: { lat: coords.lat, lng: coords.lng },
+          }).catch(() => {});
+        }
+      }).catch(() => {});
+    }
 
     if (data.bookingUrl !== undefined) {
       if (data.bookingUrl && !isValidUrl(data.bookingUrl)) {
@@ -179,6 +194,23 @@ export async function PATCH(req: NextRequest) {
         return NextResponse.json({ error: "Invalid booking URL" }, { status: 400 });
       }
       updates.bookingUrl = data.bookingUrl || null;
+    }
+
+    // Geocode when city or state changes
+    const newCity = (data.city !== undefined ? data.city : trainer.city) ?? null;
+    const newState = (data.state !== undefined ? data.state : trainer.state) ?? null;
+    const cityOrStateChanged =
+      (data.city !== undefined && data.city !== trainer.city) ||
+      (data.state !== undefined && data.state !== trainer.state);
+    if (cityOrStateChanged && newCity && newState) {
+      geocodeCityState(newCity, newState).then((coords) => {
+        if (coords) {
+          prisma.trainerProfile.update({
+            where: { id: trainer.id },
+            data: { lat: coords.lat, lng: coords.lng },
+          }).catch(() => {});
+        }
+      }).catch(() => {});
     }
 
     await prisma.$transaction(async (tx: Parameters<Parameters<typeof prisma.$transaction>[0]>[0]) => {

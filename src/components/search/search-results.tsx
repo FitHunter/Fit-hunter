@@ -4,11 +4,18 @@ import { useEffect, useState, useCallback } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
 import Image from "next/image";
 import Link from "next/link";
-import { MapPin, Star, Shield, Wifi, SlidersHorizontal, X } from "lucide-react";
+import { MapPin, Star, Shield, Wifi, SlidersHorizontal, X, LocateFixed, Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { SPECIALTIES, PROFILE_TYPES } from "@/lib/constants";
 import { formatRating } from "@/lib/utils";
+
+const US_STATES = [
+  "AL","AK","AZ","AR","CA","CO","CT","DE","FL","GA","HI","ID","IL","IN","IA",
+  "KS","KY","LA","ME","MD","MA","MI","MN","MS","MO","MT","NE","NV","NH","NJ",
+  "NM","NY","NC","ND","OH","OK","OR","PA","RI","SC","SD","TN","TX","UT","VT",
+  "VA","WA","WV","WI","WY",
+];
 
 interface SearchResult {
   id: string;
@@ -32,6 +39,8 @@ export function SearchResults() {
   const [results, setResults] = useState<SearchResult[]>([]);
   const [loading, setLoading] = useState(true);
   const [filtersOpen, setFiltersOpen] = useState(false);
+  const [locating, setLocating] = useState(false);
+  const [cityInput, setCityInput] = useState("");
 
   const q = sp.get("q") ?? "";
   const type = sp.get("type") ?? "";
@@ -40,6 +49,9 @@ export function SearchResults() {
   const availability = sp.get("availability") ?? "";
   const sort = sp.get("sort") ?? "rating";
   const verified = sp.get("verified") ?? "";
+  const cityParam = sp.get("city") ?? "";
+  const stateParam = sp.get("state") ?? "";
+  const hasCoords = !!(sp.get("lat") && sp.get("lng"));
 
   const fetchResults = useCallback(async () => {
     setLoading(true);
@@ -56,6 +68,8 @@ export function SearchResults() {
     const lng = sp.get("lng");
     if (lat) params.set("lat", lat);
     if (lng) params.set("lng", lng);
+    if (cityParam) params.set("city", cityParam);
+    if (stateParam) params.set("state", stateParam);
 
     try {
       const res = await fetch(`/api/search?${params.toString()}`);
@@ -64,7 +78,7 @@ export function SearchResults() {
     } finally {
       setLoading(false);
     }
-  }, [q, type, specialty, minRating, availability, sort, verified, sp]);
+  }, [q, type, specialty, minRating, availability, sort, verified, cityParam, stateParam, sp]);
 
   useEffect(() => { fetchResults(); }, [fetchResults]);
 
@@ -78,8 +92,97 @@ export function SearchResults() {
     router.push(`/search?${params.toString()}`);
   }
 
+  function handleCitySearch(e: React.FormEvent) {
+    e.preventDefault();
+    const params = new URLSearchParams(sp.toString());
+    params.delete("lat");
+    params.delete("lng");
+    if (cityInput.trim()) {
+      params.set("city", cityInput.trim());
+    } else {
+      params.delete("city");
+    }
+    router.push(`/search?${params.toString()}`);
+  }
+
+  function clearLocation() {
+    const params = new URLSearchParams(sp.toString());
+    params.delete("lat");
+    params.delete("lng");
+    params.delete("city");
+    params.delete("state");
+    setCityInput("");
+    router.push(`/search?${params.toString()}`);
+  }
+
+  function handleNearMe() {
+    if (!navigator.geolocation) return;
+    setLocating(true);
+    navigator.geolocation.getCurrentPosition(
+      (pos) => {
+        const params = new URLSearchParams(sp.toString());
+        params.set("lat", pos.coords.latitude.toString());
+        params.set("lng", pos.coords.longitude.toString());
+        params.delete("city");
+        router.push(`/search?${params.toString()}`);
+        setLocating(false);
+      },
+      () => setLocating(false)
+    );
+  }
+
   const FilterPanel = () => (
     <div className="space-y-6">
+      {/* Location */}
+      <div>
+        <h3 className="text-sm font-semibold text-gray-900 mb-2">Location</h3>
+        <div className="space-y-2">
+          {(hasCoords || cityParam || stateParam) && (
+            <div className="flex items-center gap-1.5 text-xs text-emerald-700 font-medium bg-emerald-50 rounded-lg px-2.5 py-1.5">
+              <MapPin className="h-3 w-3 flex-shrink-0" />
+              <span className="truncate">
+                {hasCoords ? "Near your location" : [cityParam, stateParam].filter(Boolean).join(", ")}
+              </span>
+              <button onClick={clearLocation} className="ml-auto hover:text-red-500">
+                <X className="h-3 w-3" />
+              </button>
+            </div>
+          )}
+          <button
+            type="button"
+            onClick={handleNearMe}
+            disabled={locating}
+            className="w-full flex items-center justify-center gap-2 text-sm text-gray-600 border border-gray-300 rounded-lg px-3 py-2 hover:bg-gray-50 disabled:opacity-50 transition-colors"
+          >
+            {locating ? <Loader2 className="h-4 w-4 animate-spin" /> : <LocateFixed className="h-4 w-4" />}
+            {locating ? "Getting location…" : "Near me"}
+          </button>
+          <form onSubmit={handleCitySearch} className="flex gap-1.5">
+            <input
+              type="text"
+              value={cityInput}
+              onChange={(e) => setCityInput(e.target.value)}
+              placeholder="City (e.g. Austin)"
+              className="flex-1 min-w-0 rounded-lg border border-gray-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500"
+            />
+            <button
+              type="submit"
+              className="px-3 py-2 rounded-lg bg-emerald-600 text-white text-sm hover:bg-emerald-700 transition-colors"
+            >
+              Go
+            </button>
+          </form>
+          <select
+            value={stateParam}
+            onChange={(e) => updateFilter("state", e.target.value)}
+            className="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500"
+          >
+            <option value="">Any state</option>
+            {US_STATES.map((s) => <option key={s} value={s}>{s}</option>)}
+          </select>
+        </div>
+      </div>
+
       <div>
         <h3 className="text-sm font-semibold text-gray-900 mb-2">Type</h3>
         <div className="space-y-1.5">
