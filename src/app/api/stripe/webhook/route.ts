@@ -37,7 +37,7 @@ export async function POST(req: NextRequest) {
   ) {
     const customerId = sub.customer;
     const status = stripeStatusToPrisma(sub.status);
-    const priceId = sub.items?.data[0]?.price?.id;
+
     const currentPeriodEnd = new Date(sub.current_period_end * 1000);
 
     const trainer = await prisma.trainerProfile.findUnique({ where: { stripeCustomerId: customerId } });
