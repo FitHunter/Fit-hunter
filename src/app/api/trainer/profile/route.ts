@@ -198,13 +198,14 @@ export async function PATCH(req: NextRequest) {
       updates.bookingUrl = data.bookingUrl || null;
     }
 
-    // Geocode when city or state changes
+    // Geocode when city or state changes, or if coordinates are missing
     const newCity = (data.city !== undefined ? data.city : trainer.city) ?? null;
     const newState = (data.state !== undefined ? data.state : trainer.state) ?? null;
     const cityOrStateChanged =
       (data.city !== undefined && data.city !== trainer.city) ||
       (data.state !== undefined && data.state !== trainer.state);
-    if (cityOrStateChanged && newCity && newState) {
+    const missingCoords = trainer.lat == null || trainer.lng == null;
+    if ((cityOrStateChanged || missingCoords) && newCity && newState) {
       geocodeCityState(newCity, newState).then((coords) => {
         if (coords) {
           prisma.trainerProfile.update({

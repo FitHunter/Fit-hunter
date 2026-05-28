@@ -22,13 +22,6 @@ export async function GET(req: NextRequest) {
   const results: SearchResult[] = [];
   const hasCoords = !isNaN(lat) && !isNaN(lng);
 
-  // ~50 mile bounding box in degrees
-  const GEO_RADIUS = 0.75;
-  const geoBox = hasCoords ? {
-    lat: { gte: lat - GEO_RADIUS, lte: lat + GEO_RADIUS },
-    lng: { gte: lng - GEO_RADIUS, lte: lng + GEO_RADIUS },
-  } : {};
-
   // Trainer search
   const isGymSearch = type === "GYM";
   if (!isGymSearch) {
@@ -38,7 +31,6 @@ export async function GET(req: NextRequest) {
       where: {
         tier: { in: [TrainerTier.STARTER, TrainerTier.PRO] },
         wizardComplete: true,
-        ...geoBox,
         ...(q ? {
           OR: [
             { displayName: { contains: q, mode: "insensitive" } },
@@ -90,7 +82,6 @@ export async function GET(req: NextRequest) {
     const gyms = await prisma.gymProfile.findMany({
       where: {
         isClaimed: !isGymSearch ? undefined : true,
-        ...geoBox,
         ...(q ? {
           OR: [
             { name: { contains: q, mode: "insensitive" } },
