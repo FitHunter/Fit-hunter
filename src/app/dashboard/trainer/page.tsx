@@ -8,7 +8,6 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Eye, MessageSquare, Star, ExternalLink, Settings } from "lucide-react";
 import { BillingButton } from "@/components/dashboard/billing-button";
-import { UpgradeButton } from "@/components/dashboard/upgrade-button";
 
 export default async function TrainerDashboardPage() {
   const session = await auth();
@@ -41,7 +40,7 @@ export default async function TrainerDashboardPage() {
     prisma.profileView.count({ where: { trainerProfileId: trainer.id, viewedAt: { gte: thirtyDaysAgo } } }),
   ]);
 
-  const tierColors: Record<string, "secondary" | "default" | "verified"> = { FREE: "secondary", STARTER: "default", PRO: "verified" };
+  const isActive = trainer.subscriptionStatus === "ACTIVE";
   const profileUrl = `${process.env.NEXT_PUBLIC_APP_URL}/trainer/${trainer.slug}`;
 
   return (
@@ -52,23 +51,23 @@ export default async function TrainerDashboardPage() {
           <p className="text-gray-500 text-sm mt-0.5">{trainer.displayName}</p>
         </div>
         <div className="flex items-center gap-2">
-          <Badge variant={tierColors[trainer.tier]}>{trainer.tier} Plan</Badge>
+          <Badge variant={isActive ? "default" : "secondary"}>{isActive ? "Active" : "Inactive"}</Badge>
           <Link href="/dashboard/trainer/edit">
             <Button variant="outline" size="sm"><Settings className="h-4 w-4" />Edit Profile</Button>
           </Link>
         </div>
       </div>
 
-      {/* Free tier upgrade banner */}
-      {trainer.tier === "FREE" && (
+      {/* Inactive subscription banner */}
+      {!isActive && (
         <div className="rounded-xl border border-amber-200 bg-amber-50 px-5 py-4 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
           <div>
             <p className="font-semibold text-amber-900">Your profile is not visible in search</p>
             <p className="text-sm text-amber-700 mt-0.5">
-              Free plan profiles are hidden from search results. Upgrade to Starter or Pro to get discovered by clients.
+              An active subscription is required for your profile to appear in search results.
             </p>
           </div>
-          <UpgradeButton tier="STARTER" profileType="trainer" />
+          <BillingButton label="Subscribe — $29.99/mo" />
         </div>
       )}
 

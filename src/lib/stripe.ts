@@ -1,24 +1,15 @@
 import Stripe from "stripe";
-import { TrainerTier, GymTier } from "@/generated/prisma";
 
 export const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
   apiVersion: "2026-04-22.dahlia",
 });
 
-export function getTrainerPriceId(tier: TrainerTier): string | null {
-  const map: Partial<Record<TrainerTier, string>> = {
-    STARTER: process.env.STRIPE_TRAINER_STARTER_PRICE_ID!,
-    PRO: process.env.STRIPE_TRAINER_PRO_PRICE_ID!,
-  };
-  return map[tier] ?? null;
+export function getTrainerPriceId(): string | null {
+  return process.env.STRIPE_TRAINER_PRICE_ID ?? null;
 }
 
-export function getGymPriceId(tier: GymTier): string | null {
-  const map: Partial<Record<GymTier, string>> = {
-    BASIC: process.env.STRIPE_GYM_BASIC_PRICE_ID!,
-    VERIFIED: process.env.STRIPE_GYM_VERIFIED_PRICE_ID!,
-  };
-  return map[tier] ?? null;
+export function getGymPriceId(): string | null {
+  return process.env.STRIPE_GYM_PRICE_ID ?? null;
 }
 
 export async function createStripeCustomer(email: string, name: string) {

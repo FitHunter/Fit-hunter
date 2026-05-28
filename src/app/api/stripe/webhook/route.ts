@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { stripe } from "@/lib/stripe";
 import { prisma } from "@/lib/prisma";
 import { sendPaymentFailedEmail } from "@/lib/email";
-import type { TrainerTier, GymTier, SubscriptionStatus } from "@/generated/prisma";
+import type { SubscriptionStatus } from "@/generated/prisma";
 
 function stripeStatusToPrisma(status: string): SubscriptionStatus {
   const map: Record<string, SubscriptionStatus> = {
@@ -42,28 +42,26 @@ export async function POST(req: NextRequest) {
 
     const trainer = await prisma.trainerProfile.findUnique({ where: { stripeCustomerId: customerId } });
     if (trainer) {
-      const tierMap: Record<string, TrainerTier> = {
-        [process.env.STRIPE_TRAINER_STARTER_PRICE_ID!]: "STARTER",
-        [process.env.STRIPE_TRAINER_PRO_PRICE_ID!]: "PRO",
-      };
-      const newTier: TrainerTier = (status === "ACTIVE" && priceId && tierMap[priceId]) ? tierMap[priceId] : "FREE";
       await prisma.trainerProfile.update({
         where: { id: trainer.id },
-        data: { tier: newTier, subscriptionStatus: status, currentPeriodEnd },
+        data: {
+          tier: status === "ACTIVE" ? "STARTER" : "FREE",
+          subscriptionStatus: status,
+          currentPeriodEnd,
+        },
       });
       return NextResponse.json({ received: true });
     }
 
     const gym = await prisma.gymProfile.findUnique({ where: { stripeCustomerId: customerId } });
     if (gym) {
-      const tierMap: Record<string, GymTier> = {
-        [process.env.STRIPE_GYM_BASIC_PRICE_ID!]: "BASIC",
-        [process.env.STRIPE_GYM_VERIFIED_PRICE_ID!]: "VERIFIED",
-      };
-      const newTier: GymTier = (status === "ACTIVE" && priceId && tierMap[priceId]) ? tierMap[priceId] : "UNCLAIMED";
       await prisma.gymProfile.update({
         where: { id: gym.id },
-        data: { tier: newTier, subscriptionStatus: status, currentPeriodEnd },
+        data: {
+          tier: status === "ACTIVE" ? "BASIC" : "UNCLAIMED",
+          subscriptionStatus: status,
+          currentPeriodEnd,
+        },
       });
     }
   }

@@ -1,7 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { RESULTS_PER_PAGE } from "@/lib/constants";
-import { TrainerTier } from "@/generated/prisma";
 
 export async function GET(req: NextRequest) {
   const sp = req.nextUrl.searchParams;
@@ -29,7 +28,7 @@ export async function GET(req: NextRequest) {
 
     const trainers = await prisma.trainerProfile.findMany({
       where: {
-        tier: { in: [TrainerTier.STARTER, TrainerTier.PRO] },
+        subscriptionStatus: "ACTIVE",
         wizardComplete: true,
         ...(q ? {
           OR: [

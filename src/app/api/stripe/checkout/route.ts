@@ -3,10 +3,8 @@ import { z } from "zod";
 import { auth } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import { createStripeCustomer, createCheckoutSession, getTrainerPriceId, getGymPriceId } from "@/lib/stripe";
-import type { TrainerTier, GymTier } from "@/generated/prisma";
 
 const schema = z.object({
-  tier: z.string(),
   profileType: z.enum(["trainer", "gym"]),
 });
 
@@ -15,15 +13,15 @@ export async function POST(req: NextRequest) {
   if (!session) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
 
   try {
-    const { tier, profileType } = schema.parse(await req.json());
+    const { profileType } = schema.parse(await req.json());
     const appUrl = process.env.NEXT_PUBLIC_APP_URL!;
 
     if (profileType === "trainer") {
       const trainer = await prisma.trainerProfile.findUnique({ where: { userId: session.user.id } });
       if (!trainer) return NextResponse.json({ error: "Profile not found" }, { status: 404 });
 
-      const priceId = getTrainerPriceId(tier as TrainerTier);
-      if (!priceId) return NextResponse.json({ error: "Invalid tier" }, { status: 400 });
+      const priceId = getTrainerPriceId();
+      if (!priceId) return NextResponse.json({ error: "Trainer pricing not configured." }, { status: 500 });
 
       let customerId = trainer.stripeCustomerId;
       if (!customerId) {
@@ -36,19 +34,18 @@ export async function POST(req: NextRequest) {
         customerId,
         priceId,
         successUrl: `${appUrl}/dashboard/trainer?subscribed=1`,
-        cancelUrl: `${appUrl}/dashboard/trainer/billing`,
+        cancelUrl: `${appUrl}/dashboard/trainer/setup`,
         metadata: { profileId: trainer.id, profileType: "trainer" },
       });
 
       return NextResponse.json({ url: checkoutSession.url });
     }
 
-    // gym
     const gym = await prisma.gymProfile.findUnique({ where: { userId: session.user.id } });
     if (!gym) return NextResponse.json({ error: "Profile not found" }, { status: 404 });
 
-    const priceId = getGymPriceId(tier as GymTier);
-    if (!priceId) return NextResponse.json({ error: "Invalid tier" }, { status: 400 });
+    const priceId = getGymPriceId();
+    if (!priceId) return NextResponse.json({ error: "Gym pricing not configured." }, { status: 500 });
 
     let customerId = gym.stripeCustomerId;
     if (!customerId) {
@@ -61,7 +58,7 @@ export async function POST(req: NextRequest) {
       customerId,
       priceId,
       successUrl: `${appUrl}/dashboard/gym?subscribed=1`,
-      cancelUrl: `${appUrl}/dashboard/gym/billing`,
+      cancelUrl: `${appUrl}/dashboard/gym/setup`,
       metadata: { profileId: gym.id, profileType: "gym" },
     });
 

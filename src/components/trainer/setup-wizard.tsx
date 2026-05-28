@@ -10,7 +10,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
-import { CERTIFICATIONS, SPECIALTIES, PROFILE_TYPES, TRAINER_TIERS } from "@/lib/constants";
+import { CERTIFICATIONS, SPECIALTIES, PROFILE_TYPES } from "@/lib/constants";
 import { Dumbbell, ChevronRight, ChevronLeft } from "lucide-react";
 
 const STEPS = [
@@ -18,7 +18,6 @@ const STEPS = [
   "Certifications & Specialties",
   "Location",
   "Video",
-  "Choose Your Plan",
 ];
 
 const step1Schema = z.object({
@@ -58,7 +57,6 @@ export function TrainerSetupWizard() {
   const [error, setError] = useState("");
   const [selectedCerts, setSelectedCerts] = useState<string[]>([]);
   const [selectedSpecialties, setSelectedSpecialties] = useState<string[]>([]);
-  const [selectedTier, setSelectedTier] = useState<"FREE" | "STARTER" | "PRO" | null>(null);
 
   const form1 = useForm<Step1Values>({
     resolver: zodResolver(step1Schema),
@@ -111,32 +109,18 @@ export function TrainerSetupWizard() {
 
   async function handleStep4(data: Step4Values) {
     setSaving(true);
-    const result = await saveStep({ step: 4, ...data });
-    setSaving(false);
-    if (result.error) { setError(result.error); return; }
-    setStep(5);
-  }
-
-  async function handleFinish() {
-    if (!selectedTier) { setError("Please select a plan to continue."); return; }
-    setSaving(true);
     setError("");
-
-    const result = await saveStep({ step: 5, tier: selectedTier, complete: true });
+    const result = await saveStep({ step: 4, ...data, complete: true });
     if (result.error) { setError(result.error); setSaving(false); return; }
 
-    if (selectedTier !== "FREE" && selectedTier !== null) {
-      const checkoutRes = await fetch("/api/stripe/checkout", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ tier: selectedTier, profileType: "trainer" }),
-      });
-      const { url, error: checkoutError } = await checkoutRes.json();
-      if (checkoutError) { setError(checkoutError); setSaving(false); return; }
-      window.location.href = url;
-    } else {
-      router.push("/dashboard/trainer");
-    }
+    const checkoutRes = await fetch("/api/stripe/checkout", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ profileType: "trainer" }),
+    });
+    const { url, error: checkoutError } = await checkoutRes.json();
+    if (checkoutError) { setError(checkoutError); setSaving(false); return; }
+    window.location.href = url;
   }
 
   const progress = ((step - 1) / STEPS.length) * 100;
@@ -292,56 +276,9 @@ export function TrainerSetupWizard() {
               </div>
               <div className="flex gap-3">
                 <Button type="button" variant="outline" onClick={() => setStep(3)} className="flex-1"><ChevronLeft className="h-4 w-4" />Back</Button>
-                <Button type="submit" loading={saving} className="flex-1">Continue <ChevronRight className="h-4 w-4" /></Button>
+                <Button type="submit" loading={saving} className="flex-1">Continue to Payment <ChevronRight className="h-4 w-4" /></Button>
               </div>
             </form>
-          )}
-
-          {step === 5 && (
-            <div className="space-y-5">
-              <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-                {(Object.entries(TRAINER_TIERS) as [keyof typeof TRAINER_TIERS, typeof TRAINER_TIERS[keyof typeof TRAINER_TIERS]][]).map(([key, tier]) => (
-                  <button
-                    key={key}
-                    type="button"
-                    onClick={() => setSelectedTier(key as "FREE" | "STARTER" | "PRO")}
-                    className={`p-4 rounded-xl border text-left transition-colors ${selectedTier === key ? "border-emerald-500 bg-emerald-50 ring-2 ring-emerald-400" : "border-gray-200 hover:border-gray-300"}`}
-                  >
-                    <p className="font-semibold text-gray-900">{tier.name}</p>
-                    <p className="text-2xl font-bold text-emerald-700 mt-1">${tier.price}<span className="text-sm font-normal text-gray-400">/mo</span></p>
-                    <div className="text-xs text-gray-500 mt-2 space-y-1">
-                      {key === "FREE" && (
-                        <>
-                          <p>• Basic profile</p>
-                          <p>• Not searchable</p>
-                          <p>• No reviews shown</p>
-                        </>
-                      )}
-                      {key === "STARTER" && (
-                        <>
-                          <p>• Fully searchable</p>
-                          <p>• Reviews visible</p>
-                          <p>• 1 specialty, contact form</p>
-                        </>
-                      )}
-                      {key === "PRO" && (
-                        <>
-                          <p>• Everything in Starter</p>
-                          <p>• VSL video + booking link</p>
-                          <p>• Up to 5 specialties</p>
-                        </>
-                      )}
-                    </div>
-                  </button>
-                ))}
-              </div>
-              <div className="flex gap-3">
-                <Button variant="outline" onClick={() => setStep(4)} className="flex-1"><ChevronLeft className="h-4 w-4" />Back</Button>
-                <Button onClick={handleFinish} loading={saving} className="flex-1">
-                  {!selectedTier ? "Select a Plan" : selectedTier === "FREE" ? "Publish Free Profile" : "Continue to Payment"}
-                </Button>
-              </div>
-            </div>
           )}
         </CardContent>
       </Card>
