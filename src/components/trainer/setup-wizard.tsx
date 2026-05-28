@@ -276,7 +276,7 @@ export function TrainerSetupWizard() {
               </div>
               <div className="flex gap-3">
                 <Button type="button" variant="outline" onClick={() => setStep(3)} className="flex-1"><ChevronLeft className="h-4 w-4" />Back</Button>
-                <Button type="submit" loading={saving} className="flex-1">Continue to Payment <ChevronRight className="h-4 w-4" /></Button>
+                <Button type="submit" loading={saving} className="flex-1">Start Getting Clients Now <ChevronRight className="h-4 w-4" /></Button>
               </div>
             </form>
           )}
