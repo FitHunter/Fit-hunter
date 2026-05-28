@@ -6,7 +6,7 @@ import { prisma } from "@/lib/prisma";
 import { auth } from "@/lib/auth";
 import { formatRating, formatReviewerName, getVslEmbedUrl } from "@/lib/utils";
 import { PROFILE_TYPES } from "@/lib/constants";
-import { Star, MapPin, Shield, ExternalLink, Wifi, Calendar } from "lucide-react";
+import { Star, MapPin, Shield, ExternalLink, Wifi, Calendar, Pencil } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { ContactTrainerModal } from "@/components/trainer/contact-trainer-modal";
@@ -81,6 +81,17 @@ export default async function TrainerProfilePage({ params }: Props) {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
       />
       <div className="max-w-5xl mx-auto px-4 py-8 sm:px-6">
+        {session?.user?.id === trainer.userId && (
+          <div className="mb-6 flex items-center justify-between bg-emerald-50 border border-emerald-200 rounded-xl px-4 py-3">
+            <p className="text-sm text-emerald-800 font-medium">You are viewing your public profile</p>
+            <Link href="/dashboard/trainer/edit">
+              <Button size="sm" variant="outline" className="border-emerald-400 text-emerald-700 hover:bg-emerald-100">
+                <Pencil className="h-4 w-4" />
+                Edit Profile
+              </Button>
+            </Link>
+          </div>
+        )}
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
           {/* Main content */}
           <div className="lg:col-span-2 space-y-8">
