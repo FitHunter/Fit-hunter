@@ -8,6 +8,7 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Eye, MessageSquare, Star, ExternalLink, Settings } from "lucide-react";
 import { BillingButton } from "@/components/dashboard/billing-button";
+import { UpgradeButton } from "@/components/dashboard/upgrade-button";
 
 export default async function TrainerDashboardPage() {
   const session = await auth();
@@ -57,6 +58,19 @@ export default async function TrainerDashboardPage() {
           </Link>
         </div>
       </div>
+
+      {/* Free tier upgrade banner */}
+      {trainer.tier === "FREE" && (
+        <div className="rounded-xl border border-amber-200 bg-amber-50 px-5 py-4 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+          <div>
+            <p className="font-semibold text-amber-900">Your profile is not visible in search</p>
+            <p className="text-sm text-amber-700 mt-0.5">
+              Free plan profiles are hidden from search results. Upgrade to Starter or Pro to get discovered by clients.
+            </p>
+          </div>
+          <UpgradeButton tier="STARTER" profileType="trainer" />
+        </div>
+      )}
 
       {/* Stats */}
       <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">

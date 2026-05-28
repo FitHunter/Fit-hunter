@@ -58,7 +58,7 @@ export function TrainerSetupWizard() {
   const [error, setError] = useState("");
   const [selectedCerts, setSelectedCerts] = useState<string[]>([]);
   const [selectedSpecialties, setSelectedSpecialties] = useState<string[]>([]);
-  const [selectedTier, setSelectedTier] = useState<"FREE" | "STARTER" | "PRO">("FREE");
+  const [selectedTier, setSelectedTier] = useState<"FREE" | "STARTER" | "PRO" | null>(null);
 
   const form1 = useForm<Step1Values>({
     resolver: zodResolver(step1Schema),
@@ -118,13 +118,14 @@ export function TrainerSetupWizard() {
   }
 
   async function handleFinish() {
+    if (!selectedTier) { setError("Please select a plan to continue."); return; }
     setSaving(true);
     setError("");
 
     const result = await saveStep({ step: 5, tier: selectedTier, complete: true });
     if (result.error) { setError(result.error); setSaving(false); return; }
 
-    if (selectedTier !== "FREE") {
+    if (selectedTier !== "FREE" && selectedTier !== null) {
       const checkoutRes = await fetch("/api/stripe/checkout", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -304,7 +305,7 @@ export function TrainerSetupWizard() {
                     key={key}
                     type="button"
                     onClick={() => setSelectedTier(key as "FREE" | "STARTER" | "PRO")}
-                    className={`p-4 rounded-xl border text-left transition-colors ${selectedTier === key ? "border-emerald-500 bg-emerald-50" : "border-gray-200 hover:border-gray-300"}`}
+                    className={`p-4 rounded-xl border text-left transition-colors ${selectedTier === key ? "border-emerald-500 bg-emerald-50 ring-2 ring-emerald-400" : "border-gray-200 hover:border-gray-300"}`}
                   >
                     <p className="font-semibold text-gray-900">{tier.name}</p>
                     <p className="text-2xl font-bold text-emerald-700 mt-1">${tier.price}<span className="text-sm font-normal text-gray-400">/mo</span></p>
@@ -337,7 +338,7 @@ export function TrainerSetupWizard() {
               <div className="flex gap-3">
                 <Button variant="outline" onClick={() => setStep(4)} className="flex-1"><ChevronLeft className="h-4 w-4" />Back</Button>
                 <Button onClick={handleFinish} loading={saving} className="flex-1">
-                  {selectedTier === "FREE" ? "Publish Profile" : "Continue to Payment"}
+                  {!selectedTier ? "Select a Plan" : selectedTier === "FREE" ? "Publish Free Profile" : "Continue to Payment"}
                 </Button>
               </div>
             </div>
