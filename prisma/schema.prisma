@@ -171,6 +171,7 @@ model TrainerProfile {
   virtualAvailable Boolean    @default(false)
   bookingUrl      String?
   vslUrl          String?
+  gymName         String?
   addressLine1    String?
   city            String?
   state           String?

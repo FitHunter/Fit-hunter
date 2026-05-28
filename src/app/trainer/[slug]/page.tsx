@@ -218,18 +218,22 @@ export default async function TrainerProfilePage({ params }: Props) {
             )}
 
             {/* Gym affiliation */}
-            {trainer.gymLink && (
+            {(trainer.gymLink || trainer.gymName) && (
               <div className="bg-white rounded-xl border border-gray-200 p-6">
                 <h2 className="font-semibold text-gray-900 mb-3">Works at</h2>
-                <Link
-                  href={`/gym/${trainer.gymLink.gymProfile.slug}`}
-                  className="flex items-center gap-2 text-emerald-700 hover:underline font-medium"
-                >
-                  {trainer.gymLink.gymProfile.name}
-                  <span className="text-gray-400 text-sm font-normal">
-                    {[trainer.gymLink.gymProfile.city, trainer.gymLink.gymProfile.state].filter(Boolean).join(", ")}
-                  </span>
-                </Link>
+                {trainer.gymLink ? (
+                  <Link
+                    href={`/gym/${trainer.gymLink.gymProfile.slug}`}
+                    className="flex items-center gap-2 text-emerald-700 hover:underline font-medium"
+                  >
+                    {trainer.gymLink.gymProfile.name}
+                    <span className="text-gray-400 text-sm font-normal">
+                      {[trainer.gymLink.gymProfile.city, trainer.gymLink.gymProfile.state].filter(Boolean).join(", ")}
+                    </span>
+                  </Link>
+                ) : (
+                  <p className="text-gray-800 font-medium">{trainer.gymName}</p>
+                )}
               </div>
             )}
 

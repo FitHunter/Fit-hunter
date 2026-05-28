@@ -41,6 +41,7 @@ interface TrainerData {
   state: string;
   virtualAvailable: boolean;
   bookingUrl: string;
+  gymName: string;
   specialties: string[];
   certifications: string[];
   photos: Photo[];
@@ -49,7 +50,7 @@ interface TrainerData {
 const empty: TrainerData = {
   displayName: "", headline: "", bio: "", experience: "", whoIWorkWith: "",
   yearsExperience: "", photoUrl: "", phone: "", city: "", state: "",
-  virtualAvailable: false, bookingUrl: "", specialties: [], certifications: [], photos: [],
+  virtualAvailable: false, bookingUrl: "", gymName: "", specialties: [], certifications: [], photos: [],
 };
 
 export default function TrainerEditPage() {
@@ -84,6 +85,7 @@ export default function TrainerEditPage() {
           state: t.state ?? "",
           virtualAvailable: t.virtualAvailable ?? false,
           bookingUrl: t.bookingUrl ?? "",
+          gymName: t.gymName ?? "",
           specialties: t.specialties?.map((s: { specialty: string }) => s.specialty) ?? [],
           certifications: t.certifications?.map((c: { name: string }) => c.name) ?? [],
           photos: t.photos ?? [],
@@ -374,6 +376,17 @@ export default function TrainerEditPage() {
         <div className="space-y-1.5">
           <Label>Booking link <span className="text-gray-400 font-normal text-xs">(optional)</span></Label>
           <Input value={data.bookingUrl} onChange={(e) => update("bookingUrl", e.target.value)} placeholder="https://calendly.com/yourname" />
+        </div>
+
+        <div className="space-y-1.5">
+          <Label>Gym / Club / Studio <span className="text-gray-400 font-normal text-xs">(optional)</span></Label>
+          <Input
+            value={data.gymName}
+            onChange={(e) => update("gymName", e.target.value)}
+            placeholder="e.g. Equinox West Hollywood, CrossFit Mayhem"
+            maxLength={120}
+          />
+          <p className="text-xs text-gray-400">Where you currently train or are based out of.</p>
         </div>
       </section>
 

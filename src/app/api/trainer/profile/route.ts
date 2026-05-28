@@ -162,6 +162,7 @@ const editSchema = z.object({
   state: z.string().optional(),
   virtualAvailable: z.boolean().optional(),
   bookingUrl: z.string().optional(),
+  gymName: z.string().max(120).optional(),
   certifications: z.array(z.string()).optional(),
   specialties: z.array(z.string()).optional(),
 });
@@ -189,6 +190,7 @@ export async function PATCH(req: NextRequest) {
     if (data.city !== undefined) updates.city = data.city || null;
     if (data.state !== undefined) updates.state = data.state || null;
     if (data.virtualAvailable !== undefined) updates.virtualAvailable = data.virtualAvailable;
+    if (data.gymName !== undefined) updates.gymName = data.gymName || null;
     if (data.bookingUrl !== undefined) {
       if (data.bookingUrl && !isValidUrl(data.bookingUrl)) {
         return NextResponse.json({ error: "Invalid booking URL" }, { status: 400 });
