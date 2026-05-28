@@ -7,12 +7,20 @@ export default function HomePage() {
   return (
     <div className="flex flex-col">
       {/* Hero */}
-      <section className="bg-gradient-to-br from-emerald-700 to-emerald-900 text-white py-20 px-4">
-        <div className="max-w-4xl mx-auto text-center">
+      <section
+        className="relative text-white py-20 px-4"
+        style={{
+          backgroundImage: "url('https://res.cloudinary.com/dja1qlwmq/image/upload/v1779986312/hero_g4lxrj.png')",
+          backgroundSize: "cover",
+          backgroundPosition: "center",
+        }}
+      >
+        <div className="absolute inset-0 bg-black/50" />
+        <div className="relative max-w-4xl mx-auto text-center">
           <h1 className="text-4xl sm:text-5xl font-bold leading-tight mb-4">
             Find the Right Trainer or Gym — Verified by Real People
           </h1>
-          <p className="text-emerald-100 text-lg sm:text-xl mb-10 max-w-2xl mx-auto">
+          <p className="text-white/80 text-lg sm:text-xl mb-10 max-w-2xl mx-auto">
             Browse certified personal trainers, fitness coaches, and gyms near you. Read honest reviews and connect directly.
           </p>
           <HomepageSearch />
@@ -101,7 +109,7 @@ export default function HomePage() {
               </Button>
             </Link>
             <Link href="/search?type=PERSONAL_TRAINER">
-              <Button size="lg" variant="outline" className="border-white text-white hover:bg-emerald-800 w-full sm:w-auto">
+              <Button size="lg" className="bg-white text-emerald-700 hover:bg-emerald-50 w-full sm:w-auto">
                 See example profiles
               </Button>
             </Link>

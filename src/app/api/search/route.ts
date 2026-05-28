@@ -20,6 +20,14 @@ export async function GET(req: NextRequest) {
 
   const skip = (page - 1) * RESULTS_PER_PAGE;
   const results: SearchResult[] = [];
+  const hasCoords = !isNaN(lat) && !isNaN(lng);
+
+  // ~50 mile bounding box in degrees
+  const GEO_RADIUS = 0.75;
+  const geoBox = hasCoords ? {
+    lat: { gte: lat - GEO_RADIUS, lte: lat + GEO_RADIUS },
+    lng: { gte: lng - GEO_RADIUS, lte: lng + GEO_RADIUS },
+  } : {};
 
   // Trainer search
   const isGymSearch = type === "GYM";
@@ -30,6 +38,7 @@ export async function GET(req: NextRequest) {
       where: {
         tier: { in: [TrainerTier.STARTER, TrainerTier.PRO] },
         wizardComplete: true,
+        ...geoBox,
         ...(q ? {
           OR: [
             { displayName: { contains: q, mode: "insensitive" } },
@@ -50,9 +59,9 @@ export async function GET(req: NextRequest) {
         specialties: { orderBy: { sortOrder: "asc" }, take: 3 },
         certifications: { where: { isVerified: true }, take: 1 },
       },
-      orderBy: sortBy === "reviews" ? { reviewCount: "desc" } : { averageRating: "desc" },
-      skip,
-      take: RESULTS_PER_PAGE,
+      orderBy: hasCoords ? undefined : (sortBy === "reviews" ? { reviewCount: "desc" } : { averageRating: "desc" }),
+      skip: hasCoords ? 0 : skip,
+      take: hasCoords ? 200 : RESULTS_PER_PAGE,
     });
 
     for (const t of trainers) {
@@ -81,6 +90,7 @@ export async function GET(req: NextRequest) {
     const gyms = await prisma.gymProfile.findMany({
       where: {
         isClaimed: !isGymSearch ? undefined : true,
+        ...geoBox,
         ...(q ? {
           OR: [
             { name: { contains: q, mode: "insensitive" } },
@@ -93,9 +103,9 @@ export async function GET(req: NextRequest) {
         ...(cityFilter ? { city: { contains: cityFilter, mode: "insensitive" as const } } : {}),
         ...(stateFilter ? { state: stateFilter } : {}),
       },
-      orderBy: sortBy === "reviews" ? { reviewCount: "desc" } : { averageRating: "desc" },
-      skip: isGymSearch ? skip : 0,
-      take: isGymSearch ? RESULTS_PER_PAGE : 10,
+      orderBy: hasCoords ? undefined : (sortBy === "reviews" ? { reviewCount: "desc" } : { averageRating: "desc" }),
+      skip: hasCoords ? 0 : (isGymSearch ? skip : 0),
+      take: hasCoords ? 200 : (isGymSearch ? RESULTS_PER_PAGE : 10),
     });
 
     for (const g of gyms) {
@@ -120,10 +130,10 @@ export async function GET(req: NextRequest) {
   }
 
   // Sort by distance if coordinates provided
-  if (!isNaN(lat) && !isNaN(lng)) {
+  if (hasCoords) {
     results.sort((a, b) => {
-      const distA = a.lat && a.lng ? Math.hypot(a.lat - lat, a.lng - lng) : Infinity;
-      const distB = b.lat && b.lng ? Math.hypot(b.lat - lat, b.lng - lng) : Infinity;
+      const distA = a.lat != null && a.lng != null ? Math.hypot(a.lat - lat, a.lng - lng) : Infinity;
+      const distB = b.lat != null && b.lng != null ? Math.hypot(b.lat - lat, b.lng - lng) : Infinity;
       return distA - distB;
     });
   }

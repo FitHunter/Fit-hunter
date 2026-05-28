@@ -33,105 +33,30 @@ interface SearchResult {
   virtualAvailable: boolean;
 }
 
-export function SearchResults() {
-  const router = useRouter();
-  const sp = useSearchParams();
-  const [results, setResults] = useState<SearchResult[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [filtersOpen, setFiltersOpen] = useState(false);
-  const [locating, setLocating] = useState(false);
-  const [cityInput, setCityInput] = useState("");
+interface FilterPanelProps {
+  hasCoords: boolean;
+  cityParam: string;
+  stateParam: string;
+  locating: boolean;
+  cityInput: string;
+  setCityInput: (v: string) => void;
+  clearLocation: () => void;
+  handleNearMe: () => void;
+  handleCitySearch: (e: React.FormEvent) => void;
+  type: string;
+  specialty: string;
+  minRating: string;
+  availability: string;
+  verified: string;
+  updateFilter: (key: string, value: string) => void;
+}
 
-  const q = sp.get("q") ?? "";
-  const type = sp.get("type") ?? "";
-  const specialty = sp.get("specialty") ?? "";
-  const minRating = sp.get("minRating") ?? "";
-  const availability = sp.get("availability") ?? "";
-  const sort = sp.get("sort") ?? "rating";
-  const verified = sp.get("verified") ?? "";
-  const cityParam = sp.get("city") ?? "";
-  const stateParam = sp.get("state") ?? "";
-  const hasCoords = !!(sp.get("lat") && sp.get("lng"));
-
-  const fetchResults = useCallback(async () => {
-    setLoading(true);
-    const params = new URLSearchParams();
-    if (q) params.set("q", q);
-    if (type) params.set("type", type);
-    if (specialty) params.set("specialty", specialty);
-    if (minRating) params.set("minRating", minRating);
-    if (availability) params.set("availability", availability);
-    if (sort) params.set("sort", sort);
-    if (verified) params.set("verified", verified);
-
-    const lat = sp.get("lat");
-    const lng = sp.get("lng");
-    if (lat) params.set("lat", lat);
-    if (lng) params.set("lng", lng);
-    if (cityParam) params.set("city", cityParam);
-    if (stateParam) params.set("state", stateParam);
-
-    try {
-      const res = await fetch(`/api/search?${params.toString()}`);
-      const data = await res.json();
-      setResults(data.results ?? []);
-    } finally {
-      setLoading(false);
-    }
-  }, [q, type, specialty, minRating, availability, sort, verified, cityParam, stateParam, sp]);
-
-  useEffect(() => { fetchResults(); }, [fetchResults]);
-
-  function updateFilter(key: string, value: string) {
-    const params = new URLSearchParams(sp.toString());
-    if (value) {
-      params.set(key, value);
-    } else {
-      params.delete(key);
-    }
-    router.push(`/search?${params.toString()}`);
-  }
-
-  function handleCitySearch(e: React.FormEvent) {
-    e.preventDefault();
-    const params = new URLSearchParams(sp.toString());
-    params.delete("lat");
-    params.delete("lng");
-    if (cityInput.trim()) {
-      params.set("city", cityInput.trim());
-    } else {
-      params.delete("city");
-    }
-    router.push(`/search?${params.toString()}`);
-  }
-
-  function clearLocation() {
-    const params = new URLSearchParams(sp.toString());
-    params.delete("lat");
-    params.delete("lng");
-    params.delete("city");
-    params.delete("state");
-    setCityInput("");
-    router.push(`/search?${params.toString()}`);
-  }
-
-  function handleNearMe() {
-    if (!navigator.geolocation) return;
-    setLocating(true);
-    navigator.geolocation.getCurrentPosition(
-      (pos) => {
-        const params = new URLSearchParams(sp.toString());
-        params.set("lat", pos.coords.latitude.toString());
-        params.set("lng", pos.coords.longitude.toString());
-        params.delete("city");
-        router.push(`/search?${params.toString()}`);
-        setLocating(false);
-      },
-      () => setLocating(false)
-    );
-  }
-
-  const FilterPanel = () => (
+function FilterPanel({
+  hasCoords, cityParam, stateParam, locating, cityInput, setCityInput,
+  clearLocation, handleNearMe, handleCitySearch, type, specialty,
+  minRating, availability, verified, updateFilter,
+}: FilterPanelProps) {
+  return (
     <div className="space-y-6">
       {/* Location */}
       <div>
@@ -249,6 +174,111 @@ export function SearchResults() {
       </label>
     </div>
   );
+}
+
+export function SearchResults() {
+  const router = useRouter();
+  const sp = useSearchParams();
+  const [results, setResults] = useState<SearchResult[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [filtersOpen, setFiltersOpen] = useState(false);
+  const [locating, setLocating] = useState(false);
+  const [cityInput, setCityInput] = useState("");
+
+  const q = sp.get("q") ?? "";
+  const type = sp.get("type") ?? "";
+  const specialty = sp.get("specialty") ?? "";
+  const minRating = sp.get("minRating") ?? "";
+  const availability = sp.get("availability") ?? "";
+  const sort = sp.get("sort") ?? "rating";
+  const verified = sp.get("verified") ?? "";
+  const cityParam = sp.get("city") ?? "";
+  const stateParam = sp.get("state") ?? "";
+  const hasCoords = !!(sp.get("lat") && sp.get("lng"));
+
+  const fetchResults = useCallback(async () => {
+    setLoading(true);
+    const params = new URLSearchParams();
+    if (q) params.set("q", q);
+    if (type) params.set("type", type);
+    if (specialty) params.set("specialty", specialty);
+    if (minRating) params.set("minRating", minRating);
+    if (availability) params.set("availability", availability);
+    if (sort) params.set("sort", sort);
+    if (verified) params.set("verified", verified);
+
+    const lat = sp.get("lat");
+    const lng = sp.get("lng");
+    if (lat) params.set("lat", lat);
+    if (lng) params.set("lng", lng);
+    if (cityParam) params.set("city", cityParam);
+    if (stateParam) params.set("state", stateParam);
+
+    try {
+      const res = await fetch(`/api/search?${params.toString()}`);
+      const data = await res.json();
+      setResults(data.results ?? []);
+    } finally {
+      setLoading(false);
+    }
+  }, [q, type, specialty, minRating, availability, sort, verified, cityParam, stateParam, sp]);
+
+  useEffect(() => { fetchResults(); }, [fetchResults]);
+
+  function updateFilter(key: string, value: string) {
+    const params = new URLSearchParams(sp.toString());
+    if (value) {
+      params.set(key, value);
+    } else {
+      params.delete(key);
+    }
+    router.push(`/search?${params.toString()}`);
+  }
+
+  function handleCitySearch(e: React.FormEvent) {
+    e.preventDefault();
+    const params = new URLSearchParams(sp.toString());
+    params.delete("lat");
+    params.delete("lng");
+    if (cityInput.trim()) {
+      params.set("city", cityInput.trim());
+    } else {
+      params.delete("city");
+    }
+    router.push(`/search?${params.toString()}`);
+  }
+
+  function clearLocation() {
+    const params = new URLSearchParams(sp.toString());
+    params.delete("lat");
+    params.delete("lng");
+    params.delete("city");
+    params.delete("state");
+    setCityInput("");
+    router.push(`/search?${params.toString()}`);
+  }
+
+  function handleNearMe() {
+    if (!navigator.geolocation) return;
+    setLocating(true);
+    navigator.geolocation.getCurrentPosition(
+      (pos) => {
+        const params = new URLSearchParams(sp.toString());
+        params.set("lat", pos.coords.latitude.toString());
+        params.set("lng", pos.coords.longitude.toString());
+        params.delete("city");
+        router.push(`/search?${params.toString()}`);
+        setLocating(false);
+      },
+      () => setLocating(false)
+    );
+  }
+
+  const filterPanelProps: FilterPanelProps = {
+    hasCoords, cityParam, stateParam, locating, cityInput, setCityInput,
+    clearLocation, handleNearMe, handleCitySearch, type, specialty,
+    minRating, availability, verified, updateFilter,
+  };
 
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
@@ -287,7 +317,7 @@ export function SearchResults() {
         {/* Desktop sidebar */}
         <aside className="hidden lg:block w-56 flex-shrink-0">
           <div className="bg-white rounded-xl border border-gray-200 p-5">
-            <FilterPanel />
+            <FilterPanel {...filterPanelProps} />
           </div>
         </aside>
 
@@ -300,7 +330,7 @@ export function SearchResults() {
                 <h2 className="font-semibold">Filters</h2>
                 <button onClick={() => setFiltersOpen(false)}><X className="h-5 w-5" /></button>
               </div>
-              <FilterPanel />
+              <FilterPanel {...filterPanelProps} />
             </div>
           </div>
         )}
