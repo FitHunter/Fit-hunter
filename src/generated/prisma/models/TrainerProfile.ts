@@ -58,6 +58,7 @@ export type TrainerProfileMinAggregateOutputType = {
   virtualAvailable: boolean | null
   bookingUrl: string | null
   vslUrl: string | null
+  gymName: string | null
   addressLine1: string | null
   city: string | null
   state: string | null
@@ -92,6 +93,7 @@ export type TrainerProfileMaxAggregateOutputType = {
   virtualAvailable: boolean | null
   bookingUrl: string | null
   vslUrl: string | null
+  gymName: string | null
   addressLine1: string | null
   city: string | null
   state: string | null
@@ -126,6 +128,7 @@ export type TrainerProfileCountAggregateOutputType = {
   virtualAvailable: number
   bookingUrl: number
   vslUrl: number
+  gymName: number
   addressLine1: number
   city: number
   state: number
@@ -178,6 +181,7 @@ export type TrainerProfileMinAggregateInputType = {
   virtualAvailable?: true
   bookingUrl?: true
   vslUrl?: true
+  gymName?: true
   addressLine1?: true
   city?: true
   state?: true
@@ -212,6 +216,7 @@ export type TrainerProfileMaxAggregateInputType = {
   virtualAvailable?: true
   bookingUrl?: true
   vslUrl?: true
+  gymName?: true
   addressLine1?: true
   city?: true
   state?: true
@@ -246,6 +251,7 @@ export type TrainerProfileCountAggregateInputType = {
   virtualAvailable?: true
   bookingUrl?: true
   vslUrl?: true
+  gymName?: true
   addressLine1?: true
   city?: true
   state?: true
@@ -367,6 +373,7 @@ export type TrainerProfileGroupByOutputType = {
   virtualAvailable: boolean
   bookingUrl: string | null
   vslUrl: string | null
+  gymName: string | null
   addressLine1: string | null
   city: string | null
   state: string | null
@@ -424,6 +431,7 @@ export type TrainerProfileWhereInput = {
   virtualAvailable?: Prisma.BoolFilter<"TrainerProfile"> | boolean
   bookingUrl?: Prisma.StringNullableFilter<"TrainerProfile"> | string | null
   vslUrl?: Prisma.StringNullableFilter<"TrainerProfile"> | string | null
+  gymName?: Prisma.StringNullableFilter<"TrainerProfile"> | string | null
   addressLine1?: Prisma.StringNullableFilter<"TrainerProfile"> | string | null
   city?: Prisma.StringNullableFilter<"TrainerProfile"> | string | null
   state?: Prisma.StringNullableFilter<"TrainerProfile"> | string | null
@@ -466,6 +474,7 @@ export type TrainerProfileOrderByWithRelationInput = {
   virtualAvailable?: Prisma.SortOrder
   bookingUrl?: Prisma.SortOrderInput | Prisma.SortOrder
   vslUrl?: Prisma.SortOrderInput | Prisma.SortOrder
+  gymName?: Prisma.SortOrderInput | Prisma.SortOrder
   addressLine1?: Prisma.SortOrderInput | Prisma.SortOrder
   city?: Prisma.SortOrderInput | Prisma.SortOrder
   state?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -513,6 +522,7 @@ export type TrainerProfileWhereUniqueInput = Prisma.AtLeast<{
   virtualAvailable?: Prisma.BoolFilter<"TrainerProfile"> | boolean
   bookingUrl?: Prisma.StringNullableFilter<"TrainerProfile"> | string | null
   vslUrl?: Prisma.StringNullableFilter<"TrainerProfile"> | string | null
+  gymName?: Prisma.StringNullableFilter<"TrainerProfile"> | string | null
   addressLine1?: Prisma.StringNullableFilter<"TrainerProfile"> | string | null
   city?: Prisma.StringNullableFilter<"TrainerProfile"> | string | null
   state?: Prisma.StringNullableFilter<"TrainerProfile"> | string | null
@@ -553,6 +563,7 @@ export type TrainerProfileOrderByWithAggregationInput = {
   virtualAvailable?: Prisma.SortOrder
   bookingUrl?: Prisma.SortOrderInput | Prisma.SortOrder
   vslUrl?: Prisma.SortOrderInput | Prisma.SortOrder
+  gymName?: Prisma.SortOrderInput | Prisma.SortOrder
   addressLine1?: Prisma.SortOrderInput | Prisma.SortOrder
   city?: Prisma.SortOrderInput | Prisma.SortOrder
   state?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -595,6 +606,7 @@ export type TrainerProfileScalarWhereWithAggregatesInput = {
   virtualAvailable?: Prisma.BoolWithAggregatesFilter<"TrainerProfile"> | boolean
   bookingUrl?: Prisma.StringNullableWithAggregatesFilter<"TrainerProfile"> | string | null
   vslUrl?: Prisma.StringNullableWithAggregatesFilter<"TrainerProfile"> | string | null
+  gymName?: Prisma.StringNullableWithAggregatesFilter<"TrainerProfile"> | string | null
   addressLine1?: Prisma.StringNullableWithAggregatesFilter<"TrainerProfile"> | string | null
   city?: Prisma.StringNullableWithAggregatesFilter<"TrainerProfile"> | string | null
   state?: Prisma.StringNullableWithAggregatesFilter<"TrainerProfile"> | string | null
@@ -628,6 +640,7 @@ export type TrainerProfileCreateInput = {
   virtualAvailable?: boolean
   bookingUrl?: string | null
   vslUrl?: string | null
+  gymName?: string | null
   addressLine1?: string | null
   city?: string | null
   state?: string | null
@@ -670,6 +683,7 @@ export type TrainerProfileUncheckedCreateInput = {
   virtualAvailable?: boolean
   bookingUrl?: string | null
   vslUrl?: string | null
+  gymName?: string | null
   addressLine1?: string | null
   city?: string | null
   state?: string | null
@@ -710,6 +724,7 @@ export type TrainerProfileUpdateInput = {
   virtualAvailable?: Prisma.BoolFieldUpdateOperationsInput | boolean
   bookingUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   vslUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  gymName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   addressLine1?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   state?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -752,6 +767,7 @@ export type TrainerProfileUncheckedUpdateInput = {
   virtualAvailable?: Prisma.BoolFieldUpdateOperationsInput | boolean
   bookingUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   vslUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  gymName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   addressLine1?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   state?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -793,6 +809,7 @@ export type TrainerProfileCreateManyInput = {
   virtualAvailable?: boolean
   bookingUrl?: string | null
   vslUrl?: string | null
+  gymName?: string | null
   addressLine1?: string | null
   city?: string | null
   state?: string | null
@@ -826,6 +843,7 @@ export type TrainerProfileUpdateManyMutationInput = {
   virtualAvailable?: Prisma.BoolFieldUpdateOperationsInput | boolean
   bookingUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   vslUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  gymName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   addressLine1?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   state?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -860,6 +878,7 @@ export type TrainerProfileUncheckedUpdateManyInput = {
   virtualAvailable?: Prisma.BoolFieldUpdateOperationsInput | boolean
   bookingUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   vslUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  gymName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   addressLine1?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   state?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -899,6 +918,7 @@ export type TrainerProfileCountOrderByAggregateInput = {
   virtualAvailable?: Prisma.SortOrder
   bookingUrl?: Prisma.SortOrder
   vslUrl?: Prisma.SortOrder
+  gymName?: Prisma.SortOrder
   addressLine1?: Prisma.SortOrder
   city?: Prisma.SortOrder
   state?: Prisma.SortOrder
@@ -941,6 +961,7 @@ export type TrainerProfileMaxOrderByAggregateInput = {
   virtualAvailable?: Prisma.SortOrder
   bookingUrl?: Prisma.SortOrder
   vslUrl?: Prisma.SortOrder
+  gymName?: Prisma.SortOrder
   addressLine1?: Prisma.SortOrder
   city?: Prisma.SortOrder
   state?: Prisma.SortOrder
@@ -975,6 +996,7 @@ export type TrainerProfileMinOrderByAggregateInput = {
   virtualAvailable?: Prisma.SortOrder
   bookingUrl?: Prisma.SortOrder
   vslUrl?: Prisma.SortOrder
+  gymName?: Prisma.SortOrder
   addressLine1?: Prisma.SortOrder
   city?: Prisma.SortOrder
   state?: Prisma.SortOrder
@@ -1185,6 +1207,7 @@ export type TrainerProfileCreateWithoutUserInput = {
   virtualAvailable?: boolean
   bookingUrl?: string | null
   vslUrl?: string | null
+  gymName?: string | null
   addressLine1?: string | null
   city?: string | null
   state?: string | null
@@ -1225,6 +1248,7 @@ export type TrainerProfileUncheckedCreateWithoutUserInput = {
   virtualAvailable?: boolean
   bookingUrl?: string | null
   vslUrl?: string | null
+  gymName?: string | null
   addressLine1?: string | null
   city?: string | null
   state?: string | null
@@ -1281,6 +1305,7 @@ export type TrainerProfileUpdateWithoutUserInput = {
   virtualAvailable?: Prisma.BoolFieldUpdateOperationsInput | boolean
   bookingUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   vslUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  gymName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   addressLine1?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   state?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1321,6 +1346,7 @@ export type TrainerProfileUncheckedUpdateWithoutUserInput = {
   virtualAvailable?: Prisma.BoolFieldUpdateOperationsInput | boolean
   bookingUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   vslUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  gymName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   addressLine1?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   state?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1361,6 +1387,7 @@ export type TrainerProfileCreateWithoutCertificationsInput = {
   virtualAvailable?: boolean
   bookingUrl?: string | null
   vslUrl?: string | null
+  gymName?: string | null
   addressLine1?: string | null
   city?: string | null
   state?: string | null
@@ -1402,6 +1429,7 @@ export type TrainerProfileUncheckedCreateWithoutCertificationsInput = {
   virtualAvailable?: boolean
   bookingUrl?: string | null
   vslUrl?: string | null
+  gymName?: string | null
   addressLine1?: string | null
   city?: string | null
   state?: string | null
@@ -1457,6 +1485,7 @@ export type TrainerProfileUpdateWithoutCertificationsInput = {
   virtualAvailable?: Prisma.BoolFieldUpdateOperationsInput | boolean
   bookingUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   vslUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  gymName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   addressLine1?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   state?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1498,6 +1527,7 @@ export type TrainerProfileUncheckedUpdateWithoutCertificationsInput = {
   virtualAvailable?: Prisma.BoolFieldUpdateOperationsInput | boolean
   bookingUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   vslUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  gymName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   addressLine1?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   state?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1537,6 +1567,7 @@ export type TrainerProfileCreateWithoutSpecialtiesInput = {
   virtualAvailable?: boolean
   bookingUrl?: string | null
   vslUrl?: string | null
+  gymName?: string | null
   addressLine1?: string | null
   city?: string | null
   state?: string | null
@@ -1578,6 +1609,7 @@ export type TrainerProfileUncheckedCreateWithoutSpecialtiesInput = {
   virtualAvailable?: boolean
   bookingUrl?: string | null
   vslUrl?: string | null
+  gymName?: string | null
   addressLine1?: string | null
   city?: string | null
   state?: string | null
@@ -1633,6 +1665,7 @@ export type TrainerProfileUpdateWithoutSpecialtiesInput = {
   virtualAvailable?: Prisma.BoolFieldUpdateOperationsInput | boolean
   bookingUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   vslUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  gymName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   addressLine1?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   state?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1674,6 +1707,7 @@ export type TrainerProfileUncheckedUpdateWithoutSpecialtiesInput = {
   virtualAvailable?: Prisma.BoolFieldUpdateOperationsInput | boolean
   bookingUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   vslUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  gymName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   addressLine1?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   state?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1713,6 +1747,7 @@ export type TrainerProfileCreateWithoutGymLinkInput = {
   virtualAvailable?: boolean
   bookingUrl?: string | null
   vslUrl?: string | null
+  gymName?: string | null
   addressLine1?: string | null
   city?: string | null
   state?: string | null
@@ -1754,6 +1789,7 @@ export type TrainerProfileUncheckedCreateWithoutGymLinkInput = {
   virtualAvailable?: boolean
   bookingUrl?: string | null
   vslUrl?: string | null
+  gymName?: string | null
   addressLine1?: string | null
   city?: string | null
   state?: string | null
@@ -1809,6 +1845,7 @@ export type TrainerProfileUpdateWithoutGymLinkInput = {
   virtualAvailable?: Prisma.BoolFieldUpdateOperationsInput | boolean
   bookingUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   vslUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  gymName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   addressLine1?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   state?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1850,6 +1887,7 @@ export type TrainerProfileUncheckedUpdateWithoutGymLinkInput = {
   virtualAvailable?: Prisma.BoolFieldUpdateOperationsInput | boolean
   bookingUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   vslUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  gymName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   addressLine1?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   state?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1889,6 +1927,7 @@ export type TrainerProfileCreateWithoutPhotosInput = {
   virtualAvailable?: boolean
   bookingUrl?: string | null
   vslUrl?: string | null
+  gymName?: string | null
   addressLine1?: string | null
   city?: string | null
   state?: string | null
@@ -1930,6 +1969,7 @@ export type TrainerProfileUncheckedCreateWithoutPhotosInput = {
   virtualAvailable?: boolean
   bookingUrl?: string | null
   vslUrl?: string | null
+  gymName?: string | null
   addressLine1?: string | null
   city?: string | null
   state?: string | null
@@ -1985,6 +2025,7 @@ export type TrainerProfileUpdateWithoutPhotosInput = {
   virtualAvailable?: Prisma.BoolFieldUpdateOperationsInput | boolean
   bookingUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   vslUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  gymName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   addressLine1?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   state?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -2026,6 +2067,7 @@ export type TrainerProfileUncheckedUpdateWithoutPhotosInput = {
   virtualAvailable?: Prisma.BoolFieldUpdateOperationsInput | boolean
   bookingUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   vslUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  gymName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   addressLine1?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   state?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -2065,6 +2107,7 @@ export type TrainerProfileCreateWithoutReviewsInput = {
   virtualAvailable?: boolean
   bookingUrl?: string | null
   vslUrl?: string | null
+  gymName?: string | null
   addressLine1?: string | null
   city?: string | null
   state?: string | null
@@ -2106,6 +2149,7 @@ export type TrainerProfileUncheckedCreateWithoutReviewsInput = {
   virtualAvailable?: boolean
   bookingUrl?: string | null
   vslUrl?: string | null
+  gymName?: string | null
   addressLine1?: string | null
   city?: string | null
   state?: string | null
@@ -2161,6 +2205,7 @@ export type TrainerProfileUpdateWithoutReviewsInput = {
   virtualAvailable?: Prisma.BoolFieldUpdateOperationsInput | boolean
   bookingUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   vslUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  gymName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   addressLine1?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   state?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -2202,6 +2247,7 @@ export type TrainerProfileUncheckedUpdateWithoutReviewsInput = {
   virtualAvailable?: Prisma.BoolFieldUpdateOperationsInput | boolean
   bookingUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   vslUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  gymName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   addressLine1?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   state?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -2241,6 +2287,7 @@ export type TrainerProfileCreateWithoutContactRequestsInput = {
   virtualAvailable?: boolean
   bookingUrl?: string | null
   vslUrl?: string | null
+  gymName?: string | null
   addressLine1?: string | null
   city?: string | null
   state?: string | null
@@ -2282,6 +2329,7 @@ export type TrainerProfileUncheckedCreateWithoutContactRequestsInput = {
   virtualAvailable?: boolean
   bookingUrl?: string | null
   vslUrl?: string | null
+  gymName?: string | null
   addressLine1?: string | null
   city?: string | null
   state?: string | null
@@ -2337,6 +2385,7 @@ export type TrainerProfileUpdateWithoutContactRequestsInput = {
   virtualAvailable?: Prisma.BoolFieldUpdateOperationsInput | boolean
   bookingUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   vslUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  gymName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   addressLine1?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   state?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -2378,6 +2427,7 @@ export type TrainerProfileUncheckedUpdateWithoutContactRequestsInput = {
   virtualAvailable?: Prisma.BoolFieldUpdateOperationsInput | boolean
   bookingUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   vslUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  gymName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   addressLine1?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   state?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -2417,6 +2467,7 @@ export type TrainerProfileCreateWithoutProfileViewsInput = {
   virtualAvailable?: boolean
   bookingUrl?: string | null
   vslUrl?: string | null
+  gymName?: string | null
   addressLine1?: string | null
   city?: string | null
   state?: string | null
@@ -2458,6 +2509,7 @@ export type TrainerProfileUncheckedCreateWithoutProfileViewsInput = {
   virtualAvailable?: boolean
   bookingUrl?: string | null
   vslUrl?: string | null
+  gymName?: string | null
   addressLine1?: string | null
   city?: string | null
   state?: string | null
@@ -2513,6 +2565,7 @@ export type TrainerProfileUpdateWithoutProfileViewsInput = {
   virtualAvailable?: Prisma.BoolFieldUpdateOperationsInput | boolean
   bookingUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   vslUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  gymName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   addressLine1?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   state?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -2554,6 +2607,7 @@ export type TrainerProfileUncheckedUpdateWithoutProfileViewsInput = {
   virtualAvailable?: Prisma.BoolFieldUpdateOperationsInput | boolean
   bookingUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   vslUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  gymName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   addressLine1?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   state?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -2670,6 +2724,7 @@ export type TrainerProfileSelect<ExtArgs extends runtime.Types.Extensions.Intern
   virtualAvailable?: boolean
   bookingUrl?: boolean
   vslUrl?: boolean
+  gymName?: boolean
   addressLine1?: boolean
   city?: boolean
   state?: boolean
@@ -2713,6 +2768,7 @@ export type TrainerProfileSelectCreateManyAndReturn<ExtArgs extends runtime.Type
   virtualAvailable?: boolean
   bookingUrl?: boolean
   vslUrl?: boolean
+  gymName?: boolean
   addressLine1?: boolean
   city?: boolean
   state?: boolean
@@ -2748,6 +2804,7 @@ export type TrainerProfileSelectUpdateManyAndReturn<ExtArgs extends runtime.Type
   virtualAvailable?: boolean
   bookingUrl?: boolean
   vslUrl?: boolean
+  gymName?: boolean
   addressLine1?: boolean
   city?: boolean
   state?: boolean
@@ -2783,6 +2840,7 @@ export type TrainerProfileSelectScalar = {
   virtualAvailable?: boolean
   bookingUrl?: boolean
   vslUrl?: boolean
+  gymName?: boolean
   addressLine1?: boolean
   city?: boolean
   state?: boolean
@@ -2801,7 +2859,7 @@ export type TrainerProfileSelectScalar = {
   updatedAt?: boolean
 }
 
-export type TrainerProfileOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "userId" | "slug" | "profileType" | "displayName" | "headline" | "bio" | "experience" | "whoIWorkWith" | "yearsExperience" | "photoUrl" | "phone" | "virtualAvailable" | "bookingUrl" | "vslUrl" | "addressLine1" | "city" | "state" | "zip" | "lat" | "lng" | "tier" | "stripeCustomerId" | "stripeSubscriptionId" | "subscriptionStatus" | "currentPeriodEnd" | "wizardComplete" | "averageRating" | "reviewCount" | "createdAt" | "updatedAt", ExtArgs["result"]["trainerProfile"]>
+export type TrainerProfileOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "userId" | "slug" | "profileType" | "displayName" | "headline" | "bio" | "experience" | "whoIWorkWith" | "yearsExperience" | "photoUrl" | "phone" | "virtualAvailable" | "bookingUrl" | "vslUrl" | "gymName" | "addressLine1" | "city" | "state" | "zip" | "lat" | "lng" | "tier" | "stripeCustomerId" | "stripeSubscriptionId" | "subscriptionStatus" | "currentPeriodEnd" | "wizardComplete" | "averageRating" | "reviewCount" | "createdAt" | "updatedAt", ExtArgs["result"]["trainerProfile"]>
 export type TrainerProfileInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   profileViews?: boolean | Prisma.TrainerProfile$profileViewsArgs<ExtArgs>
   certifications?: boolean | Prisma.TrainerProfile$certificationsArgs<ExtArgs>
@@ -2848,6 +2906,7 @@ export type $TrainerProfilePayload<ExtArgs extends runtime.Types.Extensions.Inte
     virtualAvailable: boolean
     bookingUrl: string | null
     vslUrl: string | null
+    gymName: string | null
     addressLine1: string | null
     city: string | null
     state: string | null
@@ -3310,6 +3369,7 @@ export interface TrainerProfileFieldRefs {
   readonly virtualAvailable: Prisma.FieldRef<"TrainerProfile", 'Boolean'>
   readonly bookingUrl: Prisma.FieldRef<"TrainerProfile", 'String'>
   readonly vslUrl: Prisma.FieldRef<"TrainerProfile", 'String'>
+  readonly gymName: Prisma.FieldRef<"TrainerProfile", 'String'>
   readonly addressLine1: Prisma.FieldRef<"TrainerProfile", 'String'>
   readonly city: Prisma.FieldRef<"TrainerProfile", 'String'>
   readonly state: Prisma.FieldRef<"TrainerProfile", 'String'>

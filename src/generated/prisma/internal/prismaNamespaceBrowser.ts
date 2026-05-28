@@ -174,6 +174,7 @@ export const TrainerProfileScalarFieldEnum = {
   virtualAvailable: 'virtualAvailable',
   bookingUrl: 'bookingUrl',
   vslUrl: 'vslUrl',
+  gymName: 'gymName',
   addressLine1: 'addressLine1',
   city: 'city',
   state: 'state',
