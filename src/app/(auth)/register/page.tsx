@@ -7,7 +7,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
-import { Dumbbell, Plus, X, ChevronLeft } from "lucide-react";
+import { Dumbbell, Plus, X, ChevronLeft, Eye, EyeOff } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 type AccountTypeChoice = "CONSUMER" | "TRAINER" | "GYM";
@@ -18,6 +18,7 @@ interface FormData {
   name: string;
   email: string;
   password: string;
+  confirmPassword: string;
   phone: string;
   city: string;
   state: string;
@@ -76,6 +77,7 @@ const initialData: FormData = {
   name: "",
   email: "",
   password: "",
+  confirmPassword: "",
   phone: "",
   city: "",
   state: "",
@@ -93,6 +95,8 @@ export default function RegisterPage() {
   const [step, setStep] = useState(1);
   const [formData, setFormData] = useState<FormData>(initialData);
   const [certInput, setCertInput] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [fieldErrors, setFieldErrors] = useState<Record<string, string>>({});
   const [serverError, setServerError] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -144,6 +148,8 @@ export default function RegisterPage() {
       errs.email = "Valid email is required";
     if (formData.password.length < 8)
       errs.password = "Password must be at least 8 characters";
+    if (formData.confirmPassword !== formData.password)
+      errs.confirmPassword = "Passwords do not match";
     if (formData.accountType === "GYM" && !formData.gymName.trim())
       errs.gymName = "Gym name is required";
     setFieldErrors(errs);
@@ -354,14 +360,49 @@ export default function RegisterPage() {
 
               <div className="space-y-1.5">
                 <Label>Password</Label>
-                <Input
-                  type="password"
-                  value={formData.password}
-                  onChange={(e) => update("password", e.target.value)}
-                  placeholder="Min. 8 characters"
-                />
+                <div className="relative">
+                  <Input
+                    type={showPassword ? "text" : "password"}
+                    value={formData.password}
+                    onChange={(e) => update("password", e.target.value)}
+                    placeholder="Min. 8 characters"
+                    className="pr-10"
+                  />
+                  <button
+                    type="button"
+                    onClick={() => setShowPassword((v) => !v)}
+                    className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600"
+                    tabIndex={-1}
+                  >
+                    {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
+                  </button>
+                </div>
                 {fieldErrors.password && (
                   <p className="text-xs text-red-600">{fieldErrors.password}</p>
+                )}
+              </div>
+
+              <div className="space-y-1.5">
+                <Label>Confirm password</Label>
+                <div className="relative">
+                  <Input
+                    type={showConfirmPassword ? "text" : "password"}
+                    value={formData.confirmPassword}
+                    onChange={(e) => update("confirmPassword", e.target.value)}
+                    placeholder="Re-enter your password"
+                    className="pr-10"
+                  />
+                  <button
+                    type="button"
+                    onClick={() => setShowConfirmPassword((v) => !v)}
+                    className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600"
+                    tabIndex={-1}
+                  >
+                    {showConfirmPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
+                  </button>
+                </div>
+                {fieldErrors.confirmPassword && (
+                  <p className="text-xs text-red-600">{fieldErrors.confirmPassword}</p>
                 )}
               </div>
 
