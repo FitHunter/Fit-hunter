@@ -1,16 +1,16 @@
-# FitWell — Project Knowledge Base
+# NextFit — Project Knowledge Base
 
 > Last Updated: April 14, 2026
 
 ---
 
-## What Is FitWell?
+## What Is NextFit?
 
-FitWell is a fitness discovery and review platform — the "Angie's List for the fitness world." It is a multi-sided marketplace that connects three audiences:
+NextFit is a fitness discovery and review platform — the "Angie's List for the fitness world." It is a multi-sided marketplace that connects three audiences:
 
 1. **Consumers** looking for gyms and fitness professionals in their area
 2. **Fitness professionals** (trainers, coaches, nutritionists) looking to grow their client base
-3. **Trainers looking for a gym home** — a B2B matching layer unique to FitWell
+3. **Trainers looking for a gym home** — a B2B matching layer unique to NextFit
 
 ---
 
@@ -24,7 +24,7 @@ Finding the right fitness professional or gym is fragmented and frustrating. Her
 - **Booking apps aren't review platforms:** Mindbody and ClassPass are booking tools, not discovery platforms. They don't give you the full story on who works there.
 - **Nutrition and wellness have no home:** Nutrition specialists and wellness coaches are almost completely absent from any unified directory.
 
-**The result?** People rely on word-of-mouth, scroll through Instagram, or just walk into the nearest gym — none of which are reliable. FitWell solves this.
+**The result?** People rely on word-of-mouth, scroll through Instagram, or just walk into the nearest gym — none of which are reliable. NextFit solves this.
 
 ---
 
@@ -96,7 +96,7 @@ This creates a two-way marketplace where gyms compete to attract quality trainer
 
 ---
 
-## Audiences (Who Uses FitWell)
+## Audiences (Who Uses NextFit)
 
 | Audience | What They Get |
 |---|---|
@@ -117,7 +117,7 @@ This creates a two-way marketplace where gyms compete to attract quality trainer
 | Mindbody / ClassPass | Booking & scheduling | Not a discovery or review platform |
 | Instagram | Trainer discovery (informal) | No verification, reviews, or structure |
 
-**FitWell's edge:** The only platform that combines verified trainer profiles, gym listings, multi-category reviews, and a trainer-to-gym matching layer in one place.
+**NextFit's edge:** The only platform that combines verified trainer profiles, gym listings, multi-category reviews, and a trainer-to-gym matching layer in one place.
 
 ---
 

@@ -1,4 +1,4 @@
-const UA = "FitHunter/1.0 (fithunter.app)";
+const UA = "NextFit/1.0 (nextfit.app)";
 
 export async function geocodeCityState(
   city: string,

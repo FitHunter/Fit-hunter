@@ -129,7 +129,7 @@ export function TrainerSetupWizard() {
     <div className="max-w-2xl mx-auto">
       <div className="flex items-center justify-center gap-2 mb-8 text-emerald-700 font-bold text-xl">
         <Dumbbell className="h-6 w-6" />
-        FitHunter — Create Your Profile
+        NextFit — Create Your Profile
       </div>
 
       <div className="mb-6">

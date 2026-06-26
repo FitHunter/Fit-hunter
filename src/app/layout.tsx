@@ -9,15 +9,18 @@ const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
   title: {
-    default: "FitHunter — Find Top Trainers & Gyms Near You",
-    template: "%s | FitHunter",
+    default: "NextFit — Find Top Trainers & Gyms Near You",
+    template: "%s | NextFit",
   },
   description: "Discover verified personal trainers, fitness coaches, and gyms. Read real reviews, compare certifications, and find your perfect fitness match.",
   openGraph: {
-    title: "FitHunter — Find Top Trainers & Gyms Near You",
+    title: "NextFit — Find Top Trainers & Gyms Near You",
     description: "Discover verified personal trainers, fitness coaches, and gyms.",
+    url: "https://nextfit.app",
+    siteName: "NextFit",
     type: "website",
   },
+  metadataBase: new URL("https://nextfit.app"),
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {

@@ -1,4 +1,4 @@
-# FitWell — Full Feature Specification
+# NextFit — Full Feature Specification
 
 > Last Updated: April 14, 2026
 > Version: 1.0 (MVP)
@@ -18,7 +18,7 @@ Each feature is described with:
 ## 1. Authentication & Accounts
 
 ### 1.1 User Registration
-**What it does:** Allows new users to create an account on FitWell.
+**What it does:** Allows new users to create an account on NextFit.
 
 **User story:** As a new visitor, I want to create an account so I can contact trainers and leave reviews.
 
@@ -69,7 +69,7 @@ Each feature is described with:
 - Step 7: VSL video (optional — paste YouTube or Vimeo URL, preview shown)
 - Step 8: Plan selection (Free, Starter, Pro)
 - Profile is published immediately after wizard completion
-- Trainer receives a shareable public URL (fitwell.com/trainer/[username-or-id])
+- Trainer receives a shareable public URL (nextfit.com/trainer/[username-or-id])
 
 **Notes:**
 - Profile photo is required — no silhouette profiles
@@ -84,7 +84,7 @@ Each feature is described with:
 **Acceptance criteria:**
 - All certifications the trainer adds are displayed
 - Unverified certifications display with a neutral tag
-- Verified certifications display with a "FitWell Verified" checkmark badge
+- Verified certifications display with a "NextFit Verified" checkmark badge
 - Verification happens via manual admin review in v1
 - Trainers can submit verification by uploading a certificate image (stored, reviewed by admin)
 
@@ -116,7 +116,7 @@ Each feature is described with:
 ## 3. Gym Profiles
 
 ### 3.1 Auto-Generated Stub Listings
-**What it does:** FitWell pre-populates basic gym listings from public data so consumers have results from day one.
+**What it does:** NextFit pre-populates basic gym listings from public data so consumers have results from day one.
 
 **Acceptance criteria:**
 - Stub listings show: name, address, city, state, phone (if available)

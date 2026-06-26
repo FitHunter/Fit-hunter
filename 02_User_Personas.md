@@ -1,4 +1,4 @@
-# FitWell — User Personas
+# NextFit — User Personas
 
 > Last Updated: April 14, 2026
 
@@ -6,7 +6,7 @@
 
 ## Overview
 
-FitWell serves three distinct user groups. Understanding who they are, what they want, and what frustrates them is essential for building the right product.
+NextFit serves three distinct user groups. Understanding who they are, what they want, and what frustrates them is essential for building the right product.
 
 ---
 
@@ -31,7 +31,7 @@ Jordan works a desk job, wants to get back in shape, and just relocated. She has
 - She has no way to filter trainers by specialty or certification
 - Booking a "free consult" on Instagram means giving out her number to a stranger
 
-### How She Uses FitWell
+### How She Uses NextFit
 - Searches "personal trainer near me" → filters by specialty (weight loss), certification, and rating
 - Reads trainer profiles, watches a VSL, checks reviews
 - Sees the trainer is available at a gym 2 miles away
@@ -65,7 +65,7 @@ Marcus has been training for 4 years. He has 18 clients and gets most of them th
 - FindYourTrainer charges per lead which feels risky on a tight budget
 - Potential clients can't tell the difference between him and someone with no certifications
 
-### How He Uses FitWell
+### How He Uses NextFit
 - Creates a Pro profile with certifications, specialties, and a VSL
 - Links his Calendly for free consult bookings
 - Asks existing clients to leave verified reviews
@@ -99,7 +99,7 @@ Diane owns a gym she's run for 8 years. She's lost members to big box chains and
 - Finding independent trainers to rent floor space is all word-of-mouth
 - She pays for ads but loses people who can't find basic info (hours, pricing, classes)
 
-### How She Uses FitWell
+### How She Uses NextFit
 - Claims and builds out her Verified gym profile
 - Links her 4 trainers' profiles under "Who Works Here"
 - Opts into the Trainer-to-Gym matching section to attract independent trainers
@@ -134,7 +134,7 @@ Devon has a strong client base in Chicago but is moving for personal reasons. He
 - He can't evaluate a gym's culture or member flow without visiting in person
 - He risks signing a bad agreement because he lacks information
 
-### How He Uses FitWell
+### How He Uses NextFit
 - Opens the Trainer-to-Gym matching section, filters by Austin
 - Sees gym profiles with member flow ratings, comp rates, and trainer testimonials
 - Contacts two gyms through the platform before flying out
@@ -142,7 +142,7 @@ Devon has a strong client base in Chicago but is moving for personal reasons. He
 
 ### What Makes Him Stay
 - He found a gym home before moving — saved him weeks of stress
-- He updates his FitWell profile to reflect his new Austin location
+- He updates his NextFit profile to reflect his new Austin location
 - He becomes an active member of the platform's trainer community
 
 ---
@@ -167,7 +167,7 @@ Priya is an RD who does 1-on-1 nutrition coaching. She has a website and some so
 - Fake "nutrition coaches" with no credentials flood Instagram, diluting trust in her field
 - No platform distinguishes between a Registered Dietitian and an uncertified coach
 
-### How She Uses FitWell
+### How She Uses NextFit
 - Creates a Pro profile marked "Virtual sessions available"
 - Lists her RD credential with verification — it's prominently displayed
 - Shows up when users filter by "Nutrition" from any city

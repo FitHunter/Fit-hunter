@@ -230,13 +230,13 @@ export default function RegisterPage() {
         <CardHeader className="pb-2">
           <Link href="/" className="flex items-center justify-center gap-2 text-emerald-700 font-bold text-xl mb-4">
             <Dumbbell className="h-6 w-6" />
-            FitHunter
+            NextFit
           </Link>
 
           {step === 1 ? (
             <div className="text-center">
               <h1 className="text-xl font-bold text-gray-900">Create your account</h1>
-              <p className="text-sm text-gray-500 mt-1">Choose how you&apos;ll use FitHunter</p>
+              <p className="text-sm text-gray-500 mt-1">Choose how you&apos;ll use NextFit</p>
             </div>
           ) : (
             <div>

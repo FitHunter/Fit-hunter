@@ -1,4 +1,4 @@
-# FitWell — User Flows
+# NextFit — User Flows
 
 > Last Updated: April 14, 2026
 
@@ -126,9 +126,9 @@ Trainer Dashboard (home base)
 
 ```
 Email Notification
-    "New contact request from Jordan M. on FitWell"
+    "New contact request from Jordan M. on NextFit"
     ↓
-Clicks link in email → FitWell Login
+Clicks link in email → NextFit Login
     ↓
 Trainer Dashboard → Contact Requests tab
     → Sees Jordan's name, email, and message
@@ -136,7 +136,7 @@ Trainer Dashboard → Contact Requests tab
         OR
     → Clicks "Send Booking Link" (copies his Calendly link to clipboard)
     ↓
-Marcus follows up with Jordan outside FitWell (v1)
+Marcus follows up with Jordan outside NextFit (v1)
     [In-app messaging is a v2 feature]
 ```
 
@@ -150,7 +150,7 @@ Marcus follows up with Jordan outside FitWell (v1)
 ```
 Marcus sends Jordan a review request link (shareable URL from his dashboard)
     ↓
-Jordan opens link → FitWell
+Jordan opens link → NextFit
     ↓
 If not logged in:
     → Prompted to create a free account or log in
@@ -169,7 +169,7 @@ Review enters moderation queue
     ↓
 Jordan sees confirmation: "Thanks! Your review helps others find great trainers."
     ↓
-Marcus receives email: "You have a new review on FitWell!"
+Marcus receives email: "You have a new review on NextFit!"
 ```
 
 ---
@@ -180,7 +180,7 @@ Marcus receives email: "You have a new review on FitWell!"
 **Goal:** Claim her gym's auto-generated listing and build it out
 
 ```
-Diane searches her gym on FitWell → finds the stub listing
+Diane searches her gym on NextFit → finds the stub listing
     ↓
 Clicks "Is this your gym? Claim this profile"
     ↓
@@ -190,10 +190,10 @@ Account Creation or Login
 Claim Verification
     Option A: Email domain match
         → Enters work email (diane@[gymwebsite].com)
-        → FitWell sends verification email to that address
+        → NextFit sends verification email to that address
         → Diane clicks confirmation link
     Option B: Postcard verification (if no matching domain)
-        → FitWell mails a postcard with a 6-digit code
+        → NextFit mails a postcard with a 6-digit code
         → Diane enters code within 14 days
     ↓
 Profile Unlocked — Edit Mode
@@ -218,7 +218,7 @@ Gym Dashboard (home base)
 **Goal:** Respond to a negative review professionally
 
 ```
-Diane receives email: "You have a new review on FitWell"
+Diane receives email: "You have a new review on NextFit"
     ↓
 Logs into Gym Dashboard → Reviews tab
     → Sees 3-star review with complaint about parking
@@ -238,7 +238,7 @@ Response published below the original review
 ## Flow 8: New User Onboarding (Consumer — Homepage)
 
 ```
-First Visit to FitWell.com
+First Visit to NextFit.com
     ↓
 Homepage
     → Hero section: "Find the Right Trainer or Gym Near You"

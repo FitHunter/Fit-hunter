@@ -1,4 +1,4 @@
-# FitWell — Business Model & Monetization
+# NextFit — Business Model & Monetization
 
 > Last Updated: April 14, 2026
 
@@ -6,7 +6,7 @@
 
 ## Overview
 
-FitWell is a multi-sided marketplace with three distinct user groups:
+NextFit is a multi-sided marketplace with three distinct user groups:
 - **Consumers** — people searching for gyms and fitness professionals
 - **Fitness Professionals** — personal trainers, coaches, nutritionists
 - **Gyms & Studios** — facilities looking to attract members and trainers
@@ -58,7 +58,7 @@ Once the platform has sufficient traffic, introduce a pay-per-lead model as an a
 ---
 
 ### 5. Certification Verification Fees (Future)
-Charge a one-time fee ($10–$25) for FitWell to verify a trainer's certifications against ACE/NASM/ISSA databases. Verified trainers get a "Certified & Verified" badge — a trust signal that drives conversions.
+Charge a one-time fee ($10–$25) for NextFit to verify a trainer's certifications against ACE/NASM/ISSA databases. Verified trainers get a "Certified & Verified" badge — a trust signal that drives conversions.
 
 ---
 
@@ -106,7 +106,7 @@ Charge a one-time fee ($10–$25) for FitWell to verify a trainer's certificatio
 | Mindbody (studios) | $129–$349/mo |
 | Yelp Ads | $150–$1,000+/mo |
 
-**FitWell's pricing is intentionally accessible** to drive early adoption, with room to increase as brand value grows.
+**NextFit's pricing is intentionally accessible** to drive early adoption, with room to increase as brand value grows.
 
 ---
 

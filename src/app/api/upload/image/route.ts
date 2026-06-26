@@ -14,7 +14,7 @@ export async function POST(req: NextRequest) {
 
   const formData = await req.formData();
   const file = formData.get("file") as File | null;
-  const folder = (formData.get("folder") as string) || "fithunter";
+  const folder = (formData.get("folder") as string) || "nextfit";
 
   if (!file) return NextResponse.json({ error: "No file provided" }, { status: 400 });
 

@@ -1,9 +1,9 @@
-# FitWell — Claude Code Build Prompt
+# NextFit — Claude Code Build Prompt
 # Copy everything below this line and paste into Claude Code
 
 ---
 
-Build a web application called **FitWell** — a fitness discovery and review platform, the "Angie's List for the fitness world." All product context is included below. Read everything carefully before writing any code.
+Build a web application called **NextFit** — a fitness discovery and review platform, the "Angie's List for the fitness world." All product context is included below. Read everything carefully before writing any code.
 
 **Tech stack:**
 - Next.js 14 (App Router) with TypeScript
@@ -37,7 +37,7 @@ Build a web application called **FitWell** — a fitness discovery and review pl
 
 ## SECTION 1: WHAT IS FITWELL
 
-FitWell is a multi-sided marketplace connecting three audiences:
+NextFit is a multi-sided marketplace connecting three audiences:
 - **Consumers** — people searching for gyms and fitness professionals
 - **Fitness Professionals** — personal trainers, coaches, nutritionists
 - **Gyms & Studios** — facilities looking to attract members and trainers
@@ -80,7 +80,7 @@ The core loop: someone searches → finds a trainer or gym → contacts them →
 Jordan, 31, recently relocated, no local network. Wants to find a certified personal trainer specializing in weight loss and a gym near her apartment. Frustrated that Google shows gyms but not the trainers inside them, and that Yelp reviews don't cover training quality. Needs verified reviews and easy filtering. Must be able to contact trainers without giving out personal info upfront.
 
 ### Persona 2: The Independent Trainer
-Marcus, 27, NASM-CPT, works out of two gyms. Gets clients through Instagram and word of mouth. Needs a profile that showcases his certifications, collects client reviews, and gets him discovered — without paying per lead or running constant content. His ROI metric is: does FitWell bring him contact requests?
+Marcus, 27, NASM-CPT, works out of two gyms. Gets clients through Instagram and word of mouth. Needs a profile that showcases his certifications, collects client reviews, and gets him discovered — without paying per lead or running constant content. His ROI metric is: does NextFit bring him contact requests?
 
 ### Persona 3: The Gym Owner
 Diane, 44, owns an independent gym with ~300 members. Wants to attract new members, showcase her trainers, and find quality independent trainers to fill open floor space. Frustrated that Yelp reviews give no ability to tell her full story. Needs to respond to reviews and monitor her online reputation.
@@ -211,7 +211,7 @@ Homepage → search → Search Results (type=gym) → Gym Profile (photos, hours
 "I'm a Trainer" CTA → account creation (name, email, password, type=trainer) → email verification → Profile Wizard (Step 1: basic info + photo; Step 2: certifications + specialties; Step 3: location + virtual toggle + booking link; Step 4: VSL video URL; Step 5: plan selection + Stripe) → Profile live → shareable URL shown → Trainer Dashboard.
 
 ### Flow 4: Trainer Receives Contact Request
-Email notification → logs into dashboard → Contact Requests tab → sees sender name, email, message → "Reply via Email" (opens email client) OR copies booking link → follows up outside FitWell.
+Email notification → logs into dashboard → Contact Requests tab → sees sender name, email, message → "Reply via Email" (opens email client) OR copies booking link → follows up outside NextFit.
 
 ### Flow 5: Consumer Leaves a Review
 Trainer shares review request link → consumer opens link → if not logged in: prompted to create account → Review form (overall stars + category ratings + written review + confirmation checkbox) → submitted to moderation queue → published within 24–48 hours → trainer notified via email.
@@ -271,7 +271,7 @@ First visit → homepage hero with search bar + three CTAs (Find a Trainer / Fin
 **2.2 Certifications**
 - All trainer-added certs displayed on profile
 - Unverified: neutral tag
-- Verified: "FitWell Verified" checkmark badge (set by admin)
+- Verified: "NextFit Verified" checkmark badge (set by admin)
 - Trainer uploads cert image for verification (stored, reviewed by admin)
 
 **2.3 Public Profile Page**

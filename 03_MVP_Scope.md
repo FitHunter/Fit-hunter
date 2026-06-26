@@ -1,4 +1,4 @@
-# FitWell — MVP Scope
+# NextFit — MVP Scope
 
 > Last Updated: April 14, 2026
 
@@ -6,7 +6,7 @@
 
 ## MVP Philosophy
 
-The MVP is the smallest version of FitWell that delivers real value to all three core user groups (consumers, trainers, gyms) and is worth paying for. It proves the core loop: **someone searches → finds a trainer or gym → contacts them → leaves a review.**
+The MVP is the smallest version of NextFit that delivers real value to all three core user groups (consumers, trainers, gyms) and is worth paying for. It proves the core loop: **someone searches → finds a trainer or gym → contacts them → leaves a review.**
 
 Everything else comes after this loop works.
 
@@ -52,7 +52,7 @@ Everything else comes after this loop works.
 ### Reviews
 - [ ] Star rating + written review for trainers (1–5 stars)
 - [ ] Star rating + written review for gyms (1–5 stars)
-- [ ] Review submission requires a FitWell account
+- [ ] Review submission requires a NextFit account
 - [ ] Trainer-specific rating categories: communication, expertise, motivation, punctuality
 - [ ] Gym-specific rating categories: cleanliness, equipment, staff, value
 - [ ] Review moderation queue (manual review before publishing in v1)

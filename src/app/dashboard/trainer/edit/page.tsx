@@ -135,7 +135,7 @@ export default function TrainerEditPage() {
     if (!file) return;
     setUploadingPhoto(true);
     try {
-      const { url } = await uploadImage(file, "fithunter/trainer-avatars");
+      const { url } = await uploadImage(file, "nextfit/trainer-avatars");
       update("photoUrl", url);
     } catch {
       setError("Failed to upload photo. Try again.");
@@ -154,7 +154,7 @@ export default function TrainerEditPage() {
     setUploadingGallery(true);
     try {
       for (const file of files) {
-        const { url, publicId } = await uploadImage(file, "fithunter/trainer-gallery");
+        const { url, publicId } = await uploadImage(file, "nextfit/trainer-gallery");
         const res = await fetch("/api/trainer/photos", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
