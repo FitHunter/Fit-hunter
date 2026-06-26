@@ -8,7 +8,7 @@ export default function HomePage() {
     <div className="flex flex-col">
       {/* Hero */}
       <section
-        className="relative text-white py-20 px-4"
+        className="relative text-white min-h-[80vh] flex items-center px-4"
         style={{
           backgroundImage: "url('https://res.cloudinary.com/dja1qlwmq/image/upload/v1779986312/hero_g4lxrj.png')",
           backgroundSize: "cover",
@@ -16,7 +16,7 @@ export default function HomePage() {
         }}
       >
         <div className="absolute inset-0 bg-black/50" />
-        <div className="relative max-w-4xl mx-auto text-center">
+        <div className="relative max-w-4xl mx-auto text-center w-full py-20">
           <h1 className="text-4xl sm:text-5xl font-bold leading-tight mb-4">
             Find the Right Trainer or Gym — Verified by Real People
           </h1>
