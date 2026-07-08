@@ -8,7 +8,10 @@ import type { NextRequest } from "next/server";
 export function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
 
-  const AUTH_PAGES = ["/login", "/register", "/forgot-password", "/reset-password"];
+  // /register is intentionally NOT bounced: a logged-in consumer must be able
+  // to create a trainer/gym account (the register success screen signs them
+  // out before sending them to login).
+  const AUTH_PAGES = ["/login", "/forgot-password", "/reset-password"];
   const isAuthPage = AUTH_PAGES.some((p) => pathname.startsWith(p));
 
   if (isAuthPage) {

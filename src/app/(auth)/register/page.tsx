@@ -1,8 +1,9 @@
 "use client";
 
-import { useState } from "react";
+import { useState, Suspense } from "react";
 import Link from "next/link";
-import { signIn } from "next-auth/react";
+import { useSearchParams } from "next/navigation";
+import { signIn, signOut, useSession } from "next-auth/react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -79,8 +80,26 @@ const initialData: FormData = {
 };
 
 export default function RegisterPage() {
-  const [step, setStep] = useState(1);
-  const [formData, setFormData] = useState<FormData>(initialData);
+  return (
+    <Suspense>
+      <RegisterForm />
+    </Suspense>
+  );
+}
+
+function RegisterForm() {
+  const { data: session } = useSession();
+  const searchParams = useSearchParams();
+  // ?type=TRAINER|GYM (from homepage CTAs) preselects the account type and
+  // skips the chooser.
+  const typeParam = searchParams.get("type")?.toUpperCase();
+  const preselected: AccountTypeChoice | null =
+    typeParam === "TRAINER" || typeParam === "GYM" ? typeParam : null;
+
+  const [step, setStep] = useState(preselected ? 2 : 1);
+  const [formData, setFormData] = useState<FormData>(
+    preselected ? { ...initialData, accountType: preselected } : initialData
+  );
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [fieldErrors, setFieldErrors] = useState<Record<string, string>>({});
@@ -174,9 +193,18 @@ export default function RegisterPage() {
                 ? "Log in to start building your trainer profile."
                 : "Log in to get started."}
             </p>
-            <Link href="/login" className="mt-6 block">
-              <Button className="w-full">Log in</Button>
-            </Link>
+            {session ? (
+              // Still signed in to another account (e.g. a consumer who just
+              // created a trainer account): sign out first, then go to login —
+              // otherwise the middleware bounces /login back to the homepage.
+              <Button className="w-full mt-6" onClick={() => signOut({ callbackUrl: "/login" })}>
+                Log in
+              </Button>
+            ) : (
+              <Link href="/login" className="mt-6 block">
+                <Button className="w-full">Log in</Button>
+              </Link>
+            )}
           </CardContent>
         </Card>
       </div>

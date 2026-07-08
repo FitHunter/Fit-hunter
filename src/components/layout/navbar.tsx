@@ -18,7 +18,7 @@ export function Navbar() {
       ? "/dashboard/gym"
       : session?.user.isAdmin
       ? "/admin"
-      : "/";
+      : null; // consumers have no dashboard — don't show a dead link
 
   return (
     <header className="sticky top-0 z-50 bg-surface border-b border-border">
@@ -50,13 +50,15 @@ export function Navbar() {
                 </button>
                 {profileOpen && (
                   <div className="absolute right-0 mt-2 w-52 rounded-lg border border-gray-200 bg-white shadow-lg py-1 z-50">
-                    <Link
-                      href={dashboardHref}
-                      className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-50"
-                      onClick={() => setProfileOpen(false)}
-                    >
-                      My Dashboard
-                    </Link>
+                    {dashboardHref && (
+                      <Link
+                        href={dashboardHref}
+                        className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-50"
+                        onClick={() => setProfileOpen(false)}
+                      >
+                        My Dashboard
+                      </Link>
+                    )}
                     {session.user.accountType === "TRAINER" && (
                       <Link
                         href="/dashboard/trainer/edit"
@@ -135,9 +137,11 @@ export function Navbar() {
           </Link>
           {session ? (
             <>
-              <Link href={dashboardHref} className="block text-sm font-medium text-gray-700" onClick={() => setMobileOpen(false)}>
-                My Dashboard
-              </Link>
+              {dashboardHref && (
+                <Link href={dashboardHref} className="block text-sm font-medium text-gray-700" onClick={() => setMobileOpen(false)}>
+                  My Dashboard
+                </Link>
+              )}
               {session.user.accountType === "TRAINER" && (
                 <Link href="/dashboard/trainer/edit" className="block text-sm font-medium text-gray-700" onClick={() => setMobileOpen(false)}>
                   Edit My Profile

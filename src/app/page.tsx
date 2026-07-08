@@ -2,8 +2,20 @@ import Link from "next/link";
 import { ArrowRight, Dumbbell } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { HomepageSearch } from "@/components/homepage-search";
+import { auth } from "@/lib/auth";
 
-export default function HomePage() {
+export default async function HomePage() {
+  const session = await auth();
+  // Pro CTAs adapt to who's looking: existing pros go to their dashboard,
+  // everyone else goes to trainer signup (preselected via ?type=).
+  const accountType = session?.user?.accountType;
+  const isPro = accountType === "TRAINER" || accountType === "GYM";
+  const proHref = isPro
+    ? accountType === "TRAINER"
+      ? "/dashboard/trainer"
+      : "/dashboard/gym"
+    : "/register?type=TRAINER";
+
   return (
     <div className="flex flex-col">
       {/* ============ Hero ============ */}
@@ -87,7 +99,7 @@ export default function HomePage() {
               </Link>
 
               <Link
-                href="/register?type=TRAINER"
+                href={proHref}
                 className="group flex-1 flex flex-col justify-between border border-border bg-surface rounded-card p-8 transition-all hover:border-ink-900 hover:shadow-card focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ink-900 focus-visible:ring-offset-2"
               >
                 <span className="kicker">03</span>
@@ -96,10 +108,12 @@ export default function HomePage() {
                     I&apos;m a fitness pro
                   </h2>
                   <p className="text-sm text-muted mb-4">
-                    Build your profile, collect reviews, get discovered.
+                    {isPro
+                      ? "Manage your profile, reviews, and billing."
+                      : "Build your profile, collect reviews, get discovered."}
                   </p>
                   <span className="inline-flex items-center gap-2 font-heading text-xs font-bold uppercase tracking-wider text-ink-950">
-                    Claim your spot
+                    {isPro ? "Open your dashboard" : "Claim your spot"}
                     <ArrowRight className="h-3.5 w-3.5 transition-transform group-hover:translate-x-1" />
                   </span>
                 </div>
@@ -172,9 +186,9 @@ export default function HomePage() {
               reviews, and puts you in front of people searching your area.
             </p>
             <div className="flex flex-col sm:flex-row lg:flex-col gap-3">
-              <Link href="/register">
+              <Link href={proHref}>
                 <Button variant="accent" size="lg" className="w-full">
-                  Create your free profile
+                  {isPro ? "Go to your dashboard" : "Create your free profile"}
                 </Button>
               </Link>
               <Link href="/search?type=PERSONAL_TRAINER">
