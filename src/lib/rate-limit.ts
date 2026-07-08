@@ -10,13 +10,24 @@ import { NextRequest, NextResponse } from "next/server";
 // Required env vars (see Upstash setup instructions):
 //   UPSTASH_REDIS_REST_URL
 //   UPSTASH_REDIS_REST_TOKEN
-const redis =
-  process.env.UPSTASH_REDIS_REST_URL && process.env.UPSTASH_REDIS_REST_TOKEN
-    ? Redis.fromEnv()
-    : null;
+function createRedis(): Redis | null {
+  const url = process.env.UPSTASH_REDIS_REST_URL;
+  const token = process.env.UPSTASH_REDIS_REST_TOKEN;
+  // Placeholder/invalid values must disable rate limiting, not crash the
+  // build — the Redis constructor throws on non-https URLs at import time.
+  if (!url || !token || !url.startsWith("https://")) return null;
+  try {
+    return new Redis({ url, token });
+  } catch (err) {
+    console.warn("[rate-limit] failed to init Upstash Redis:", err);
+    return null;
+  }
+}
+
+const redis = createRedis();
 
 if (!redis && process.env.NODE_ENV === "production") {
-  console.warn("[rate-limit] Upstash env vars not set — rate limiting is DISABLED.");
+  console.warn("[rate-limit] Upstash env vars missing or invalid — rate limiting is DISABLED.");
 }
 
 type LimiterName = "auth" | "email" | "upload" | "public";
