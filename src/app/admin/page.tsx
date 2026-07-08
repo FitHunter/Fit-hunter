@@ -19,8 +19,6 @@ export default async function AdminPage() {
     totalTrainers,
     totalGyms,
     claimedGyms,
-    pendingCerts,
-    pendingClaims,
   ] = await Promise.all([
     prisma.user.count(),
     prisma.review.count({ where: { status: "PENDING" } }),
@@ -28,15 +26,12 @@ export default async function AdminPage() {
     prisma.trainerProfile.count(),
     prisma.gymProfile.count(),
     prisma.gymProfile.count({ where: { isClaimed: true } }),
-    prisma.trainerCertification.count({ where: { certDocUrl: { not: null }, isVerified: false } }),
-    prisma.gymClaim.count({ where: { status: "PENDING" } }),
   ]);
 
+  // Only surface admin sections whose pages actually exist. Cert verification,
+  // gym claims, and user management are not built yet — linking to them 404s.
   const adminSections = [
     { href: "/admin/reviews", label: "Review Queue", count: pendingReviews, urgent: pendingReviews > 0 },
-    { href: "/admin/certifications", label: "Cert Verification", count: pendingCerts, urgent: pendingCerts > 0 },
-    { href: "/admin/claims", label: "Gym Claims", count: pendingClaims, urgent: pendingClaims > 0 },
-    { href: "/admin/users", label: "Users", count: totalUsers, urgent: false },
   ];
 
   return (

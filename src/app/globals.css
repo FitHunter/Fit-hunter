@@ -2,22 +2,73 @@
 @tailwind components;
 @tailwind utilities;
 
+/* ============================================================
+   NextFit Design Tokens — Bold & Athletic
+   Single polished light theme with intentional dark sections.
+   ink   = charcoal neutral backbone (does the heavy lifting)
+   accent = volt, used sparingly: primary CTAs + focal energy
+   ============================================================ */
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
+  /* Ink scale */
+  --ink-950: #0a0b0d;
+  --ink-900: #101216;
+  --ink-800: #16191e;
+  --ink-700: #22262e;
+  --ink-600: #3a404b;
+  --ink-500: #545b69;
+  --ink-400: #7a828f;
+  --ink-300: #a6acb8;
+  --ink-200: #d2d6dd;
+  --ink-100: #e9ebef;
+  --ink-50: #f5f6f8;
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+  /* Accent — volt */
+  --accent: #c8f03c;
+  --accent-strong: #b2dc21;
+  --accent-soft: #eefabf;
+
+  /* Semantic */
+  --background: #fafaf9;
+  --foreground: var(--ink-900);
+  --surface: #ffffff;
+  --muted: var(--ink-500);
+  --border: #e4e6ea;
 }
 
 body {
   color: var(--foreground);
   background: var(--background);
-  font-family: Arial, Helvetica, sans-serif;
+}
+
+::selection {
+  background: var(--accent);
+  color: var(--ink-950);
+}
+
+@layer base {
+  h1,
+  h2,
+  h3,
+  h4 {
+    font-family: var(--font-heading), system-ui, sans-serif;
+    letter-spacing: -0.015em;
+  }
+}
+
+@layer components {
+  /* Consistent vertical rhythm for page sections */
+  .section-pad {
+    @apply py-16 md:py-24;
+  }
+  /* Editorial kicker label above headings */
+  .kicker {
+    font-family: var(--font-heading), system-ui, sans-serif;
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.2em;
+    color: var(--ink-500);
+  }
 }
 
 @layer utilities {

@@ -3,7 +3,7 @@
 import { useState, Suspense } from "react";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
-import { signIn } from "next-auth/react";
+import { signIn, getSession } from "next-auth/react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
@@ -24,6 +24,7 @@ function LoginForm() {
   const router = useRouter();
   const params = useSearchParams();
   const [error, setError] = useState("");
+  const [accountLocked, setAccountLocked] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
 
   const verified = params.get("verified");
@@ -37,6 +38,7 @@ function LoginForm() {
 
   async function onSubmit(data: FormValues) {
     setError("");
+    setAccountLocked(false);
     const res = await signIn("credentials", {
       email: data.email,
       password: data.password,
@@ -44,11 +46,23 @@ function LoginForm() {
     });
 
     if (res?.error) {
-      setError("Invalid email or password, or account not yet verified.");
+      if (res.code === "account-locked") {
+        setAccountLocked(true);
+        setError("Too many failed attempts. This account is locked — reset your password to regain access.");
+      } else {
+        setError("Invalid email or password, or account not yet verified.");
+      }
       return;
     }
 
-    router.push("/");
+    const session = await getSession();
+    const destination =
+      session?.user.accountType === "TRAINER"
+        ? "/dashboard/trainer"
+        : session?.user.accountType === "GYM"
+          ? "/dashboard/gym"
+          : "/";
+    router.push(destination);
     router.refresh();
   }
 
@@ -56,7 +70,7 @@ function LoginForm() {
     <div className="min-h-screen flex items-center justify-center p-4 bg-gray-50">
       <Card className="w-full max-w-md">
         <CardHeader className="text-center pb-2">
-          <Link href="/" className="flex items-center justify-center gap-2 text-emerald-700 font-bold text-xl mb-4">
+          <Link href="/" className="flex items-center justify-center gap-2 font-heading text-emerald-700 font-bold text-xl mb-4">
             <Dumbbell className="h-6 w-6" />
             NextFit
           </Link>
@@ -106,6 +120,14 @@ function LoginForm() {
             {error && (
               <div className="rounded-lg bg-red-50 border border-red-200 px-3 py-2 text-sm text-red-700">
                 {error}
+                {accountLocked && (
+                  <>
+                    {" "}
+                    <Link href="/forgot-password" className="font-medium underline hover:text-red-800">
+                      Reset password
+                    </Link>
+                  </>
+                )}
               </div>
             )}
 

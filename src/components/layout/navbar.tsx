@@ -21,19 +21,19 @@ export function Navbar() {
       : "/";
 
   return (
-    <header className="sticky top-0 z-50 bg-white border-b border-gray-200">
+    <header className="sticky top-0 z-50 bg-surface border-b border-border">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
-          <Link href="/" className="flex items-center gap-2 font-bold text-xl text-emerald-700">
+          <Link href="/" className="flex items-center gap-2 font-heading font-extrabold uppercase tracking-wide text-xl text-ink-950">
             <Dumbbell className="h-6 w-6" />
             NextFit
           </Link>
 
-          <nav className="hidden md:flex items-center gap-6 text-sm font-medium">
-            <Link href="/search?type=PERSONAL_TRAINER" className="text-gray-600 hover:text-emerald-700">
+          <nav className="hidden md:flex items-center gap-8 font-heading text-xs font-bold uppercase tracking-wider">
+            <Link href="/search?type=PERSONAL_TRAINER" className="text-ink-500 hover:text-ink-950 transition-colors">
               Find Trainers
             </Link>
-            <Link href="/search?type=GYM" className="text-gray-600 hover:text-emerald-700">
+            <Link href="/search?type=GYM" className="text-ink-500 hover:text-ink-950 transition-colors">
               Find Gyms
             </Link>
           </nav>

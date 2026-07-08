@@ -67,7 +67,7 @@ export default async function TrainerDashboardPage() {
               An active subscription is required for your profile to appear in search results.
             </p>
           </div>
-          <BillingButton label="Subscribe — $29.99/mo" />
+          <BillingButton label="Subscribe to appear in search" />
         </div>
       )}
 

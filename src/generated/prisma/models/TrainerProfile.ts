@@ -30,6 +30,9 @@ export type TrainerProfileAvgAggregateOutputType = {
   yearsExperience: number | null
   lat: number | null
   lng: number | null
+  sessionLengths: number | null
+  priceMin: number | null
+  priceMax: number | null
   averageRating: number | null
   reviewCount: number | null
 }
@@ -38,6 +41,9 @@ export type TrainerProfileSumAggregateOutputType = {
   yearsExperience: number | null
   lat: number | null
   lng: number | null
+  sessionLengths: number[]
+  priceMin: number | null
+  priceMax: number | null
   averageRating: number | null
   reviewCount: number | null
 }
@@ -52,12 +58,16 @@ export type TrainerProfileMinAggregateOutputType = {
   bio: string | null
   experience: string | null
   whoIWorkWith: string | null
+  education: string | null
+  philosophy: string | null
   yearsExperience: number | null
   photoUrl: string | null
   phone: string | null
   virtualAvailable: boolean | null
   bookingUrl: string | null
   vslUrl: string | null
+  instagramHandle: string | null
+  youtubeHandle: string | null
   gymName: string | null
   addressLine1: string | null
   city: string | null
@@ -65,6 +75,10 @@ export type TrainerProfileMinAggregateOutputType = {
   zip: string | null
   lat: number | null
   lng: number | null
+  pricingModel: string | null
+  priceMin: number | null
+  priceMax: number | null
+  availabilityType: string | null
   tier: $Enums.TrainerTier | null
   stripeCustomerId: string | null
   stripeSubscriptionId: string | null
@@ -87,12 +101,16 @@ export type TrainerProfileMaxAggregateOutputType = {
   bio: string | null
   experience: string | null
   whoIWorkWith: string | null
+  education: string | null
+  philosophy: string | null
   yearsExperience: number | null
   photoUrl: string | null
   phone: string | null
   virtualAvailable: boolean | null
   bookingUrl: string | null
   vslUrl: string | null
+  instagramHandle: string | null
+  youtubeHandle: string | null
   gymName: string | null
   addressLine1: string | null
   city: string | null
@@ -100,6 +118,10 @@ export type TrainerProfileMaxAggregateOutputType = {
   zip: string | null
   lat: number | null
   lng: number | null
+  pricingModel: string | null
+  priceMin: number | null
+  priceMax: number | null
+  availabilityType: string | null
   tier: $Enums.TrainerTier | null
   stripeCustomerId: string | null
   stripeSubscriptionId: string | null
@@ -122,12 +144,16 @@ export type TrainerProfileCountAggregateOutputType = {
   bio: number
   experience: number
   whoIWorkWith: number
+  education: number
+  philosophy: number
   yearsExperience: number
   photoUrl: number
   phone: number
   virtualAvailable: number
   bookingUrl: number
   vslUrl: number
+  instagramHandle: number
+  youtubeHandle: number
   gymName: number
   addressLine1: number
   city: number
@@ -135,6 +161,15 @@ export type TrainerProfileCountAggregateOutputType = {
   zip: number
   lat: number
   lng: number
+  languages: number
+  sessionTypes: number
+  trainingLocations: number
+  sessionLengths: number
+  pricingModel: number
+  priceMin: number
+  priceMax: number
+  availabilityType: number
+  availabilityDays: number
   tier: number
   stripeCustomerId: number
   stripeSubscriptionId: number
@@ -153,6 +188,9 @@ export type TrainerProfileAvgAggregateInputType = {
   yearsExperience?: true
   lat?: true
   lng?: true
+  sessionLengths?: true
+  priceMin?: true
+  priceMax?: true
   averageRating?: true
   reviewCount?: true
 }
@@ -161,6 +199,9 @@ export type TrainerProfileSumAggregateInputType = {
   yearsExperience?: true
   lat?: true
   lng?: true
+  sessionLengths?: true
+  priceMin?: true
+  priceMax?: true
   averageRating?: true
   reviewCount?: true
 }
@@ -175,12 +216,16 @@ export type TrainerProfileMinAggregateInputType = {
   bio?: true
   experience?: true
   whoIWorkWith?: true
+  education?: true
+  philosophy?: true
   yearsExperience?: true
   photoUrl?: true
   phone?: true
   virtualAvailable?: true
   bookingUrl?: true
   vslUrl?: true
+  instagramHandle?: true
+  youtubeHandle?: true
   gymName?: true
   addressLine1?: true
   city?: true
@@ -188,6 +233,10 @@ export type TrainerProfileMinAggregateInputType = {
   zip?: true
   lat?: true
   lng?: true
+  pricingModel?: true
+  priceMin?: true
+  priceMax?: true
+  availabilityType?: true
   tier?: true
   stripeCustomerId?: true
   stripeSubscriptionId?: true
@@ -210,12 +259,16 @@ export type TrainerProfileMaxAggregateInputType = {
   bio?: true
   experience?: true
   whoIWorkWith?: true
+  education?: true
+  philosophy?: true
   yearsExperience?: true
   photoUrl?: true
   phone?: true
   virtualAvailable?: true
   bookingUrl?: true
   vslUrl?: true
+  instagramHandle?: true
+  youtubeHandle?: true
   gymName?: true
   addressLine1?: true
   city?: true
@@ -223,6 +276,10 @@ export type TrainerProfileMaxAggregateInputType = {
   zip?: true
   lat?: true
   lng?: true
+  pricingModel?: true
+  priceMin?: true
+  priceMax?: true
+  availabilityType?: true
   tier?: true
   stripeCustomerId?: true
   stripeSubscriptionId?: true
@@ -245,12 +302,16 @@ export type TrainerProfileCountAggregateInputType = {
   bio?: true
   experience?: true
   whoIWorkWith?: true
+  education?: true
+  philosophy?: true
   yearsExperience?: true
   photoUrl?: true
   phone?: true
   virtualAvailable?: true
   bookingUrl?: true
   vslUrl?: true
+  instagramHandle?: true
+  youtubeHandle?: true
   gymName?: true
   addressLine1?: true
   city?: true
@@ -258,6 +319,15 @@ export type TrainerProfileCountAggregateInputType = {
   zip?: true
   lat?: true
   lng?: true
+  languages?: true
+  sessionTypes?: true
+  trainingLocations?: true
+  sessionLengths?: true
+  pricingModel?: true
+  priceMin?: true
+  priceMax?: true
+  availabilityType?: true
+  availabilityDays?: true
   tier?: true
   stripeCustomerId?: true
   stripeSubscriptionId?: true
@@ -367,12 +437,16 @@ export type TrainerProfileGroupByOutputType = {
   bio: string | null
   experience: string | null
   whoIWorkWith: string | null
+  education: string | null
+  philosophy: string | null
   yearsExperience: number | null
   photoUrl: string | null
   phone: string | null
   virtualAvailable: boolean
   bookingUrl: string | null
   vslUrl: string | null
+  instagramHandle: string | null
+  youtubeHandle: string | null
   gymName: string | null
   addressLine1: string | null
   city: string | null
@@ -380,6 +454,15 @@ export type TrainerProfileGroupByOutputType = {
   zip: string | null
   lat: number | null
   lng: number | null
+  languages: string[]
+  sessionTypes: string[]
+  trainingLocations: string[]
+  sessionLengths: number[]
+  pricingModel: string | null
+  priceMin: number | null
+  priceMax: number | null
+  availabilityType: string | null
+  availabilityDays: string[]
   tier: $Enums.TrainerTier
   stripeCustomerId: string | null
   stripeSubscriptionId: string | null
@@ -425,12 +508,16 @@ export type TrainerProfileWhereInput = {
   bio?: Prisma.StringNullableFilter<"TrainerProfile"> | string | null
   experience?: Prisma.StringNullableFilter<"TrainerProfile"> | string | null
   whoIWorkWith?: Prisma.StringNullableFilter<"TrainerProfile"> | string | null
+  education?: Prisma.StringNullableFilter<"TrainerProfile"> | string | null
+  philosophy?: Prisma.StringNullableFilter<"TrainerProfile"> | string | null
   yearsExperience?: Prisma.IntNullableFilter<"TrainerProfile"> | number | null
   photoUrl?: Prisma.StringNullableFilter<"TrainerProfile"> | string | null
   phone?: Prisma.StringNullableFilter<"TrainerProfile"> | string | null
   virtualAvailable?: Prisma.BoolFilter<"TrainerProfile"> | boolean
   bookingUrl?: Prisma.StringNullableFilter<"TrainerProfile"> | string | null
   vslUrl?: Prisma.StringNullableFilter<"TrainerProfile"> | string | null
+  instagramHandle?: Prisma.StringNullableFilter<"TrainerProfile"> | string | null
+  youtubeHandle?: Prisma.StringNullableFilter<"TrainerProfile"> | string | null
   gymName?: Prisma.StringNullableFilter<"TrainerProfile"> | string | null
   addressLine1?: Prisma.StringNullableFilter<"TrainerProfile"> | string | null
   city?: Prisma.StringNullableFilter<"TrainerProfile"> | string | null
@@ -438,6 +525,15 @@ export type TrainerProfileWhereInput = {
   zip?: Prisma.StringNullableFilter<"TrainerProfile"> | string | null
   lat?: Prisma.FloatNullableFilter<"TrainerProfile"> | number | null
   lng?: Prisma.FloatNullableFilter<"TrainerProfile"> | number | null
+  languages?: Prisma.StringNullableListFilter<"TrainerProfile">
+  sessionTypes?: Prisma.StringNullableListFilter<"TrainerProfile">
+  trainingLocations?: Prisma.StringNullableListFilter<"TrainerProfile">
+  sessionLengths?: Prisma.IntNullableListFilter<"TrainerProfile">
+  pricingModel?: Prisma.StringNullableFilter<"TrainerProfile"> | string | null
+  priceMin?: Prisma.IntNullableFilter<"TrainerProfile"> | number | null
+  priceMax?: Prisma.IntNullableFilter<"TrainerProfile"> | number | null
+  availabilityType?: Prisma.StringNullableFilter<"TrainerProfile"> | string | null
+  availabilityDays?: Prisma.StringNullableListFilter<"TrainerProfile">
   tier?: Prisma.EnumTrainerTierFilter<"TrainerProfile"> | $Enums.TrainerTier
   stripeCustomerId?: Prisma.StringNullableFilter<"TrainerProfile"> | string | null
   stripeSubscriptionId?: Prisma.StringNullableFilter<"TrainerProfile"> | string | null
@@ -468,12 +564,16 @@ export type TrainerProfileOrderByWithRelationInput = {
   bio?: Prisma.SortOrderInput | Prisma.SortOrder
   experience?: Prisma.SortOrderInput | Prisma.SortOrder
   whoIWorkWith?: Prisma.SortOrderInput | Prisma.SortOrder
+  education?: Prisma.SortOrderInput | Prisma.SortOrder
+  philosophy?: Prisma.SortOrderInput | Prisma.SortOrder
   yearsExperience?: Prisma.SortOrderInput | Prisma.SortOrder
   photoUrl?: Prisma.SortOrderInput | Prisma.SortOrder
   phone?: Prisma.SortOrderInput | Prisma.SortOrder
   virtualAvailable?: Prisma.SortOrder
   bookingUrl?: Prisma.SortOrderInput | Prisma.SortOrder
   vslUrl?: Prisma.SortOrderInput | Prisma.SortOrder
+  instagramHandle?: Prisma.SortOrderInput | Prisma.SortOrder
+  youtubeHandle?: Prisma.SortOrderInput | Prisma.SortOrder
   gymName?: Prisma.SortOrderInput | Prisma.SortOrder
   addressLine1?: Prisma.SortOrderInput | Prisma.SortOrder
   city?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -481,6 +581,15 @@ export type TrainerProfileOrderByWithRelationInput = {
   zip?: Prisma.SortOrderInput | Prisma.SortOrder
   lat?: Prisma.SortOrderInput | Prisma.SortOrder
   lng?: Prisma.SortOrderInput | Prisma.SortOrder
+  languages?: Prisma.SortOrder
+  sessionTypes?: Prisma.SortOrder
+  trainingLocations?: Prisma.SortOrder
+  sessionLengths?: Prisma.SortOrder
+  pricingModel?: Prisma.SortOrderInput | Prisma.SortOrder
+  priceMin?: Prisma.SortOrderInput | Prisma.SortOrder
+  priceMax?: Prisma.SortOrderInput | Prisma.SortOrder
+  availabilityType?: Prisma.SortOrderInput | Prisma.SortOrder
+  availabilityDays?: Prisma.SortOrder
   tier?: Prisma.SortOrder
   stripeCustomerId?: Prisma.SortOrderInput | Prisma.SortOrder
   stripeSubscriptionId?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -516,12 +625,16 @@ export type TrainerProfileWhereUniqueInput = Prisma.AtLeast<{
   bio?: Prisma.StringNullableFilter<"TrainerProfile"> | string | null
   experience?: Prisma.StringNullableFilter<"TrainerProfile"> | string | null
   whoIWorkWith?: Prisma.StringNullableFilter<"TrainerProfile"> | string | null
+  education?: Prisma.StringNullableFilter<"TrainerProfile"> | string | null
+  philosophy?: Prisma.StringNullableFilter<"TrainerProfile"> | string | null
   yearsExperience?: Prisma.IntNullableFilter<"TrainerProfile"> | number | null
   photoUrl?: Prisma.StringNullableFilter<"TrainerProfile"> | string | null
   phone?: Prisma.StringNullableFilter<"TrainerProfile"> | string | null
   virtualAvailable?: Prisma.BoolFilter<"TrainerProfile"> | boolean
   bookingUrl?: Prisma.StringNullableFilter<"TrainerProfile"> | string | null
   vslUrl?: Prisma.StringNullableFilter<"TrainerProfile"> | string | null
+  instagramHandle?: Prisma.StringNullableFilter<"TrainerProfile"> | string | null
+  youtubeHandle?: Prisma.StringNullableFilter<"TrainerProfile"> | string | null
   gymName?: Prisma.StringNullableFilter<"TrainerProfile"> | string | null
   addressLine1?: Prisma.StringNullableFilter<"TrainerProfile"> | string | null
   city?: Prisma.StringNullableFilter<"TrainerProfile"> | string | null
@@ -529,6 +642,15 @@ export type TrainerProfileWhereUniqueInput = Prisma.AtLeast<{
   zip?: Prisma.StringNullableFilter<"TrainerProfile"> | string | null
   lat?: Prisma.FloatNullableFilter<"TrainerProfile"> | number | null
   lng?: Prisma.FloatNullableFilter<"TrainerProfile"> | number | null
+  languages?: Prisma.StringNullableListFilter<"TrainerProfile">
+  sessionTypes?: Prisma.StringNullableListFilter<"TrainerProfile">
+  trainingLocations?: Prisma.StringNullableListFilter<"TrainerProfile">
+  sessionLengths?: Prisma.IntNullableListFilter<"TrainerProfile">
+  pricingModel?: Prisma.StringNullableFilter<"TrainerProfile"> | string | null
+  priceMin?: Prisma.IntNullableFilter<"TrainerProfile"> | number | null
+  priceMax?: Prisma.IntNullableFilter<"TrainerProfile"> | number | null
+  availabilityType?: Prisma.StringNullableFilter<"TrainerProfile"> | string | null
+  availabilityDays?: Prisma.StringNullableListFilter<"TrainerProfile">
   tier?: Prisma.EnumTrainerTierFilter<"TrainerProfile"> | $Enums.TrainerTier
   subscriptionStatus?: Prisma.EnumSubscriptionStatusNullableFilter<"TrainerProfile"> | $Enums.SubscriptionStatus | null
   currentPeriodEnd?: Prisma.DateTimeNullableFilter<"TrainerProfile"> | Date | string | null
@@ -557,12 +679,16 @@ export type TrainerProfileOrderByWithAggregationInput = {
   bio?: Prisma.SortOrderInput | Prisma.SortOrder
   experience?: Prisma.SortOrderInput | Prisma.SortOrder
   whoIWorkWith?: Prisma.SortOrderInput | Prisma.SortOrder
+  education?: Prisma.SortOrderInput | Prisma.SortOrder
+  philosophy?: Prisma.SortOrderInput | Prisma.SortOrder
   yearsExperience?: Prisma.SortOrderInput | Prisma.SortOrder
   photoUrl?: Prisma.SortOrderInput | Prisma.SortOrder
   phone?: Prisma.SortOrderInput | Prisma.SortOrder
   virtualAvailable?: Prisma.SortOrder
   bookingUrl?: Prisma.SortOrderInput | Prisma.SortOrder
   vslUrl?: Prisma.SortOrderInput | Prisma.SortOrder
+  instagramHandle?: Prisma.SortOrderInput | Prisma.SortOrder
+  youtubeHandle?: Prisma.SortOrderInput | Prisma.SortOrder
   gymName?: Prisma.SortOrderInput | Prisma.SortOrder
   addressLine1?: Prisma.SortOrderInput | Prisma.SortOrder
   city?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -570,6 +696,15 @@ export type TrainerProfileOrderByWithAggregationInput = {
   zip?: Prisma.SortOrderInput | Prisma.SortOrder
   lat?: Prisma.SortOrderInput | Prisma.SortOrder
   lng?: Prisma.SortOrderInput | Prisma.SortOrder
+  languages?: Prisma.SortOrder
+  sessionTypes?: Prisma.SortOrder
+  trainingLocations?: Prisma.SortOrder
+  sessionLengths?: Prisma.SortOrder
+  pricingModel?: Prisma.SortOrderInput | Prisma.SortOrder
+  priceMin?: Prisma.SortOrderInput | Prisma.SortOrder
+  priceMax?: Prisma.SortOrderInput | Prisma.SortOrder
+  availabilityType?: Prisma.SortOrderInput | Prisma.SortOrder
+  availabilityDays?: Prisma.SortOrder
   tier?: Prisma.SortOrder
   stripeCustomerId?: Prisma.SortOrderInput | Prisma.SortOrder
   stripeSubscriptionId?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -600,12 +735,16 @@ export type TrainerProfileScalarWhereWithAggregatesInput = {
   bio?: Prisma.StringNullableWithAggregatesFilter<"TrainerProfile"> | string | null
   experience?: Prisma.StringNullableWithAggregatesFilter<"TrainerProfile"> | string | null
   whoIWorkWith?: Prisma.StringNullableWithAggregatesFilter<"TrainerProfile"> | string | null
+  education?: Prisma.StringNullableWithAggregatesFilter<"TrainerProfile"> | string | null
+  philosophy?: Prisma.StringNullableWithAggregatesFilter<"TrainerProfile"> | string | null
   yearsExperience?: Prisma.IntNullableWithAggregatesFilter<"TrainerProfile"> | number | null
   photoUrl?: Prisma.StringNullableWithAggregatesFilter<"TrainerProfile"> | string | null
   phone?: Prisma.StringNullableWithAggregatesFilter<"TrainerProfile"> | string | null
   virtualAvailable?: Prisma.BoolWithAggregatesFilter<"TrainerProfile"> | boolean
   bookingUrl?: Prisma.StringNullableWithAggregatesFilter<"TrainerProfile"> | string | null
   vslUrl?: Prisma.StringNullableWithAggregatesFilter<"TrainerProfile"> | string | null
+  instagramHandle?: Prisma.StringNullableWithAggregatesFilter<"TrainerProfile"> | string | null
+  youtubeHandle?: Prisma.StringNullableWithAggregatesFilter<"TrainerProfile"> | string | null
   gymName?: Prisma.StringNullableWithAggregatesFilter<"TrainerProfile"> | string | null
   addressLine1?: Prisma.StringNullableWithAggregatesFilter<"TrainerProfile"> | string | null
   city?: Prisma.StringNullableWithAggregatesFilter<"TrainerProfile"> | string | null
@@ -613,6 +752,15 @@ export type TrainerProfileScalarWhereWithAggregatesInput = {
   zip?: Prisma.StringNullableWithAggregatesFilter<"TrainerProfile"> | string | null
   lat?: Prisma.FloatNullableWithAggregatesFilter<"TrainerProfile"> | number | null
   lng?: Prisma.FloatNullableWithAggregatesFilter<"TrainerProfile"> | number | null
+  languages?: Prisma.StringNullableListFilter<"TrainerProfile">
+  sessionTypes?: Prisma.StringNullableListFilter<"TrainerProfile">
+  trainingLocations?: Prisma.StringNullableListFilter<"TrainerProfile">
+  sessionLengths?: Prisma.IntNullableListFilter<"TrainerProfile">
+  pricingModel?: Prisma.StringNullableWithAggregatesFilter<"TrainerProfile"> | string | null
+  priceMin?: Prisma.IntNullableWithAggregatesFilter<"TrainerProfile"> | number | null
+  priceMax?: Prisma.IntNullableWithAggregatesFilter<"TrainerProfile"> | number | null
+  availabilityType?: Prisma.StringNullableWithAggregatesFilter<"TrainerProfile"> | string | null
+  availabilityDays?: Prisma.StringNullableListFilter<"TrainerProfile">
   tier?: Prisma.EnumTrainerTierWithAggregatesFilter<"TrainerProfile"> | $Enums.TrainerTier
   stripeCustomerId?: Prisma.StringNullableWithAggregatesFilter<"TrainerProfile"> | string | null
   stripeSubscriptionId?: Prisma.StringNullableWithAggregatesFilter<"TrainerProfile"> | string | null
@@ -634,12 +782,16 @@ export type TrainerProfileCreateInput = {
   bio?: string | null
   experience?: string | null
   whoIWorkWith?: string | null
+  education?: string | null
+  philosophy?: string | null
   yearsExperience?: number | null
   photoUrl?: string | null
   phone?: string | null
   virtualAvailable?: boolean
   bookingUrl?: string | null
   vslUrl?: string | null
+  instagramHandle?: string | null
+  youtubeHandle?: string | null
   gymName?: string | null
   addressLine1?: string | null
   city?: string | null
@@ -647,6 +799,15 @@ export type TrainerProfileCreateInput = {
   zip?: string | null
   lat?: number | null
   lng?: number | null
+  languages?: Prisma.TrainerProfileCreatelanguagesInput | string[]
+  sessionTypes?: Prisma.TrainerProfileCreatesessionTypesInput | string[]
+  trainingLocations?: Prisma.TrainerProfileCreatetrainingLocationsInput | string[]
+  sessionLengths?: Prisma.TrainerProfileCreatesessionLengthsInput | number[]
+  pricingModel?: string | null
+  priceMin?: number | null
+  priceMax?: number | null
+  availabilityType?: string | null
+  availabilityDays?: Prisma.TrainerProfileCreateavailabilityDaysInput | string[]
   tier?: $Enums.TrainerTier
   stripeCustomerId?: string | null
   stripeSubscriptionId?: string | null
@@ -677,12 +838,16 @@ export type TrainerProfileUncheckedCreateInput = {
   bio?: string | null
   experience?: string | null
   whoIWorkWith?: string | null
+  education?: string | null
+  philosophy?: string | null
   yearsExperience?: number | null
   photoUrl?: string | null
   phone?: string | null
   virtualAvailable?: boolean
   bookingUrl?: string | null
   vslUrl?: string | null
+  instagramHandle?: string | null
+  youtubeHandle?: string | null
   gymName?: string | null
   addressLine1?: string | null
   city?: string | null
@@ -690,6 +855,15 @@ export type TrainerProfileUncheckedCreateInput = {
   zip?: string | null
   lat?: number | null
   lng?: number | null
+  languages?: Prisma.TrainerProfileCreatelanguagesInput | string[]
+  sessionTypes?: Prisma.TrainerProfileCreatesessionTypesInput | string[]
+  trainingLocations?: Prisma.TrainerProfileCreatetrainingLocationsInput | string[]
+  sessionLengths?: Prisma.TrainerProfileCreatesessionLengthsInput | number[]
+  pricingModel?: string | null
+  priceMin?: number | null
+  priceMax?: number | null
+  availabilityType?: string | null
+  availabilityDays?: Prisma.TrainerProfileCreateavailabilityDaysInput | string[]
   tier?: $Enums.TrainerTier
   stripeCustomerId?: string | null
   stripeSubscriptionId?: string | null
@@ -718,12 +892,16 @@ export type TrainerProfileUpdateInput = {
   bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   experience?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   whoIWorkWith?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  education?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  philosophy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   yearsExperience?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   photoUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   virtualAvailable?: Prisma.BoolFieldUpdateOperationsInput | boolean
   bookingUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   vslUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  instagramHandle?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  youtubeHandle?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   gymName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   addressLine1?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -731,6 +909,15 @@ export type TrainerProfileUpdateInput = {
   zip?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   lat?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   lng?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  languages?: Prisma.TrainerProfileUpdatelanguagesInput | string[]
+  sessionTypes?: Prisma.TrainerProfileUpdatesessionTypesInput | string[]
+  trainingLocations?: Prisma.TrainerProfileUpdatetrainingLocationsInput | string[]
+  sessionLengths?: Prisma.TrainerProfileUpdatesessionLengthsInput | number[]
+  pricingModel?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  priceMin?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  priceMax?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  availabilityType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  availabilityDays?: Prisma.TrainerProfileUpdateavailabilityDaysInput | string[]
   tier?: Prisma.EnumTrainerTierFieldUpdateOperationsInput | $Enums.TrainerTier
   stripeCustomerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   stripeSubscriptionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -761,12 +948,16 @@ export type TrainerProfileUncheckedUpdateInput = {
   bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   experience?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   whoIWorkWith?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  education?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  philosophy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   yearsExperience?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   photoUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   virtualAvailable?: Prisma.BoolFieldUpdateOperationsInput | boolean
   bookingUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   vslUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  instagramHandle?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  youtubeHandle?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   gymName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   addressLine1?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -774,6 +965,15 @@ export type TrainerProfileUncheckedUpdateInput = {
   zip?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   lat?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   lng?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  languages?: Prisma.TrainerProfileUpdatelanguagesInput | string[]
+  sessionTypes?: Prisma.TrainerProfileUpdatesessionTypesInput | string[]
+  trainingLocations?: Prisma.TrainerProfileUpdatetrainingLocationsInput | string[]
+  sessionLengths?: Prisma.TrainerProfileUpdatesessionLengthsInput | number[]
+  pricingModel?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  priceMin?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  priceMax?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  availabilityType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  availabilityDays?: Prisma.TrainerProfileUpdateavailabilityDaysInput | string[]
   tier?: Prisma.EnumTrainerTierFieldUpdateOperationsInput | $Enums.TrainerTier
   stripeCustomerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   stripeSubscriptionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -803,12 +1003,16 @@ export type TrainerProfileCreateManyInput = {
   bio?: string | null
   experience?: string | null
   whoIWorkWith?: string | null
+  education?: string | null
+  philosophy?: string | null
   yearsExperience?: number | null
   photoUrl?: string | null
   phone?: string | null
   virtualAvailable?: boolean
   bookingUrl?: string | null
   vslUrl?: string | null
+  instagramHandle?: string | null
+  youtubeHandle?: string | null
   gymName?: string | null
   addressLine1?: string | null
   city?: string | null
@@ -816,6 +1020,15 @@ export type TrainerProfileCreateManyInput = {
   zip?: string | null
   lat?: number | null
   lng?: number | null
+  languages?: Prisma.TrainerProfileCreatelanguagesInput | string[]
+  sessionTypes?: Prisma.TrainerProfileCreatesessionTypesInput | string[]
+  trainingLocations?: Prisma.TrainerProfileCreatetrainingLocationsInput | string[]
+  sessionLengths?: Prisma.TrainerProfileCreatesessionLengthsInput | number[]
+  pricingModel?: string | null
+  priceMin?: number | null
+  priceMax?: number | null
+  availabilityType?: string | null
+  availabilityDays?: Prisma.TrainerProfileCreateavailabilityDaysInput | string[]
   tier?: $Enums.TrainerTier
   stripeCustomerId?: string | null
   stripeSubscriptionId?: string | null
@@ -837,12 +1050,16 @@ export type TrainerProfileUpdateManyMutationInput = {
   bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   experience?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   whoIWorkWith?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  education?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  philosophy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   yearsExperience?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   photoUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   virtualAvailable?: Prisma.BoolFieldUpdateOperationsInput | boolean
   bookingUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   vslUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  instagramHandle?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  youtubeHandle?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   gymName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   addressLine1?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -850,6 +1067,15 @@ export type TrainerProfileUpdateManyMutationInput = {
   zip?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   lat?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   lng?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  languages?: Prisma.TrainerProfileUpdatelanguagesInput | string[]
+  sessionTypes?: Prisma.TrainerProfileUpdatesessionTypesInput | string[]
+  trainingLocations?: Prisma.TrainerProfileUpdatetrainingLocationsInput | string[]
+  sessionLengths?: Prisma.TrainerProfileUpdatesessionLengthsInput | number[]
+  pricingModel?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  priceMin?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  priceMax?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  availabilityType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  availabilityDays?: Prisma.TrainerProfileUpdateavailabilityDaysInput | string[]
   tier?: Prisma.EnumTrainerTierFieldUpdateOperationsInput | $Enums.TrainerTier
   stripeCustomerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   stripeSubscriptionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -872,12 +1098,16 @@ export type TrainerProfileUncheckedUpdateManyInput = {
   bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   experience?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   whoIWorkWith?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  education?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  philosophy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   yearsExperience?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   photoUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   virtualAvailable?: Prisma.BoolFieldUpdateOperationsInput | boolean
   bookingUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   vslUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  instagramHandle?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  youtubeHandle?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   gymName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   addressLine1?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -885,6 +1115,15 @@ export type TrainerProfileUncheckedUpdateManyInput = {
   zip?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   lat?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   lng?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  languages?: Prisma.TrainerProfileUpdatelanguagesInput | string[]
+  sessionTypes?: Prisma.TrainerProfileUpdatesessionTypesInput | string[]
+  trainingLocations?: Prisma.TrainerProfileUpdatetrainingLocationsInput | string[]
+  sessionLengths?: Prisma.TrainerProfileUpdatesessionLengthsInput | number[]
+  pricingModel?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  priceMin?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  priceMax?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  availabilityType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  availabilityDays?: Prisma.TrainerProfileUpdateavailabilityDaysInput | string[]
   tier?: Prisma.EnumTrainerTierFieldUpdateOperationsInput | $Enums.TrainerTier
   stripeCustomerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   stripeSubscriptionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -902,6 +1141,22 @@ export type TrainerProfileNullableScalarRelationFilter = {
   isNot?: Prisma.TrainerProfileWhereInput | null
 }
 
+export type StringNullableListFilter<$PrismaModel = never> = {
+  equals?: string[] | Prisma.ListStringFieldRefInput<$PrismaModel> | null
+  has?: string | Prisma.StringFieldRefInput<$PrismaModel> | null
+  hasEvery?: string[] | Prisma.ListStringFieldRefInput<$PrismaModel>
+  hasSome?: string[] | Prisma.ListStringFieldRefInput<$PrismaModel>
+  isEmpty?: boolean
+}
+
+export type IntNullableListFilter<$PrismaModel = never> = {
+  equals?: number[] | Prisma.ListIntFieldRefInput<$PrismaModel> | null
+  has?: number | Prisma.IntFieldRefInput<$PrismaModel> | null
+  hasEvery?: number[] | Prisma.ListIntFieldRefInput<$PrismaModel>
+  hasSome?: number[] | Prisma.ListIntFieldRefInput<$PrismaModel>
+  isEmpty?: boolean
+}
+
 export type TrainerProfileCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
   userId?: Prisma.SortOrder
@@ -912,12 +1167,16 @@ export type TrainerProfileCountOrderByAggregateInput = {
   bio?: Prisma.SortOrder
   experience?: Prisma.SortOrder
   whoIWorkWith?: Prisma.SortOrder
+  education?: Prisma.SortOrder
+  philosophy?: Prisma.SortOrder
   yearsExperience?: Prisma.SortOrder
   photoUrl?: Prisma.SortOrder
   phone?: Prisma.SortOrder
   virtualAvailable?: Prisma.SortOrder
   bookingUrl?: Prisma.SortOrder
   vslUrl?: Prisma.SortOrder
+  instagramHandle?: Prisma.SortOrder
+  youtubeHandle?: Prisma.SortOrder
   gymName?: Prisma.SortOrder
   addressLine1?: Prisma.SortOrder
   city?: Prisma.SortOrder
@@ -925,6 +1184,15 @@ export type TrainerProfileCountOrderByAggregateInput = {
   zip?: Prisma.SortOrder
   lat?: Prisma.SortOrder
   lng?: Prisma.SortOrder
+  languages?: Prisma.SortOrder
+  sessionTypes?: Prisma.SortOrder
+  trainingLocations?: Prisma.SortOrder
+  sessionLengths?: Prisma.SortOrder
+  pricingModel?: Prisma.SortOrder
+  priceMin?: Prisma.SortOrder
+  priceMax?: Prisma.SortOrder
+  availabilityType?: Prisma.SortOrder
+  availabilityDays?: Prisma.SortOrder
   tier?: Prisma.SortOrder
   stripeCustomerId?: Prisma.SortOrder
   stripeSubscriptionId?: Prisma.SortOrder
@@ -941,6 +1209,9 @@ export type TrainerProfileAvgOrderByAggregateInput = {
   yearsExperience?: Prisma.SortOrder
   lat?: Prisma.SortOrder
   lng?: Prisma.SortOrder
+  sessionLengths?: Prisma.SortOrder
+  priceMin?: Prisma.SortOrder
+  priceMax?: Prisma.SortOrder
   averageRating?: Prisma.SortOrder
   reviewCount?: Prisma.SortOrder
 }
@@ -955,12 +1226,16 @@ export type TrainerProfileMaxOrderByAggregateInput = {
   bio?: Prisma.SortOrder
   experience?: Prisma.SortOrder
   whoIWorkWith?: Prisma.SortOrder
+  education?: Prisma.SortOrder
+  philosophy?: Prisma.SortOrder
   yearsExperience?: Prisma.SortOrder
   photoUrl?: Prisma.SortOrder
   phone?: Prisma.SortOrder
   virtualAvailable?: Prisma.SortOrder
   bookingUrl?: Prisma.SortOrder
   vslUrl?: Prisma.SortOrder
+  instagramHandle?: Prisma.SortOrder
+  youtubeHandle?: Prisma.SortOrder
   gymName?: Prisma.SortOrder
   addressLine1?: Prisma.SortOrder
   city?: Prisma.SortOrder
@@ -968,6 +1243,10 @@ export type TrainerProfileMaxOrderByAggregateInput = {
   zip?: Prisma.SortOrder
   lat?: Prisma.SortOrder
   lng?: Prisma.SortOrder
+  pricingModel?: Prisma.SortOrder
+  priceMin?: Prisma.SortOrder
+  priceMax?: Prisma.SortOrder
+  availabilityType?: Prisma.SortOrder
   tier?: Prisma.SortOrder
   stripeCustomerId?: Prisma.SortOrder
   stripeSubscriptionId?: Prisma.SortOrder
@@ -990,12 +1269,16 @@ export type TrainerProfileMinOrderByAggregateInput = {
   bio?: Prisma.SortOrder
   experience?: Prisma.SortOrder
   whoIWorkWith?: Prisma.SortOrder
+  education?: Prisma.SortOrder
+  philosophy?: Prisma.SortOrder
   yearsExperience?: Prisma.SortOrder
   photoUrl?: Prisma.SortOrder
   phone?: Prisma.SortOrder
   virtualAvailable?: Prisma.SortOrder
   bookingUrl?: Prisma.SortOrder
   vslUrl?: Prisma.SortOrder
+  instagramHandle?: Prisma.SortOrder
+  youtubeHandle?: Prisma.SortOrder
   gymName?: Prisma.SortOrder
   addressLine1?: Prisma.SortOrder
   city?: Prisma.SortOrder
@@ -1003,6 +1286,10 @@ export type TrainerProfileMinOrderByAggregateInput = {
   zip?: Prisma.SortOrder
   lat?: Prisma.SortOrder
   lng?: Prisma.SortOrder
+  pricingModel?: Prisma.SortOrder
+  priceMin?: Prisma.SortOrder
+  priceMax?: Prisma.SortOrder
+  availabilityType?: Prisma.SortOrder
   tier?: Prisma.SortOrder
   stripeCustomerId?: Prisma.SortOrder
   stripeSubscriptionId?: Prisma.SortOrder
@@ -1019,6 +1306,9 @@ export type TrainerProfileSumOrderByAggregateInput = {
   yearsExperience?: Prisma.SortOrder
   lat?: Prisma.SortOrder
   lng?: Prisma.SortOrder
+  sessionLengths?: Prisma.SortOrder
+  priceMin?: Prisma.SortOrder
+  priceMax?: Prisma.SortOrder
   averageRating?: Prisma.SortOrder
   reviewCount?: Prisma.SortOrder
 }
@@ -1060,6 +1350,26 @@ export type TrainerProfileUncheckedUpdateOneWithoutUserNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.TrainerProfileUpdateToOneWithWhereWithoutUserInput, Prisma.TrainerProfileUpdateWithoutUserInput>, Prisma.TrainerProfileUncheckedUpdateWithoutUserInput>
 }
 
+export type TrainerProfileCreatelanguagesInput = {
+  set: string[]
+}
+
+export type TrainerProfileCreatesessionTypesInput = {
+  set: string[]
+}
+
+export type TrainerProfileCreatetrainingLocationsInput = {
+  set: string[]
+}
+
+export type TrainerProfileCreatesessionLengthsInput = {
+  set: number[]
+}
+
+export type TrainerProfileCreateavailabilityDaysInput = {
+  set: string[]
+}
+
 export type EnumProfileTypeFieldUpdateOperationsInput = {
   set?: $Enums.ProfileType
 }
@@ -1072,20 +1382,37 @@ export type NullableFloatFieldUpdateOperationsInput = {
   divide?: number
 }
 
+export type TrainerProfileUpdatelanguagesInput = {
+  set?: string[]
+  push?: string | string[]
+}
+
+export type TrainerProfileUpdatesessionTypesInput = {
+  set?: string[]
+  push?: string | string[]
+}
+
+export type TrainerProfileUpdatetrainingLocationsInput = {
+  set?: string[]
+  push?: string | string[]
+}
+
+export type TrainerProfileUpdatesessionLengthsInput = {
+  set?: number[]
+  push?: number | number[]
+}
+
+export type TrainerProfileUpdateavailabilityDaysInput = {
+  set?: string[]
+  push?: string | string[]
+}
+
 export type EnumTrainerTierFieldUpdateOperationsInput = {
   set?: $Enums.TrainerTier
 }
 
 export type NullableEnumSubscriptionStatusFieldUpdateOperationsInput = {
   set?: $Enums.SubscriptionStatus | null
-}
-
-export type IntFieldUpdateOperationsInput = {
-  set?: number
-  increment?: number
-  decrement?: number
-  multiply?: number
-  divide?: number
 }
 
 export type TrainerProfileCreateNestedOneWithoutCertificationsInput = {
@@ -1201,12 +1528,16 @@ export type TrainerProfileCreateWithoutUserInput = {
   bio?: string | null
   experience?: string | null
   whoIWorkWith?: string | null
+  education?: string | null
+  philosophy?: string | null
   yearsExperience?: number | null
   photoUrl?: string | null
   phone?: string | null
   virtualAvailable?: boolean
   bookingUrl?: string | null
   vslUrl?: string | null
+  instagramHandle?: string | null
+  youtubeHandle?: string | null
   gymName?: string | null
   addressLine1?: string | null
   city?: string | null
@@ -1214,6 +1545,15 @@ export type TrainerProfileCreateWithoutUserInput = {
   zip?: string | null
   lat?: number | null
   lng?: number | null
+  languages?: Prisma.TrainerProfileCreatelanguagesInput | string[]
+  sessionTypes?: Prisma.TrainerProfileCreatesessionTypesInput | string[]
+  trainingLocations?: Prisma.TrainerProfileCreatetrainingLocationsInput | string[]
+  sessionLengths?: Prisma.TrainerProfileCreatesessionLengthsInput | number[]
+  pricingModel?: string | null
+  priceMin?: number | null
+  priceMax?: number | null
+  availabilityType?: string | null
+  availabilityDays?: Prisma.TrainerProfileCreateavailabilityDaysInput | string[]
   tier?: $Enums.TrainerTier
   stripeCustomerId?: string | null
   stripeSubscriptionId?: string | null
@@ -1242,12 +1582,16 @@ export type TrainerProfileUncheckedCreateWithoutUserInput = {
   bio?: string | null
   experience?: string | null
   whoIWorkWith?: string | null
+  education?: string | null
+  philosophy?: string | null
   yearsExperience?: number | null
   photoUrl?: string | null
   phone?: string | null
   virtualAvailable?: boolean
   bookingUrl?: string | null
   vslUrl?: string | null
+  instagramHandle?: string | null
+  youtubeHandle?: string | null
   gymName?: string | null
   addressLine1?: string | null
   city?: string | null
@@ -1255,6 +1599,15 @@ export type TrainerProfileUncheckedCreateWithoutUserInput = {
   zip?: string | null
   lat?: number | null
   lng?: number | null
+  languages?: Prisma.TrainerProfileCreatelanguagesInput | string[]
+  sessionTypes?: Prisma.TrainerProfileCreatesessionTypesInput | string[]
+  trainingLocations?: Prisma.TrainerProfileCreatetrainingLocationsInput | string[]
+  sessionLengths?: Prisma.TrainerProfileCreatesessionLengthsInput | number[]
+  pricingModel?: string | null
+  priceMin?: number | null
+  priceMax?: number | null
+  availabilityType?: string | null
+  availabilityDays?: Prisma.TrainerProfileCreateavailabilityDaysInput | string[]
   tier?: $Enums.TrainerTier
   stripeCustomerId?: string | null
   stripeSubscriptionId?: string | null
@@ -1299,12 +1652,16 @@ export type TrainerProfileUpdateWithoutUserInput = {
   bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   experience?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   whoIWorkWith?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  education?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  philosophy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   yearsExperience?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   photoUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   virtualAvailable?: Prisma.BoolFieldUpdateOperationsInput | boolean
   bookingUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   vslUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  instagramHandle?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  youtubeHandle?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   gymName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   addressLine1?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1312,6 +1669,15 @@ export type TrainerProfileUpdateWithoutUserInput = {
   zip?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   lat?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   lng?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  languages?: Prisma.TrainerProfileUpdatelanguagesInput | string[]
+  sessionTypes?: Prisma.TrainerProfileUpdatesessionTypesInput | string[]
+  trainingLocations?: Prisma.TrainerProfileUpdatetrainingLocationsInput | string[]
+  sessionLengths?: Prisma.TrainerProfileUpdatesessionLengthsInput | number[]
+  pricingModel?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  priceMin?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  priceMax?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  availabilityType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  availabilityDays?: Prisma.TrainerProfileUpdateavailabilityDaysInput | string[]
   tier?: Prisma.EnumTrainerTierFieldUpdateOperationsInput | $Enums.TrainerTier
   stripeCustomerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   stripeSubscriptionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1340,12 +1706,16 @@ export type TrainerProfileUncheckedUpdateWithoutUserInput = {
   bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   experience?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   whoIWorkWith?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  education?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  philosophy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   yearsExperience?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   photoUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   virtualAvailable?: Prisma.BoolFieldUpdateOperationsInput | boolean
   bookingUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   vslUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  instagramHandle?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  youtubeHandle?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   gymName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   addressLine1?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1353,6 +1723,15 @@ export type TrainerProfileUncheckedUpdateWithoutUserInput = {
   zip?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   lat?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   lng?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  languages?: Prisma.TrainerProfileUpdatelanguagesInput | string[]
+  sessionTypes?: Prisma.TrainerProfileUpdatesessionTypesInput | string[]
+  trainingLocations?: Prisma.TrainerProfileUpdatetrainingLocationsInput | string[]
+  sessionLengths?: Prisma.TrainerProfileUpdatesessionLengthsInput | number[]
+  pricingModel?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  priceMin?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  priceMax?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  availabilityType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  availabilityDays?: Prisma.TrainerProfileUpdateavailabilityDaysInput | string[]
   tier?: Prisma.EnumTrainerTierFieldUpdateOperationsInput | $Enums.TrainerTier
   stripeCustomerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   stripeSubscriptionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1381,12 +1760,16 @@ export type TrainerProfileCreateWithoutCertificationsInput = {
   bio?: string | null
   experience?: string | null
   whoIWorkWith?: string | null
+  education?: string | null
+  philosophy?: string | null
   yearsExperience?: number | null
   photoUrl?: string | null
   phone?: string | null
   virtualAvailable?: boolean
   bookingUrl?: string | null
   vslUrl?: string | null
+  instagramHandle?: string | null
+  youtubeHandle?: string | null
   gymName?: string | null
   addressLine1?: string | null
   city?: string | null
@@ -1394,6 +1777,15 @@ export type TrainerProfileCreateWithoutCertificationsInput = {
   zip?: string | null
   lat?: number | null
   lng?: number | null
+  languages?: Prisma.TrainerProfileCreatelanguagesInput | string[]
+  sessionTypes?: Prisma.TrainerProfileCreatesessionTypesInput | string[]
+  trainingLocations?: Prisma.TrainerProfileCreatetrainingLocationsInput | string[]
+  sessionLengths?: Prisma.TrainerProfileCreatesessionLengthsInput | number[]
+  pricingModel?: string | null
+  priceMin?: number | null
+  priceMax?: number | null
+  availabilityType?: string | null
+  availabilityDays?: Prisma.TrainerProfileCreateavailabilityDaysInput | string[]
   tier?: $Enums.TrainerTier
   stripeCustomerId?: string | null
   stripeSubscriptionId?: string | null
@@ -1423,12 +1815,16 @@ export type TrainerProfileUncheckedCreateWithoutCertificationsInput = {
   bio?: string | null
   experience?: string | null
   whoIWorkWith?: string | null
+  education?: string | null
+  philosophy?: string | null
   yearsExperience?: number | null
   photoUrl?: string | null
   phone?: string | null
   virtualAvailable?: boolean
   bookingUrl?: string | null
   vslUrl?: string | null
+  instagramHandle?: string | null
+  youtubeHandle?: string | null
   gymName?: string | null
   addressLine1?: string | null
   city?: string | null
@@ -1436,6 +1832,15 @@ export type TrainerProfileUncheckedCreateWithoutCertificationsInput = {
   zip?: string | null
   lat?: number | null
   lng?: number | null
+  languages?: Prisma.TrainerProfileCreatelanguagesInput | string[]
+  sessionTypes?: Prisma.TrainerProfileCreatesessionTypesInput | string[]
+  trainingLocations?: Prisma.TrainerProfileCreatetrainingLocationsInput | string[]
+  sessionLengths?: Prisma.TrainerProfileCreatesessionLengthsInput | number[]
+  pricingModel?: string | null
+  priceMin?: number | null
+  priceMax?: number | null
+  availabilityType?: string | null
+  availabilityDays?: Prisma.TrainerProfileCreateavailabilityDaysInput | string[]
   tier?: $Enums.TrainerTier
   stripeCustomerId?: string | null
   stripeSubscriptionId?: string | null
@@ -1479,12 +1884,16 @@ export type TrainerProfileUpdateWithoutCertificationsInput = {
   bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   experience?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   whoIWorkWith?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  education?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  philosophy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   yearsExperience?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   photoUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   virtualAvailable?: Prisma.BoolFieldUpdateOperationsInput | boolean
   bookingUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   vslUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  instagramHandle?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  youtubeHandle?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   gymName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   addressLine1?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1492,6 +1901,15 @@ export type TrainerProfileUpdateWithoutCertificationsInput = {
   zip?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   lat?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   lng?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  languages?: Prisma.TrainerProfileUpdatelanguagesInput | string[]
+  sessionTypes?: Prisma.TrainerProfileUpdatesessionTypesInput | string[]
+  trainingLocations?: Prisma.TrainerProfileUpdatetrainingLocationsInput | string[]
+  sessionLengths?: Prisma.TrainerProfileUpdatesessionLengthsInput | number[]
+  pricingModel?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  priceMin?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  priceMax?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  availabilityType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  availabilityDays?: Prisma.TrainerProfileUpdateavailabilityDaysInput | string[]
   tier?: Prisma.EnumTrainerTierFieldUpdateOperationsInput | $Enums.TrainerTier
   stripeCustomerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   stripeSubscriptionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1521,12 +1939,16 @@ export type TrainerProfileUncheckedUpdateWithoutCertificationsInput = {
   bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   experience?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   whoIWorkWith?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  education?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  philosophy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   yearsExperience?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   photoUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   virtualAvailable?: Prisma.BoolFieldUpdateOperationsInput | boolean
   bookingUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   vslUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  instagramHandle?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  youtubeHandle?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   gymName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   addressLine1?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1534,6 +1956,15 @@ export type TrainerProfileUncheckedUpdateWithoutCertificationsInput = {
   zip?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   lat?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   lng?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  languages?: Prisma.TrainerProfileUpdatelanguagesInput | string[]
+  sessionTypes?: Prisma.TrainerProfileUpdatesessionTypesInput | string[]
+  trainingLocations?: Prisma.TrainerProfileUpdatetrainingLocationsInput | string[]
+  sessionLengths?: Prisma.TrainerProfileUpdatesessionLengthsInput | number[]
+  pricingModel?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  priceMin?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  priceMax?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  availabilityType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  availabilityDays?: Prisma.TrainerProfileUpdateavailabilityDaysInput | string[]
   tier?: Prisma.EnumTrainerTierFieldUpdateOperationsInput | $Enums.TrainerTier
   stripeCustomerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   stripeSubscriptionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1561,12 +1992,16 @@ export type TrainerProfileCreateWithoutSpecialtiesInput = {
   bio?: string | null
   experience?: string | null
   whoIWorkWith?: string | null
+  education?: string | null
+  philosophy?: string | null
   yearsExperience?: number | null
   photoUrl?: string | null
   phone?: string | null
   virtualAvailable?: boolean
   bookingUrl?: string | null
   vslUrl?: string | null
+  instagramHandle?: string | null
+  youtubeHandle?: string | null
   gymName?: string | null
   addressLine1?: string | null
   city?: string | null
@@ -1574,6 +2009,15 @@ export type TrainerProfileCreateWithoutSpecialtiesInput = {
   zip?: string | null
   lat?: number | null
   lng?: number | null
+  languages?: Prisma.TrainerProfileCreatelanguagesInput | string[]
+  sessionTypes?: Prisma.TrainerProfileCreatesessionTypesInput | string[]
+  trainingLocations?: Prisma.TrainerProfileCreatetrainingLocationsInput | string[]
+  sessionLengths?: Prisma.TrainerProfileCreatesessionLengthsInput | number[]
+  pricingModel?: string | null
+  priceMin?: number | null
+  priceMax?: number | null
+  availabilityType?: string | null
+  availabilityDays?: Prisma.TrainerProfileCreateavailabilityDaysInput | string[]
   tier?: $Enums.TrainerTier
   stripeCustomerId?: string | null
   stripeSubscriptionId?: string | null
@@ -1603,12 +2047,16 @@ export type TrainerProfileUncheckedCreateWithoutSpecialtiesInput = {
   bio?: string | null
   experience?: string | null
   whoIWorkWith?: string | null
+  education?: string | null
+  philosophy?: string | null
   yearsExperience?: number | null
   photoUrl?: string | null
   phone?: string | null
   virtualAvailable?: boolean
   bookingUrl?: string | null
   vslUrl?: string | null
+  instagramHandle?: string | null
+  youtubeHandle?: string | null
   gymName?: string | null
   addressLine1?: string | null
   city?: string | null
@@ -1616,6 +2064,15 @@ export type TrainerProfileUncheckedCreateWithoutSpecialtiesInput = {
   zip?: string | null
   lat?: number | null
   lng?: number | null
+  languages?: Prisma.TrainerProfileCreatelanguagesInput | string[]
+  sessionTypes?: Prisma.TrainerProfileCreatesessionTypesInput | string[]
+  trainingLocations?: Prisma.TrainerProfileCreatetrainingLocationsInput | string[]
+  sessionLengths?: Prisma.TrainerProfileCreatesessionLengthsInput | number[]
+  pricingModel?: string | null
+  priceMin?: number | null
+  priceMax?: number | null
+  availabilityType?: string | null
+  availabilityDays?: Prisma.TrainerProfileCreateavailabilityDaysInput | string[]
   tier?: $Enums.TrainerTier
   stripeCustomerId?: string | null
   stripeSubscriptionId?: string | null
@@ -1659,12 +2116,16 @@ export type TrainerProfileUpdateWithoutSpecialtiesInput = {
   bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   experience?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   whoIWorkWith?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  education?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  philosophy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   yearsExperience?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   photoUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   virtualAvailable?: Prisma.BoolFieldUpdateOperationsInput | boolean
   bookingUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   vslUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  instagramHandle?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  youtubeHandle?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   gymName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   addressLine1?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1672,6 +2133,15 @@ export type TrainerProfileUpdateWithoutSpecialtiesInput = {
   zip?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   lat?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   lng?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  languages?: Prisma.TrainerProfileUpdatelanguagesInput | string[]
+  sessionTypes?: Prisma.TrainerProfileUpdatesessionTypesInput | string[]
+  trainingLocations?: Prisma.TrainerProfileUpdatetrainingLocationsInput | string[]
+  sessionLengths?: Prisma.TrainerProfileUpdatesessionLengthsInput | number[]
+  pricingModel?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  priceMin?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  priceMax?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  availabilityType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  availabilityDays?: Prisma.TrainerProfileUpdateavailabilityDaysInput | string[]
   tier?: Prisma.EnumTrainerTierFieldUpdateOperationsInput | $Enums.TrainerTier
   stripeCustomerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   stripeSubscriptionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1701,12 +2171,16 @@ export type TrainerProfileUncheckedUpdateWithoutSpecialtiesInput = {
   bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   experience?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   whoIWorkWith?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  education?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  philosophy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   yearsExperience?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   photoUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   virtualAvailable?: Prisma.BoolFieldUpdateOperationsInput | boolean
   bookingUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   vslUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  instagramHandle?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  youtubeHandle?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   gymName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   addressLine1?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1714,6 +2188,15 @@ export type TrainerProfileUncheckedUpdateWithoutSpecialtiesInput = {
   zip?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   lat?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   lng?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  languages?: Prisma.TrainerProfileUpdatelanguagesInput | string[]
+  sessionTypes?: Prisma.TrainerProfileUpdatesessionTypesInput | string[]
+  trainingLocations?: Prisma.TrainerProfileUpdatetrainingLocationsInput | string[]
+  sessionLengths?: Prisma.TrainerProfileUpdatesessionLengthsInput | number[]
+  pricingModel?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  priceMin?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  priceMax?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  availabilityType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  availabilityDays?: Prisma.TrainerProfileUpdateavailabilityDaysInput | string[]
   tier?: Prisma.EnumTrainerTierFieldUpdateOperationsInput | $Enums.TrainerTier
   stripeCustomerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   stripeSubscriptionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1741,12 +2224,16 @@ export type TrainerProfileCreateWithoutGymLinkInput = {
   bio?: string | null
   experience?: string | null
   whoIWorkWith?: string | null
+  education?: string | null
+  philosophy?: string | null
   yearsExperience?: number | null
   photoUrl?: string | null
   phone?: string | null
   virtualAvailable?: boolean
   bookingUrl?: string | null
   vslUrl?: string | null
+  instagramHandle?: string | null
+  youtubeHandle?: string | null
   gymName?: string | null
   addressLine1?: string | null
   city?: string | null
@@ -1754,6 +2241,15 @@ export type TrainerProfileCreateWithoutGymLinkInput = {
   zip?: string | null
   lat?: number | null
   lng?: number | null
+  languages?: Prisma.TrainerProfileCreatelanguagesInput | string[]
+  sessionTypes?: Prisma.TrainerProfileCreatesessionTypesInput | string[]
+  trainingLocations?: Prisma.TrainerProfileCreatetrainingLocationsInput | string[]
+  sessionLengths?: Prisma.TrainerProfileCreatesessionLengthsInput | number[]
+  pricingModel?: string | null
+  priceMin?: number | null
+  priceMax?: number | null
+  availabilityType?: string | null
+  availabilityDays?: Prisma.TrainerProfileCreateavailabilityDaysInput | string[]
   tier?: $Enums.TrainerTier
   stripeCustomerId?: string | null
   stripeSubscriptionId?: string | null
@@ -1783,12 +2279,16 @@ export type TrainerProfileUncheckedCreateWithoutGymLinkInput = {
   bio?: string | null
   experience?: string | null
   whoIWorkWith?: string | null
+  education?: string | null
+  philosophy?: string | null
   yearsExperience?: number | null
   photoUrl?: string | null
   phone?: string | null
   virtualAvailable?: boolean
   bookingUrl?: string | null
   vslUrl?: string | null
+  instagramHandle?: string | null
+  youtubeHandle?: string | null
   gymName?: string | null
   addressLine1?: string | null
   city?: string | null
@@ -1796,6 +2296,15 @@ export type TrainerProfileUncheckedCreateWithoutGymLinkInput = {
   zip?: string | null
   lat?: number | null
   lng?: number | null
+  languages?: Prisma.TrainerProfileCreatelanguagesInput | string[]
+  sessionTypes?: Prisma.TrainerProfileCreatesessionTypesInput | string[]
+  trainingLocations?: Prisma.TrainerProfileCreatetrainingLocationsInput | string[]
+  sessionLengths?: Prisma.TrainerProfileCreatesessionLengthsInput | number[]
+  pricingModel?: string | null
+  priceMin?: number | null
+  priceMax?: number | null
+  availabilityType?: string | null
+  availabilityDays?: Prisma.TrainerProfileCreateavailabilityDaysInput | string[]
   tier?: $Enums.TrainerTier
   stripeCustomerId?: string | null
   stripeSubscriptionId?: string | null
@@ -1839,12 +2348,16 @@ export type TrainerProfileUpdateWithoutGymLinkInput = {
   bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   experience?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   whoIWorkWith?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  education?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  philosophy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   yearsExperience?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   photoUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   virtualAvailable?: Prisma.BoolFieldUpdateOperationsInput | boolean
   bookingUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   vslUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  instagramHandle?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  youtubeHandle?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   gymName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   addressLine1?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1852,6 +2365,15 @@ export type TrainerProfileUpdateWithoutGymLinkInput = {
   zip?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   lat?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   lng?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  languages?: Prisma.TrainerProfileUpdatelanguagesInput | string[]
+  sessionTypes?: Prisma.TrainerProfileUpdatesessionTypesInput | string[]
+  trainingLocations?: Prisma.TrainerProfileUpdatetrainingLocationsInput | string[]
+  sessionLengths?: Prisma.TrainerProfileUpdatesessionLengthsInput | number[]
+  pricingModel?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  priceMin?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  priceMax?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  availabilityType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  availabilityDays?: Prisma.TrainerProfileUpdateavailabilityDaysInput | string[]
   tier?: Prisma.EnumTrainerTierFieldUpdateOperationsInput | $Enums.TrainerTier
   stripeCustomerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   stripeSubscriptionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1881,12 +2403,16 @@ export type TrainerProfileUncheckedUpdateWithoutGymLinkInput = {
   bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   experience?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   whoIWorkWith?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  education?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  philosophy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   yearsExperience?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   photoUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   virtualAvailable?: Prisma.BoolFieldUpdateOperationsInput | boolean
   bookingUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   vslUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  instagramHandle?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  youtubeHandle?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   gymName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   addressLine1?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1894,6 +2420,15 @@ export type TrainerProfileUncheckedUpdateWithoutGymLinkInput = {
   zip?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   lat?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   lng?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  languages?: Prisma.TrainerProfileUpdatelanguagesInput | string[]
+  sessionTypes?: Prisma.TrainerProfileUpdatesessionTypesInput | string[]
+  trainingLocations?: Prisma.TrainerProfileUpdatetrainingLocationsInput | string[]
+  sessionLengths?: Prisma.TrainerProfileUpdatesessionLengthsInput | number[]
+  pricingModel?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  priceMin?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  priceMax?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  availabilityType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  availabilityDays?: Prisma.TrainerProfileUpdateavailabilityDaysInput | string[]
   tier?: Prisma.EnumTrainerTierFieldUpdateOperationsInput | $Enums.TrainerTier
   stripeCustomerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   stripeSubscriptionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1921,12 +2456,16 @@ export type TrainerProfileCreateWithoutPhotosInput = {
   bio?: string | null
   experience?: string | null
   whoIWorkWith?: string | null
+  education?: string | null
+  philosophy?: string | null
   yearsExperience?: number | null
   photoUrl?: string | null
   phone?: string | null
   virtualAvailable?: boolean
   bookingUrl?: string | null
   vslUrl?: string | null
+  instagramHandle?: string | null
+  youtubeHandle?: string | null
   gymName?: string | null
   addressLine1?: string | null
   city?: string | null
@@ -1934,6 +2473,15 @@ export type TrainerProfileCreateWithoutPhotosInput = {
   zip?: string | null
   lat?: number | null
   lng?: number | null
+  languages?: Prisma.TrainerProfileCreatelanguagesInput | string[]
+  sessionTypes?: Prisma.TrainerProfileCreatesessionTypesInput | string[]
+  trainingLocations?: Prisma.TrainerProfileCreatetrainingLocationsInput | string[]
+  sessionLengths?: Prisma.TrainerProfileCreatesessionLengthsInput | number[]
+  pricingModel?: string | null
+  priceMin?: number | null
+  priceMax?: number | null
+  availabilityType?: string | null
+  availabilityDays?: Prisma.TrainerProfileCreateavailabilityDaysInput | string[]
   tier?: $Enums.TrainerTier
   stripeCustomerId?: string | null
   stripeSubscriptionId?: string | null
@@ -1963,12 +2511,16 @@ export type TrainerProfileUncheckedCreateWithoutPhotosInput = {
   bio?: string | null
   experience?: string | null
   whoIWorkWith?: string | null
+  education?: string | null
+  philosophy?: string | null
   yearsExperience?: number | null
   photoUrl?: string | null
   phone?: string | null
   virtualAvailable?: boolean
   bookingUrl?: string | null
   vslUrl?: string | null
+  instagramHandle?: string | null
+  youtubeHandle?: string | null
   gymName?: string | null
   addressLine1?: string | null
   city?: string | null
@@ -1976,6 +2528,15 @@ export type TrainerProfileUncheckedCreateWithoutPhotosInput = {
   zip?: string | null
   lat?: number | null
   lng?: number | null
+  languages?: Prisma.TrainerProfileCreatelanguagesInput | string[]
+  sessionTypes?: Prisma.TrainerProfileCreatesessionTypesInput | string[]
+  trainingLocations?: Prisma.TrainerProfileCreatetrainingLocationsInput | string[]
+  sessionLengths?: Prisma.TrainerProfileCreatesessionLengthsInput | number[]
+  pricingModel?: string | null
+  priceMin?: number | null
+  priceMax?: number | null
+  availabilityType?: string | null
+  availabilityDays?: Prisma.TrainerProfileCreateavailabilityDaysInput | string[]
   tier?: $Enums.TrainerTier
   stripeCustomerId?: string | null
   stripeSubscriptionId?: string | null
@@ -2019,12 +2580,16 @@ export type TrainerProfileUpdateWithoutPhotosInput = {
   bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   experience?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   whoIWorkWith?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  education?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  philosophy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   yearsExperience?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   photoUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   virtualAvailable?: Prisma.BoolFieldUpdateOperationsInput | boolean
   bookingUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   vslUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  instagramHandle?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  youtubeHandle?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   gymName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   addressLine1?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -2032,6 +2597,15 @@ export type TrainerProfileUpdateWithoutPhotosInput = {
   zip?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   lat?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   lng?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  languages?: Prisma.TrainerProfileUpdatelanguagesInput | string[]
+  sessionTypes?: Prisma.TrainerProfileUpdatesessionTypesInput | string[]
+  trainingLocations?: Prisma.TrainerProfileUpdatetrainingLocationsInput | string[]
+  sessionLengths?: Prisma.TrainerProfileUpdatesessionLengthsInput | number[]
+  pricingModel?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  priceMin?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  priceMax?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  availabilityType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  availabilityDays?: Prisma.TrainerProfileUpdateavailabilityDaysInput | string[]
   tier?: Prisma.EnumTrainerTierFieldUpdateOperationsInput | $Enums.TrainerTier
   stripeCustomerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   stripeSubscriptionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -2061,12 +2635,16 @@ export type TrainerProfileUncheckedUpdateWithoutPhotosInput = {
   bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   experience?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   whoIWorkWith?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  education?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  philosophy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   yearsExperience?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   photoUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   virtualAvailable?: Prisma.BoolFieldUpdateOperationsInput | boolean
   bookingUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   vslUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  instagramHandle?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  youtubeHandle?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   gymName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   addressLine1?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -2074,6 +2652,15 @@ export type TrainerProfileUncheckedUpdateWithoutPhotosInput = {
   zip?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   lat?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   lng?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  languages?: Prisma.TrainerProfileUpdatelanguagesInput | string[]
+  sessionTypes?: Prisma.TrainerProfileUpdatesessionTypesInput | string[]
+  trainingLocations?: Prisma.TrainerProfileUpdatetrainingLocationsInput | string[]
+  sessionLengths?: Prisma.TrainerProfileUpdatesessionLengthsInput | number[]
+  pricingModel?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  priceMin?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  priceMax?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  availabilityType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  availabilityDays?: Prisma.TrainerProfileUpdateavailabilityDaysInput | string[]
   tier?: Prisma.EnumTrainerTierFieldUpdateOperationsInput | $Enums.TrainerTier
   stripeCustomerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   stripeSubscriptionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -2101,12 +2688,16 @@ export type TrainerProfileCreateWithoutReviewsInput = {
   bio?: string | null
   experience?: string | null
   whoIWorkWith?: string | null
+  education?: string | null
+  philosophy?: string | null
   yearsExperience?: number | null
   photoUrl?: string | null
   phone?: string | null
   virtualAvailable?: boolean
   bookingUrl?: string | null
   vslUrl?: string | null
+  instagramHandle?: string | null
+  youtubeHandle?: string | null
   gymName?: string | null
   addressLine1?: string | null
   city?: string | null
@@ -2114,6 +2705,15 @@ export type TrainerProfileCreateWithoutReviewsInput = {
   zip?: string | null
   lat?: number | null
   lng?: number | null
+  languages?: Prisma.TrainerProfileCreatelanguagesInput | string[]
+  sessionTypes?: Prisma.TrainerProfileCreatesessionTypesInput | string[]
+  trainingLocations?: Prisma.TrainerProfileCreatetrainingLocationsInput | string[]
+  sessionLengths?: Prisma.TrainerProfileCreatesessionLengthsInput | number[]
+  pricingModel?: string | null
+  priceMin?: number | null
+  priceMax?: number | null
+  availabilityType?: string | null
+  availabilityDays?: Prisma.TrainerProfileCreateavailabilityDaysInput | string[]
   tier?: $Enums.TrainerTier
   stripeCustomerId?: string | null
   stripeSubscriptionId?: string | null
@@ -2143,12 +2743,16 @@ export type TrainerProfileUncheckedCreateWithoutReviewsInput = {
   bio?: string | null
   experience?: string | null
   whoIWorkWith?: string | null
+  education?: string | null
+  philosophy?: string | null
   yearsExperience?: number | null
   photoUrl?: string | null
   phone?: string | null
   virtualAvailable?: boolean
   bookingUrl?: string | null
   vslUrl?: string | null
+  instagramHandle?: string | null
+  youtubeHandle?: string | null
   gymName?: string | null
   addressLine1?: string | null
   city?: string | null
@@ -2156,6 +2760,15 @@ export type TrainerProfileUncheckedCreateWithoutReviewsInput = {
   zip?: string | null
   lat?: number | null
   lng?: number | null
+  languages?: Prisma.TrainerProfileCreatelanguagesInput | string[]
+  sessionTypes?: Prisma.TrainerProfileCreatesessionTypesInput | string[]
+  trainingLocations?: Prisma.TrainerProfileCreatetrainingLocationsInput | string[]
+  sessionLengths?: Prisma.TrainerProfileCreatesessionLengthsInput | number[]
+  pricingModel?: string | null
+  priceMin?: number | null
+  priceMax?: number | null
+  availabilityType?: string | null
+  availabilityDays?: Prisma.TrainerProfileCreateavailabilityDaysInput | string[]
   tier?: $Enums.TrainerTier
   stripeCustomerId?: string | null
   stripeSubscriptionId?: string | null
@@ -2199,12 +2812,16 @@ export type TrainerProfileUpdateWithoutReviewsInput = {
   bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   experience?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   whoIWorkWith?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  education?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  philosophy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   yearsExperience?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   photoUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   virtualAvailable?: Prisma.BoolFieldUpdateOperationsInput | boolean
   bookingUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   vslUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  instagramHandle?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  youtubeHandle?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   gymName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   addressLine1?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -2212,6 +2829,15 @@ export type TrainerProfileUpdateWithoutReviewsInput = {
   zip?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   lat?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   lng?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  languages?: Prisma.TrainerProfileUpdatelanguagesInput | string[]
+  sessionTypes?: Prisma.TrainerProfileUpdatesessionTypesInput | string[]
+  trainingLocations?: Prisma.TrainerProfileUpdatetrainingLocationsInput | string[]
+  sessionLengths?: Prisma.TrainerProfileUpdatesessionLengthsInput | number[]
+  pricingModel?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  priceMin?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  priceMax?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  availabilityType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  availabilityDays?: Prisma.TrainerProfileUpdateavailabilityDaysInput | string[]
   tier?: Prisma.EnumTrainerTierFieldUpdateOperationsInput | $Enums.TrainerTier
   stripeCustomerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   stripeSubscriptionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -2241,12 +2867,16 @@ export type TrainerProfileUncheckedUpdateWithoutReviewsInput = {
   bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   experience?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   whoIWorkWith?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  education?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  philosophy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   yearsExperience?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   photoUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   virtualAvailable?: Prisma.BoolFieldUpdateOperationsInput | boolean
   bookingUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   vslUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  instagramHandle?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  youtubeHandle?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   gymName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   addressLine1?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -2254,6 +2884,15 @@ export type TrainerProfileUncheckedUpdateWithoutReviewsInput = {
   zip?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   lat?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   lng?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  languages?: Prisma.TrainerProfileUpdatelanguagesInput | string[]
+  sessionTypes?: Prisma.TrainerProfileUpdatesessionTypesInput | string[]
+  trainingLocations?: Prisma.TrainerProfileUpdatetrainingLocationsInput | string[]
+  sessionLengths?: Prisma.TrainerProfileUpdatesessionLengthsInput | number[]
+  pricingModel?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  priceMin?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  priceMax?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  availabilityType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  availabilityDays?: Prisma.TrainerProfileUpdateavailabilityDaysInput | string[]
   tier?: Prisma.EnumTrainerTierFieldUpdateOperationsInput | $Enums.TrainerTier
   stripeCustomerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   stripeSubscriptionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -2281,12 +2920,16 @@ export type TrainerProfileCreateWithoutContactRequestsInput = {
   bio?: string | null
   experience?: string | null
   whoIWorkWith?: string | null
+  education?: string | null
+  philosophy?: string | null
   yearsExperience?: number | null
   photoUrl?: string | null
   phone?: string | null
   virtualAvailable?: boolean
   bookingUrl?: string | null
   vslUrl?: string | null
+  instagramHandle?: string | null
+  youtubeHandle?: string | null
   gymName?: string | null
   addressLine1?: string | null
   city?: string | null
@@ -2294,6 +2937,15 @@ export type TrainerProfileCreateWithoutContactRequestsInput = {
   zip?: string | null
   lat?: number | null
   lng?: number | null
+  languages?: Prisma.TrainerProfileCreatelanguagesInput | string[]
+  sessionTypes?: Prisma.TrainerProfileCreatesessionTypesInput | string[]
+  trainingLocations?: Prisma.TrainerProfileCreatetrainingLocationsInput | string[]
+  sessionLengths?: Prisma.TrainerProfileCreatesessionLengthsInput | number[]
+  pricingModel?: string | null
+  priceMin?: number | null
+  priceMax?: number | null
+  availabilityType?: string | null
+  availabilityDays?: Prisma.TrainerProfileCreateavailabilityDaysInput | string[]
   tier?: $Enums.TrainerTier
   stripeCustomerId?: string | null
   stripeSubscriptionId?: string | null
@@ -2323,12 +2975,16 @@ export type TrainerProfileUncheckedCreateWithoutContactRequestsInput = {
   bio?: string | null
   experience?: string | null
   whoIWorkWith?: string | null
+  education?: string | null
+  philosophy?: string | null
   yearsExperience?: number | null
   photoUrl?: string | null
   phone?: string | null
   virtualAvailable?: boolean
   bookingUrl?: string | null
   vslUrl?: string | null
+  instagramHandle?: string | null
+  youtubeHandle?: string | null
   gymName?: string | null
   addressLine1?: string | null
   city?: string | null
@@ -2336,6 +2992,15 @@ export type TrainerProfileUncheckedCreateWithoutContactRequestsInput = {
   zip?: string | null
   lat?: number | null
   lng?: number | null
+  languages?: Prisma.TrainerProfileCreatelanguagesInput | string[]
+  sessionTypes?: Prisma.TrainerProfileCreatesessionTypesInput | string[]
+  trainingLocations?: Prisma.TrainerProfileCreatetrainingLocationsInput | string[]
+  sessionLengths?: Prisma.TrainerProfileCreatesessionLengthsInput | number[]
+  pricingModel?: string | null
+  priceMin?: number | null
+  priceMax?: number | null
+  availabilityType?: string | null
+  availabilityDays?: Prisma.TrainerProfileCreateavailabilityDaysInput | string[]
   tier?: $Enums.TrainerTier
   stripeCustomerId?: string | null
   stripeSubscriptionId?: string | null
@@ -2379,12 +3044,16 @@ export type TrainerProfileUpdateWithoutContactRequestsInput = {
   bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   experience?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   whoIWorkWith?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  education?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  philosophy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   yearsExperience?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   photoUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   virtualAvailable?: Prisma.BoolFieldUpdateOperationsInput | boolean
   bookingUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   vslUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  instagramHandle?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  youtubeHandle?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   gymName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   addressLine1?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -2392,6 +3061,15 @@ export type TrainerProfileUpdateWithoutContactRequestsInput = {
   zip?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   lat?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   lng?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  languages?: Prisma.TrainerProfileUpdatelanguagesInput | string[]
+  sessionTypes?: Prisma.TrainerProfileUpdatesessionTypesInput | string[]
+  trainingLocations?: Prisma.TrainerProfileUpdatetrainingLocationsInput | string[]
+  sessionLengths?: Prisma.TrainerProfileUpdatesessionLengthsInput | number[]
+  pricingModel?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  priceMin?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  priceMax?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  availabilityType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  availabilityDays?: Prisma.TrainerProfileUpdateavailabilityDaysInput | string[]
   tier?: Prisma.EnumTrainerTierFieldUpdateOperationsInput | $Enums.TrainerTier
   stripeCustomerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   stripeSubscriptionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -2421,12 +3099,16 @@ export type TrainerProfileUncheckedUpdateWithoutContactRequestsInput = {
   bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   experience?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   whoIWorkWith?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  education?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  philosophy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   yearsExperience?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   photoUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   virtualAvailable?: Prisma.BoolFieldUpdateOperationsInput | boolean
   bookingUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   vslUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  instagramHandle?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  youtubeHandle?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   gymName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   addressLine1?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -2434,6 +3116,15 @@ export type TrainerProfileUncheckedUpdateWithoutContactRequestsInput = {
   zip?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   lat?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   lng?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  languages?: Prisma.TrainerProfileUpdatelanguagesInput | string[]
+  sessionTypes?: Prisma.TrainerProfileUpdatesessionTypesInput | string[]
+  trainingLocations?: Prisma.TrainerProfileUpdatetrainingLocationsInput | string[]
+  sessionLengths?: Prisma.TrainerProfileUpdatesessionLengthsInput | number[]
+  pricingModel?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  priceMin?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  priceMax?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  availabilityType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  availabilityDays?: Prisma.TrainerProfileUpdateavailabilityDaysInput | string[]
   tier?: Prisma.EnumTrainerTierFieldUpdateOperationsInput | $Enums.TrainerTier
   stripeCustomerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   stripeSubscriptionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -2461,12 +3152,16 @@ export type TrainerProfileCreateWithoutProfileViewsInput = {
   bio?: string | null
   experience?: string | null
   whoIWorkWith?: string | null
+  education?: string | null
+  philosophy?: string | null
   yearsExperience?: number | null
   photoUrl?: string | null
   phone?: string | null
   virtualAvailable?: boolean
   bookingUrl?: string | null
   vslUrl?: string | null
+  instagramHandle?: string | null
+  youtubeHandle?: string | null
   gymName?: string | null
   addressLine1?: string | null
   city?: string | null
@@ -2474,6 +3169,15 @@ export type TrainerProfileCreateWithoutProfileViewsInput = {
   zip?: string | null
   lat?: number | null
   lng?: number | null
+  languages?: Prisma.TrainerProfileCreatelanguagesInput | string[]
+  sessionTypes?: Prisma.TrainerProfileCreatesessionTypesInput | string[]
+  trainingLocations?: Prisma.TrainerProfileCreatetrainingLocationsInput | string[]
+  sessionLengths?: Prisma.TrainerProfileCreatesessionLengthsInput | number[]
+  pricingModel?: string | null
+  priceMin?: number | null
+  priceMax?: number | null
+  availabilityType?: string | null
+  availabilityDays?: Prisma.TrainerProfileCreateavailabilityDaysInput | string[]
   tier?: $Enums.TrainerTier
   stripeCustomerId?: string | null
   stripeSubscriptionId?: string | null
@@ -2503,12 +3207,16 @@ export type TrainerProfileUncheckedCreateWithoutProfileViewsInput = {
   bio?: string | null
   experience?: string | null
   whoIWorkWith?: string | null
+  education?: string | null
+  philosophy?: string | null
   yearsExperience?: number | null
   photoUrl?: string | null
   phone?: string | null
   virtualAvailable?: boolean
   bookingUrl?: string | null
   vslUrl?: string | null
+  instagramHandle?: string | null
+  youtubeHandle?: string | null
   gymName?: string | null
   addressLine1?: string | null
   city?: string | null
@@ -2516,6 +3224,15 @@ export type TrainerProfileUncheckedCreateWithoutProfileViewsInput = {
   zip?: string | null
   lat?: number | null
   lng?: number | null
+  languages?: Prisma.TrainerProfileCreatelanguagesInput | string[]
+  sessionTypes?: Prisma.TrainerProfileCreatesessionTypesInput | string[]
+  trainingLocations?: Prisma.TrainerProfileCreatetrainingLocationsInput | string[]
+  sessionLengths?: Prisma.TrainerProfileCreatesessionLengthsInput | number[]
+  pricingModel?: string | null
+  priceMin?: number | null
+  priceMax?: number | null
+  availabilityType?: string | null
+  availabilityDays?: Prisma.TrainerProfileCreateavailabilityDaysInput | string[]
   tier?: $Enums.TrainerTier
   stripeCustomerId?: string | null
   stripeSubscriptionId?: string | null
@@ -2559,12 +3276,16 @@ export type TrainerProfileUpdateWithoutProfileViewsInput = {
   bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   experience?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   whoIWorkWith?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  education?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  philosophy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   yearsExperience?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   photoUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   virtualAvailable?: Prisma.BoolFieldUpdateOperationsInput | boolean
   bookingUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   vslUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  instagramHandle?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  youtubeHandle?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   gymName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   addressLine1?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -2572,6 +3293,15 @@ export type TrainerProfileUpdateWithoutProfileViewsInput = {
   zip?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   lat?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   lng?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  languages?: Prisma.TrainerProfileUpdatelanguagesInput | string[]
+  sessionTypes?: Prisma.TrainerProfileUpdatesessionTypesInput | string[]
+  trainingLocations?: Prisma.TrainerProfileUpdatetrainingLocationsInput | string[]
+  sessionLengths?: Prisma.TrainerProfileUpdatesessionLengthsInput | number[]
+  pricingModel?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  priceMin?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  priceMax?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  availabilityType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  availabilityDays?: Prisma.TrainerProfileUpdateavailabilityDaysInput | string[]
   tier?: Prisma.EnumTrainerTierFieldUpdateOperationsInput | $Enums.TrainerTier
   stripeCustomerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   stripeSubscriptionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -2601,12 +3331,16 @@ export type TrainerProfileUncheckedUpdateWithoutProfileViewsInput = {
   bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   experience?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   whoIWorkWith?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  education?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  philosophy?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   yearsExperience?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   photoUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   virtualAvailable?: Prisma.BoolFieldUpdateOperationsInput | boolean
   bookingUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   vslUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  instagramHandle?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  youtubeHandle?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   gymName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   addressLine1?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -2614,6 +3348,15 @@ export type TrainerProfileUncheckedUpdateWithoutProfileViewsInput = {
   zip?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   lat?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   lng?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  languages?: Prisma.TrainerProfileUpdatelanguagesInput | string[]
+  sessionTypes?: Prisma.TrainerProfileUpdatesessionTypesInput | string[]
+  trainingLocations?: Prisma.TrainerProfileUpdatetrainingLocationsInput | string[]
+  sessionLengths?: Prisma.TrainerProfileUpdatesessionLengthsInput | number[]
+  pricingModel?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  priceMin?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  priceMax?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  availabilityType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  availabilityDays?: Prisma.TrainerProfileUpdateavailabilityDaysInput | string[]
   tier?: Prisma.EnumTrainerTierFieldUpdateOperationsInput | $Enums.TrainerTier
   stripeCustomerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   stripeSubscriptionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -2718,12 +3461,16 @@ export type TrainerProfileSelect<ExtArgs extends runtime.Types.Extensions.Intern
   bio?: boolean
   experience?: boolean
   whoIWorkWith?: boolean
+  education?: boolean
+  philosophy?: boolean
   yearsExperience?: boolean
   photoUrl?: boolean
   phone?: boolean
   virtualAvailable?: boolean
   bookingUrl?: boolean
   vslUrl?: boolean
+  instagramHandle?: boolean
+  youtubeHandle?: boolean
   gymName?: boolean
   addressLine1?: boolean
   city?: boolean
@@ -2731,6 +3478,15 @@ export type TrainerProfileSelect<ExtArgs extends runtime.Types.Extensions.Intern
   zip?: boolean
   lat?: boolean
   lng?: boolean
+  languages?: boolean
+  sessionTypes?: boolean
+  trainingLocations?: boolean
+  sessionLengths?: boolean
+  pricingModel?: boolean
+  priceMin?: boolean
+  priceMax?: boolean
+  availabilityType?: boolean
+  availabilityDays?: boolean
   tier?: boolean
   stripeCustomerId?: boolean
   stripeSubscriptionId?: boolean
@@ -2762,12 +3518,16 @@ export type TrainerProfileSelectCreateManyAndReturn<ExtArgs extends runtime.Type
   bio?: boolean
   experience?: boolean
   whoIWorkWith?: boolean
+  education?: boolean
+  philosophy?: boolean
   yearsExperience?: boolean
   photoUrl?: boolean
   phone?: boolean
   virtualAvailable?: boolean
   bookingUrl?: boolean
   vslUrl?: boolean
+  instagramHandle?: boolean
+  youtubeHandle?: boolean
   gymName?: boolean
   addressLine1?: boolean
   city?: boolean
@@ -2775,6 +3535,15 @@ export type TrainerProfileSelectCreateManyAndReturn<ExtArgs extends runtime.Type
   zip?: boolean
   lat?: boolean
   lng?: boolean
+  languages?: boolean
+  sessionTypes?: boolean
+  trainingLocations?: boolean
+  sessionLengths?: boolean
+  pricingModel?: boolean
+  priceMin?: boolean
+  priceMax?: boolean
+  availabilityType?: boolean
+  availabilityDays?: boolean
   tier?: boolean
   stripeCustomerId?: boolean
   stripeSubscriptionId?: boolean
@@ -2798,12 +3567,16 @@ export type TrainerProfileSelectUpdateManyAndReturn<ExtArgs extends runtime.Type
   bio?: boolean
   experience?: boolean
   whoIWorkWith?: boolean
+  education?: boolean
+  philosophy?: boolean
   yearsExperience?: boolean
   photoUrl?: boolean
   phone?: boolean
   virtualAvailable?: boolean
   bookingUrl?: boolean
   vslUrl?: boolean
+  instagramHandle?: boolean
+  youtubeHandle?: boolean
   gymName?: boolean
   addressLine1?: boolean
   city?: boolean
@@ -2811,6 +3584,15 @@ export type TrainerProfileSelectUpdateManyAndReturn<ExtArgs extends runtime.Type
   zip?: boolean
   lat?: boolean
   lng?: boolean
+  languages?: boolean
+  sessionTypes?: boolean
+  trainingLocations?: boolean
+  sessionLengths?: boolean
+  pricingModel?: boolean
+  priceMin?: boolean
+  priceMax?: boolean
+  availabilityType?: boolean
+  availabilityDays?: boolean
   tier?: boolean
   stripeCustomerId?: boolean
   stripeSubscriptionId?: boolean
@@ -2834,12 +3616,16 @@ export type TrainerProfileSelectScalar = {
   bio?: boolean
   experience?: boolean
   whoIWorkWith?: boolean
+  education?: boolean
+  philosophy?: boolean
   yearsExperience?: boolean
   photoUrl?: boolean
   phone?: boolean
   virtualAvailable?: boolean
   bookingUrl?: boolean
   vslUrl?: boolean
+  instagramHandle?: boolean
+  youtubeHandle?: boolean
   gymName?: boolean
   addressLine1?: boolean
   city?: boolean
@@ -2847,6 +3633,15 @@ export type TrainerProfileSelectScalar = {
   zip?: boolean
   lat?: boolean
   lng?: boolean
+  languages?: boolean
+  sessionTypes?: boolean
+  trainingLocations?: boolean
+  sessionLengths?: boolean
+  pricingModel?: boolean
+  priceMin?: boolean
+  priceMax?: boolean
+  availabilityType?: boolean
+  availabilityDays?: boolean
   tier?: boolean
   stripeCustomerId?: boolean
   stripeSubscriptionId?: boolean
@@ -2859,7 +3654,7 @@ export type TrainerProfileSelectScalar = {
   updatedAt?: boolean
 }
 
-export type TrainerProfileOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "userId" | "slug" | "profileType" | "displayName" | "headline" | "bio" | "experience" | "whoIWorkWith" | "yearsExperience" | "photoUrl" | "phone" | "virtualAvailable" | "bookingUrl" | "vslUrl" | "gymName" | "addressLine1" | "city" | "state" | "zip" | "lat" | "lng" | "tier" | "stripeCustomerId" | "stripeSubscriptionId" | "subscriptionStatus" | "currentPeriodEnd" | "wizardComplete" | "averageRating" | "reviewCount" | "createdAt" | "updatedAt", ExtArgs["result"]["trainerProfile"]>
+export type TrainerProfileOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "userId" | "slug" | "profileType" | "displayName" | "headline" | "bio" | "experience" | "whoIWorkWith" | "education" | "philosophy" | "yearsExperience" | "photoUrl" | "phone" | "virtualAvailable" | "bookingUrl" | "vslUrl" | "instagramHandle" | "youtubeHandle" | "gymName" | "addressLine1" | "city" | "state" | "zip" | "lat" | "lng" | "languages" | "sessionTypes" | "trainingLocations" | "sessionLengths" | "pricingModel" | "priceMin" | "priceMax" | "availabilityType" | "availabilityDays" | "tier" | "stripeCustomerId" | "stripeSubscriptionId" | "subscriptionStatus" | "currentPeriodEnd" | "wizardComplete" | "averageRating" | "reviewCount" | "createdAt" | "updatedAt", ExtArgs["result"]["trainerProfile"]>
 export type TrainerProfileInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   profileViews?: boolean | Prisma.TrainerProfile$profileViewsArgs<ExtArgs>
   certifications?: boolean | Prisma.TrainerProfile$certificationsArgs<ExtArgs>
@@ -2900,12 +3695,16 @@ export type $TrainerProfilePayload<ExtArgs extends runtime.Types.Extensions.Inte
     bio: string | null
     experience: string | null
     whoIWorkWith: string | null
+    education: string | null
+    philosophy: string | null
     yearsExperience: number | null
     photoUrl: string | null
     phone: string | null
     virtualAvailable: boolean
     bookingUrl: string | null
     vslUrl: string | null
+    instagramHandle: string | null
+    youtubeHandle: string | null
     gymName: string | null
     addressLine1: string | null
     city: string | null
@@ -2913,6 +3712,15 @@ export type $TrainerProfilePayload<ExtArgs extends runtime.Types.Extensions.Inte
     zip: string | null
     lat: number | null
     lng: number | null
+    languages: string[]
+    sessionTypes: string[]
+    trainingLocations: string[]
+    sessionLengths: number[]
+    pricingModel: string | null
+    priceMin: number | null
+    priceMax: number | null
+    availabilityType: string | null
+    availabilityDays: string[]
     tier: $Enums.TrainerTier
     stripeCustomerId: string | null
     stripeSubscriptionId: string | null
@@ -3363,12 +4171,16 @@ export interface TrainerProfileFieldRefs {
   readonly bio: Prisma.FieldRef<"TrainerProfile", 'String'>
   readonly experience: Prisma.FieldRef<"TrainerProfile", 'String'>
   readonly whoIWorkWith: Prisma.FieldRef<"TrainerProfile", 'String'>
+  readonly education: Prisma.FieldRef<"TrainerProfile", 'String'>
+  readonly philosophy: Prisma.FieldRef<"TrainerProfile", 'String'>
   readonly yearsExperience: Prisma.FieldRef<"TrainerProfile", 'Int'>
   readonly photoUrl: Prisma.FieldRef<"TrainerProfile", 'String'>
   readonly phone: Prisma.FieldRef<"TrainerProfile", 'String'>
   readonly virtualAvailable: Prisma.FieldRef<"TrainerProfile", 'Boolean'>
   readonly bookingUrl: Prisma.FieldRef<"TrainerProfile", 'String'>
   readonly vslUrl: Prisma.FieldRef<"TrainerProfile", 'String'>
+  readonly instagramHandle: Prisma.FieldRef<"TrainerProfile", 'String'>
+  readonly youtubeHandle: Prisma.FieldRef<"TrainerProfile", 'String'>
   readonly gymName: Prisma.FieldRef<"TrainerProfile", 'String'>
   readonly addressLine1: Prisma.FieldRef<"TrainerProfile", 'String'>
   readonly city: Prisma.FieldRef<"TrainerProfile", 'String'>
@@ -3376,6 +4188,15 @@ export interface TrainerProfileFieldRefs {
   readonly zip: Prisma.FieldRef<"TrainerProfile", 'String'>
   readonly lat: Prisma.FieldRef<"TrainerProfile", 'Float'>
   readonly lng: Prisma.FieldRef<"TrainerProfile", 'Float'>
+  readonly languages: Prisma.FieldRef<"TrainerProfile", 'String[]'>
+  readonly sessionTypes: Prisma.FieldRef<"TrainerProfile", 'String[]'>
+  readonly trainingLocations: Prisma.FieldRef<"TrainerProfile", 'String[]'>
+  readonly sessionLengths: Prisma.FieldRef<"TrainerProfile", 'Int[]'>
+  readonly pricingModel: Prisma.FieldRef<"TrainerProfile", 'String'>
+  readonly priceMin: Prisma.FieldRef<"TrainerProfile", 'Int'>
+  readonly priceMax: Prisma.FieldRef<"TrainerProfile", 'Int'>
+  readonly availabilityType: Prisma.FieldRef<"TrainerProfile", 'String'>
+  readonly availabilityDays: Prisma.FieldRef<"TrainerProfile", 'String[]'>
   readonly tier: Prisma.FieldRef<"TrainerProfile", 'TrainerTier'>
   readonly stripeCustomerId: Prisma.FieldRef<"TrainerProfile", 'String'>
   readonly stripeSubscriptionId: Prisma.FieldRef<"TrainerProfile", 'String'>

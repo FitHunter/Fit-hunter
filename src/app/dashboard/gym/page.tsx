@@ -6,7 +6,7 @@ import { format } from "date-fns";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { Eye, Star, ExternalLink, Settings, MessageSquare } from "lucide-react";
+import { Eye, Star, ExternalLink, MessageSquare } from "lucide-react";
 import { BillingButton } from "@/components/dashboard/billing-button";
 
 export default async function GymDashboardPage() {
@@ -28,7 +28,9 @@ export default async function GymDashboardPage() {
     },
   });
 
-  if (!gym) redirect("/dashboard/gym/setup");
+  // A GYM account always has a profile created at registration. If it's somehow
+  // missing, the gym setup flow doesn't exist yet — send home instead of 404ing.
+  if (!gym) redirect("/");
 
   const now = new Date();
   const sevenDaysAgo = new Date(now.getTime() - 7 * 24 * 60 * 60 * 1000);
@@ -52,9 +54,6 @@ export default async function GymDashboardPage() {
           <Badge variant={gym.tier === "VERIFIED" ? "verified" : gym.tier === "BASIC" ? "default" : "secondary"}>
             {gym.tier} Plan
           </Badge>
-          <Link href="/dashboard/gym/edit">
-            <Button variant="outline" size="sm"><Settings className="h-4 w-4" />Edit Profile</Button>
-          </Link>
         </div>
       </div>
 
@@ -103,11 +102,6 @@ export default async function GymDashboardPage() {
                     ))}
                   </div>
                   <p className="text-sm text-gray-700 mt-1 line-clamp-2">{review.writtenReview}</p>
-                  {review.status === "APPROVED" && !review.response && gym.tier === "VERIFIED" && (
-                    <Link href={`/dashboard/gym/reviews/${review.id}/respond`}>
-                      <Button variant="ghost" size="sm" className="mt-2 h-7 text-xs text-emerald-700">Respond to review</Button>
-                    </Link>
-                  )}
                 </div>
               ))}
             </div>

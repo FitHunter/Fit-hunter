@@ -20,8 +20,18 @@ export type UserModel = runtime.Types.Result.DefaultSelection<Prisma.$UserPayloa
 
 export type AggregateUser = {
   _count: UserCountAggregateOutputType | null
+  _avg: UserAvgAggregateOutputType | null
+  _sum: UserSumAggregateOutputType | null
   _min: UserMinAggregateOutputType | null
   _max: UserMaxAggregateOutputType | null
+}
+
+export type UserAvgAggregateOutputType = {
+  failedLoginAttempts: number | null
+}
+
+export type UserSumAggregateOutputType = {
+  failedLoginAttempts: number | null
 }
 
 export type UserMinAggregateOutputType = {
@@ -34,6 +44,8 @@ export type UserMinAggregateOutputType = {
   accountType: $Enums.AccountType | null
   isAdmin: boolean | null
   isSuspended: boolean | null
+  failedLoginAttempts: number | null
+  lockedAt: Date | null
   createdAt: Date | null
   updatedAt: Date | null
 }
@@ -48,6 +60,8 @@ export type UserMaxAggregateOutputType = {
   accountType: $Enums.AccountType | null
   isAdmin: boolean | null
   isSuspended: boolean | null
+  failedLoginAttempts: number | null
+  lockedAt: Date | null
   createdAt: Date | null
   updatedAt: Date | null
 }
@@ -62,11 +76,21 @@ export type UserCountAggregateOutputType = {
   accountType: number
   isAdmin: number
   isSuspended: number
+  failedLoginAttempts: number
+  lockedAt: number
   createdAt: number
   updatedAt: number
   _all: number
 }
 
+
+export type UserAvgAggregateInputType = {
+  failedLoginAttempts?: true
+}
+
+export type UserSumAggregateInputType = {
+  failedLoginAttempts?: true
+}
 
 export type UserMinAggregateInputType = {
   id?: true
@@ -78,6 +102,8 @@ export type UserMinAggregateInputType = {
   accountType?: true
   isAdmin?: true
   isSuspended?: true
+  failedLoginAttempts?: true
+  lockedAt?: true
   createdAt?: true
   updatedAt?: true
 }
@@ -92,6 +118,8 @@ export type UserMaxAggregateInputType = {
   accountType?: true
   isAdmin?: true
   isSuspended?: true
+  failedLoginAttempts?: true
+  lockedAt?: true
   createdAt?: true
   updatedAt?: true
 }
@@ -106,6 +134,8 @@ export type UserCountAggregateInputType = {
   accountType?: true
   isAdmin?: true
   isSuspended?: true
+  failedLoginAttempts?: true
+  lockedAt?: true
   createdAt?: true
   updatedAt?: true
   _all?: true
@@ -149,6 +179,18 @@ export type UserAggregateArgs<ExtArgs extends runtime.Types.Extensions.InternalA
   /**
    * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
    * 
+   * Select which fields to average
+  **/
+  _avg?: UserAvgAggregateInputType
+  /**
+   * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+   * 
+   * Select which fields to sum
+  **/
+  _sum?: UserSumAggregateInputType
+  /**
+   * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+   * 
    * Select which fields to find the minimum value
   **/
   _min?: UserMinAggregateInputType
@@ -179,6 +221,8 @@ export type UserGroupByArgs<ExtArgs extends runtime.Types.Extensions.InternalArg
   take?: number
   skip?: number
   _count?: UserCountAggregateInputType | true
+  _avg?: UserAvgAggregateInputType
+  _sum?: UserSumAggregateInputType
   _min?: UserMinAggregateInputType
   _max?: UserMaxAggregateInputType
 }
@@ -193,9 +237,13 @@ export type UserGroupByOutputType = {
   accountType: $Enums.AccountType
   isAdmin: boolean
   isSuspended: boolean
+  failedLoginAttempts: number
+  lockedAt: Date | null
   createdAt: Date
   updatedAt: Date
   _count: UserCountAggregateOutputType | null
+  _avg: UserAvgAggregateOutputType | null
+  _sum: UserSumAggregateOutputType | null
   _min: UserMinAggregateOutputType | null
   _max: UserMaxAggregateOutputType | null
 }
@@ -228,6 +276,8 @@ export type UserWhereInput = {
   accountType?: Prisma.EnumAccountTypeFilter<"User"> | $Enums.AccountType
   isAdmin?: Prisma.BoolFilter<"User"> | boolean
   isSuspended?: Prisma.BoolFilter<"User"> | boolean
+  failedLoginAttempts?: Prisma.IntFilter<"User"> | number
+  lockedAt?: Prisma.DateTimeNullableFilter<"User"> | Date | string | null
   createdAt?: Prisma.DateTimeFilter<"User"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"User"> | Date | string
   accounts?: Prisma.AccountListRelationFilter
@@ -251,6 +301,8 @@ export type UserOrderByWithRelationInput = {
   accountType?: Prisma.SortOrder
   isAdmin?: Prisma.SortOrder
   isSuspended?: Prisma.SortOrder
+  failedLoginAttempts?: Prisma.SortOrder
+  lockedAt?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   accounts?: Prisma.AccountOrderByRelationAggregateInput
@@ -277,6 +329,8 @@ export type UserWhereUniqueInput = Prisma.AtLeast<{
   accountType?: Prisma.EnumAccountTypeFilter<"User"> | $Enums.AccountType
   isAdmin?: Prisma.BoolFilter<"User"> | boolean
   isSuspended?: Prisma.BoolFilter<"User"> | boolean
+  failedLoginAttempts?: Prisma.IntFilter<"User"> | number
+  lockedAt?: Prisma.DateTimeNullableFilter<"User"> | Date | string | null
   createdAt?: Prisma.DateTimeFilter<"User"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"User"> | Date | string
   accounts?: Prisma.AccountListRelationFilter
@@ -300,11 +354,15 @@ export type UserOrderByWithAggregationInput = {
   accountType?: Prisma.SortOrder
   isAdmin?: Prisma.SortOrder
   isSuspended?: Prisma.SortOrder
+  failedLoginAttempts?: Prisma.SortOrder
+  lockedAt?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   _count?: Prisma.UserCountOrderByAggregateInput
+  _avg?: Prisma.UserAvgOrderByAggregateInput
   _max?: Prisma.UserMaxOrderByAggregateInput
   _min?: Prisma.UserMinOrderByAggregateInput
+  _sum?: Prisma.UserSumOrderByAggregateInput
 }
 
 export type UserScalarWhereWithAggregatesInput = {
@@ -320,6 +378,8 @@ export type UserScalarWhereWithAggregatesInput = {
   accountType?: Prisma.EnumAccountTypeWithAggregatesFilter<"User"> | $Enums.AccountType
   isAdmin?: Prisma.BoolWithAggregatesFilter<"User"> | boolean
   isSuspended?: Prisma.BoolWithAggregatesFilter<"User"> | boolean
+  failedLoginAttempts?: Prisma.IntWithAggregatesFilter<"User"> | number
+  lockedAt?: Prisma.DateTimeNullableWithAggregatesFilter<"User"> | Date | string | null
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"User"> | Date | string
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"User"> | Date | string
 }
@@ -334,6 +394,8 @@ export type UserCreateInput = {
   accountType?: $Enums.AccountType
   isAdmin?: boolean
   isSuspended?: boolean
+  failedLoginAttempts?: number
+  lockedAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
@@ -357,6 +419,8 @@ export type UserUncheckedCreateInput = {
   accountType?: $Enums.AccountType
   isAdmin?: boolean
   isSuspended?: boolean
+  failedLoginAttempts?: number
+  lockedAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
@@ -380,6 +444,8 @@ export type UserUpdateInput = {
   accountType?: Prisma.EnumAccountTypeFieldUpdateOperationsInput | $Enums.AccountType
   isAdmin?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isSuspended?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  failedLoginAttempts?: Prisma.IntFieldUpdateOperationsInput | number
+  lockedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
@@ -403,6 +469,8 @@ export type UserUncheckedUpdateInput = {
   accountType?: Prisma.EnumAccountTypeFieldUpdateOperationsInput | $Enums.AccountType
   isAdmin?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isSuspended?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  failedLoginAttempts?: Prisma.IntFieldUpdateOperationsInput | number
+  lockedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
@@ -426,6 +494,8 @@ export type UserCreateManyInput = {
   accountType?: $Enums.AccountType
   isAdmin?: boolean
   isSuspended?: boolean
+  failedLoginAttempts?: number
+  lockedAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -440,6 +510,8 @@ export type UserUpdateManyMutationInput = {
   accountType?: Prisma.EnumAccountTypeFieldUpdateOperationsInput | $Enums.AccountType
   isAdmin?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isSuspended?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  failedLoginAttempts?: Prisma.IntFieldUpdateOperationsInput | number
+  lockedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -454,6 +526,8 @@ export type UserUncheckedUpdateManyInput = {
   accountType?: Prisma.EnumAccountTypeFieldUpdateOperationsInput | $Enums.AccountType
   isAdmin?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isSuspended?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  failedLoginAttempts?: Prisma.IntFieldUpdateOperationsInput | number
+  lockedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -468,8 +542,14 @@ export type UserCountOrderByAggregateInput = {
   accountType?: Prisma.SortOrder
   isAdmin?: Prisma.SortOrder
   isSuspended?: Prisma.SortOrder
+  failedLoginAttempts?: Prisma.SortOrder
+  lockedAt?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+}
+
+export type UserAvgOrderByAggregateInput = {
+  failedLoginAttempts?: Prisma.SortOrder
 }
 
 export type UserMaxOrderByAggregateInput = {
@@ -482,6 +562,8 @@ export type UserMaxOrderByAggregateInput = {
   accountType?: Prisma.SortOrder
   isAdmin?: Prisma.SortOrder
   isSuspended?: Prisma.SortOrder
+  failedLoginAttempts?: Prisma.SortOrder
+  lockedAt?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
@@ -496,8 +578,14 @@ export type UserMinOrderByAggregateInput = {
   accountType?: Prisma.SortOrder
   isAdmin?: Prisma.SortOrder
   isSuspended?: Prisma.SortOrder
+  failedLoginAttempts?: Prisma.SortOrder
+  lockedAt?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+}
+
+export type UserSumOrderByAggregateInput = {
+  failedLoginAttempts?: Prisma.SortOrder
 }
 
 export type UserScalarRelationFilter = {
@@ -528,6 +616,14 @@ export type EnumAccountTypeFieldUpdateOperationsInput = {
 
 export type BoolFieldUpdateOperationsInput = {
   set?: boolean
+}
+
+export type IntFieldUpdateOperationsInput = {
+  set?: number
+  increment?: number
+  decrement?: number
+  multiply?: number
+  divide?: number
 }
 
 export type DateTimeFieldUpdateOperationsInput = {
@@ -672,6 +768,8 @@ export type UserCreateWithoutAccountsInput = {
   accountType?: $Enums.AccountType
   isAdmin?: boolean
   isSuspended?: boolean
+  failedLoginAttempts?: number
+  lockedAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
@@ -694,6 +792,8 @@ export type UserUncheckedCreateWithoutAccountsInput = {
   accountType?: $Enums.AccountType
   isAdmin?: boolean
   isSuspended?: boolean
+  failedLoginAttempts?: number
+  lockedAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
@@ -732,6 +832,8 @@ export type UserUpdateWithoutAccountsInput = {
   accountType?: Prisma.EnumAccountTypeFieldUpdateOperationsInput | $Enums.AccountType
   isAdmin?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isSuspended?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  failedLoginAttempts?: Prisma.IntFieldUpdateOperationsInput | number
+  lockedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
@@ -754,6 +856,8 @@ export type UserUncheckedUpdateWithoutAccountsInput = {
   accountType?: Prisma.EnumAccountTypeFieldUpdateOperationsInput | $Enums.AccountType
   isAdmin?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isSuspended?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  failedLoginAttempts?: Prisma.IntFieldUpdateOperationsInput | number
+  lockedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
@@ -776,6 +880,8 @@ export type UserCreateWithoutSessionsInput = {
   accountType?: $Enums.AccountType
   isAdmin?: boolean
   isSuspended?: boolean
+  failedLoginAttempts?: number
+  lockedAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
@@ -798,6 +904,8 @@ export type UserUncheckedCreateWithoutSessionsInput = {
   accountType?: $Enums.AccountType
   isAdmin?: boolean
   isSuspended?: boolean
+  failedLoginAttempts?: number
+  lockedAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
@@ -836,6 +944,8 @@ export type UserUpdateWithoutSessionsInput = {
   accountType?: Prisma.EnumAccountTypeFieldUpdateOperationsInput | $Enums.AccountType
   isAdmin?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isSuspended?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  failedLoginAttempts?: Prisma.IntFieldUpdateOperationsInput | number
+  lockedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
@@ -858,6 +968,8 @@ export type UserUncheckedUpdateWithoutSessionsInput = {
   accountType?: Prisma.EnumAccountTypeFieldUpdateOperationsInput | $Enums.AccountType
   isAdmin?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isSuspended?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  failedLoginAttempts?: Prisma.IntFieldUpdateOperationsInput | number
+  lockedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
@@ -880,6 +992,8 @@ export type UserCreateWithoutVerificationTokensInput = {
   accountType?: $Enums.AccountType
   isAdmin?: boolean
   isSuspended?: boolean
+  failedLoginAttempts?: number
+  lockedAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
@@ -902,6 +1016,8 @@ export type UserUncheckedCreateWithoutVerificationTokensInput = {
   accountType?: $Enums.AccountType
   isAdmin?: boolean
   isSuspended?: boolean
+  failedLoginAttempts?: number
+  lockedAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
@@ -940,6 +1056,8 @@ export type UserUpdateWithoutVerificationTokensInput = {
   accountType?: Prisma.EnumAccountTypeFieldUpdateOperationsInput | $Enums.AccountType
   isAdmin?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isSuspended?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  failedLoginAttempts?: Prisma.IntFieldUpdateOperationsInput | number
+  lockedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
@@ -962,6 +1080,8 @@ export type UserUncheckedUpdateWithoutVerificationTokensInput = {
   accountType?: Prisma.EnumAccountTypeFieldUpdateOperationsInput | $Enums.AccountType
   isAdmin?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isSuspended?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  failedLoginAttempts?: Prisma.IntFieldUpdateOperationsInput | number
+  lockedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
@@ -984,6 +1104,8 @@ export type UserCreateWithoutPasswordResetTokensInput = {
   accountType?: $Enums.AccountType
   isAdmin?: boolean
   isSuspended?: boolean
+  failedLoginAttempts?: number
+  lockedAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
@@ -1006,6 +1128,8 @@ export type UserUncheckedCreateWithoutPasswordResetTokensInput = {
   accountType?: $Enums.AccountType
   isAdmin?: boolean
   isSuspended?: boolean
+  failedLoginAttempts?: number
+  lockedAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
@@ -1044,6 +1168,8 @@ export type UserUpdateWithoutPasswordResetTokensInput = {
   accountType?: Prisma.EnumAccountTypeFieldUpdateOperationsInput | $Enums.AccountType
   isAdmin?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isSuspended?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  failedLoginAttempts?: Prisma.IntFieldUpdateOperationsInput | number
+  lockedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
@@ -1066,6 +1192,8 @@ export type UserUncheckedUpdateWithoutPasswordResetTokensInput = {
   accountType?: Prisma.EnumAccountTypeFieldUpdateOperationsInput | $Enums.AccountType
   isAdmin?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isSuspended?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  failedLoginAttempts?: Prisma.IntFieldUpdateOperationsInput | number
+  lockedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
@@ -1088,6 +1216,8 @@ export type UserCreateWithoutTrainerProfileInput = {
   accountType?: $Enums.AccountType
   isAdmin?: boolean
   isSuspended?: boolean
+  failedLoginAttempts?: number
+  lockedAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
@@ -1110,6 +1240,8 @@ export type UserUncheckedCreateWithoutTrainerProfileInput = {
   accountType?: $Enums.AccountType
   isAdmin?: boolean
   isSuspended?: boolean
+  failedLoginAttempts?: number
+  lockedAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
@@ -1148,6 +1280,8 @@ export type UserUpdateWithoutTrainerProfileInput = {
   accountType?: Prisma.EnumAccountTypeFieldUpdateOperationsInput | $Enums.AccountType
   isAdmin?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isSuspended?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  failedLoginAttempts?: Prisma.IntFieldUpdateOperationsInput | number
+  lockedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
@@ -1170,6 +1304,8 @@ export type UserUncheckedUpdateWithoutTrainerProfileInput = {
   accountType?: Prisma.EnumAccountTypeFieldUpdateOperationsInput | $Enums.AccountType
   isAdmin?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isSuspended?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  failedLoginAttempts?: Prisma.IntFieldUpdateOperationsInput | number
+  lockedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
@@ -1192,6 +1328,8 @@ export type UserCreateWithoutGymProfileInput = {
   accountType?: $Enums.AccountType
   isAdmin?: boolean
   isSuspended?: boolean
+  failedLoginAttempts?: number
+  lockedAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
@@ -1214,6 +1352,8 @@ export type UserUncheckedCreateWithoutGymProfileInput = {
   accountType?: $Enums.AccountType
   isAdmin?: boolean
   isSuspended?: boolean
+  failedLoginAttempts?: number
+  lockedAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
@@ -1252,6 +1392,8 @@ export type UserUpdateWithoutGymProfileInput = {
   accountType?: Prisma.EnumAccountTypeFieldUpdateOperationsInput | $Enums.AccountType
   isAdmin?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isSuspended?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  failedLoginAttempts?: Prisma.IntFieldUpdateOperationsInput | number
+  lockedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
@@ -1274,6 +1416,8 @@ export type UserUncheckedUpdateWithoutGymProfileInput = {
   accountType?: Prisma.EnumAccountTypeFieldUpdateOperationsInput | $Enums.AccountType
   isAdmin?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isSuspended?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  failedLoginAttempts?: Prisma.IntFieldUpdateOperationsInput | number
+  lockedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
@@ -1296,6 +1440,8 @@ export type UserCreateWithoutReviewsInput = {
   accountType?: $Enums.AccountType
   isAdmin?: boolean
   isSuspended?: boolean
+  failedLoginAttempts?: number
+  lockedAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
@@ -1318,6 +1464,8 @@ export type UserUncheckedCreateWithoutReviewsInput = {
   accountType?: $Enums.AccountType
   isAdmin?: boolean
   isSuspended?: boolean
+  failedLoginAttempts?: number
+  lockedAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
@@ -1356,6 +1504,8 @@ export type UserUpdateWithoutReviewsInput = {
   accountType?: Prisma.EnumAccountTypeFieldUpdateOperationsInput | $Enums.AccountType
   isAdmin?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isSuspended?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  failedLoginAttempts?: Prisma.IntFieldUpdateOperationsInput | number
+  lockedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
@@ -1378,6 +1528,8 @@ export type UserUncheckedUpdateWithoutReviewsInput = {
   accountType?: Prisma.EnumAccountTypeFieldUpdateOperationsInput | $Enums.AccountType
   isAdmin?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isSuspended?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  failedLoginAttempts?: Prisma.IntFieldUpdateOperationsInput | number
+  lockedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
@@ -1400,6 +1552,8 @@ export type UserCreateWithoutReviewFlagsInput = {
   accountType?: $Enums.AccountType
   isAdmin?: boolean
   isSuspended?: boolean
+  failedLoginAttempts?: number
+  lockedAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
@@ -1422,6 +1576,8 @@ export type UserUncheckedCreateWithoutReviewFlagsInput = {
   accountType?: $Enums.AccountType
   isAdmin?: boolean
   isSuspended?: boolean
+  failedLoginAttempts?: number
+  lockedAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
@@ -1460,6 +1616,8 @@ export type UserUpdateWithoutReviewFlagsInput = {
   accountType?: Prisma.EnumAccountTypeFieldUpdateOperationsInput | $Enums.AccountType
   isAdmin?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isSuspended?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  failedLoginAttempts?: Prisma.IntFieldUpdateOperationsInput | number
+  lockedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
@@ -1482,6 +1640,8 @@ export type UserUncheckedUpdateWithoutReviewFlagsInput = {
   accountType?: Prisma.EnumAccountTypeFieldUpdateOperationsInput | $Enums.AccountType
   isAdmin?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isSuspended?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  failedLoginAttempts?: Prisma.IntFieldUpdateOperationsInput | number
+  lockedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
@@ -1504,6 +1664,8 @@ export type UserCreateWithoutContactRequestsInput = {
   accountType?: $Enums.AccountType
   isAdmin?: boolean
   isSuspended?: boolean
+  failedLoginAttempts?: number
+  lockedAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
@@ -1526,6 +1688,8 @@ export type UserUncheckedCreateWithoutContactRequestsInput = {
   accountType?: $Enums.AccountType
   isAdmin?: boolean
   isSuspended?: boolean
+  failedLoginAttempts?: number
+  lockedAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
@@ -1564,6 +1728,8 @@ export type UserUpdateWithoutContactRequestsInput = {
   accountType?: Prisma.EnumAccountTypeFieldUpdateOperationsInput | $Enums.AccountType
   isAdmin?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isSuspended?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  failedLoginAttempts?: Prisma.IntFieldUpdateOperationsInput | number
+  lockedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
@@ -1586,6 +1752,8 @@ export type UserUncheckedUpdateWithoutContactRequestsInput = {
   accountType?: Prisma.EnumAccountTypeFieldUpdateOperationsInput | $Enums.AccountType
   isAdmin?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isSuspended?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  failedLoginAttempts?: Prisma.IntFieldUpdateOperationsInput | number
+  lockedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
@@ -1693,6 +1861,8 @@ export type UserSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
   accountType?: boolean
   isAdmin?: boolean
   isSuspended?: boolean
+  failedLoginAttempts?: boolean
+  lockedAt?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   accounts?: boolean | Prisma.User$accountsArgs<ExtArgs>
@@ -1717,6 +1887,8 @@ export type UserSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensio
   accountType?: boolean
   isAdmin?: boolean
   isSuspended?: boolean
+  failedLoginAttempts?: boolean
+  lockedAt?: boolean
   createdAt?: boolean
   updatedAt?: boolean
 }, ExtArgs["result"]["user"]>
@@ -1731,6 +1903,8 @@ export type UserSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensio
   accountType?: boolean
   isAdmin?: boolean
   isSuspended?: boolean
+  failedLoginAttempts?: boolean
+  lockedAt?: boolean
   createdAt?: boolean
   updatedAt?: boolean
 }, ExtArgs["result"]["user"]>
@@ -1745,11 +1919,13 @@ export type UserSelectScalar = {
   accountType?: boolean
   isAdmin?: boolean
   isSuspended?: boolean
+  failedLoginAttempts?: boolean
+  lockedAt?: boolean
   createdAt?: boolean
   updatedAt?: boolean
 }
 
-export type UserOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "name" | "email" | "emailVerified" | "image" | "password" | "accountType" | "isAdmin" | "isSuspended" | "createdAt" | "updatedAt", ExtArgs["result"]["user"]>
+export type UserOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "name" | "email" | "emailVerified" | "image" | "password" | "accountType" | "isAdmin" | "isSuspended" | "failedLoginAttempts" | "lockedAt" | "createdAt" | "updatedAt", ExtArgs["result"]["user"]>
 export type UserInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   accounts?: boolean | Prisma.User$accountsArgs<ExtArgs>
   sessions?: boolean | Prisma.User$sessionsArgs<ExtArgs>
@@ -1788,6 +1964,8 @@ export type $UserPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
     accountType: $Enums.AccountType
     isAdmin: boolean
     isSuspended: boolean
+    failedLoginAttempts: number
+    lockedAt: Date | null
     createdAt: Date
     updatedAt: Date
   }, ExtArgs["result"]["user"]>
@@ -2231,6 +2409,8 @@ export interface UserFieldRefs {
   readonly accountType: Prisma.FieldRef<"User", 'AccountType'>
   readonly isAdmin: Prisma.FieldRef<"User", 'Boolean'>
   readonly isSuspended: Prisma.FieldRef<"User", 'Boolean'>
+  readonly failedLoginAttempts: Prisma.FieldRef<"User", 'Int'>
+  readonly lockedAt: Prisma.FieldRef<"User", 'DateTime'>
   readonly createdAt: Prisma.FieldRef<"User", 'DateTime'>
   readonly updatedAt: Prisma.FieldRef<"User", 'DateTime'>
 }

@@ -14,6 +14,8 @@ const addSchema = z.object({
   url: z.string().url(),
   publicId: z.string(),
   caption: z.string().max(200).optional(),
+  category: z.enum(["gallery", "transformation"]).default("gallery"),
+  consentConfirmed: z.boolean().optional(),
 });
 
 export async function POST(req: NextRequest) {
@@ -31,8 +33,24 @@ export async function POST(req: NextRequest) {
   }
 
   const data = addSchema.parse(await req.json());
+
+  if (data.category === "transformation" && !data.consentConfirmed) {
+    return NextResponse.json(
+      { error: "Consent confirmation is required for transformation photos" },
+      { status: 400 }
+    );
+  }
+
   const photo = await prisma.trainerPhoto.create({
-    data: { trainerProfileId: trainer.id, url: data.url, publicId: data.publicId, caption: data.caption, sortOrder: existing },
+    data: {
+      trainerProfileId: trainer.id,
+      url: data.url,
+      publicId: data.publicId,
+      caption: data.caption,
+      category: data.category,
+      consentConfirmed: data.consentConfirmed ?? false,
+      sortOrder: existing,
+    },
   });
 
   return NextResponse.json({ photo });

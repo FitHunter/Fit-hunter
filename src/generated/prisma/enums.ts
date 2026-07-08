@@ -93,3 +93,11 @@ export const ProfileType = {
 } as const
 
 export type ProfileType = (typeof ProfileType)[keyof typeof ProfileType]
+
+
+export const SpecialtyCategory = {
+  STYLE: 'STYLE',
+  FOCUS: 'FOCUS'
+} as const
+
+export type SpecialtyCategory = (typeof SpecialtyCategory)[keyof typeof SpecialtyCategory]

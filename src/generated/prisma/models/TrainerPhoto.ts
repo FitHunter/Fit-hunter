@@ -40,6 +40,8 @@ export type TrainerPhotoMinAggregateOutputType = {
   url: string | null
   publicId: string | null
   caption: string | null
+  category: string | null
+  consentConfirmed: boolean | null
   sortOrder: number | null
   createdAt: Date | null
 }
@@ -50,6 +52,8 @@ export type TrainerPhotoMaxAggregateOutputType = {
   url: string | null
   publicId: string | null
   caption: string | null
+  category: string | null
+  consentConfirmed: boolean | null
   sortOrder: number | null
   createdAt: Date | null
 }
@@ -60,6 +64,8 @@ export type TrainerPhotoCountAggregateOutputType = {
   url: number
   publicId: number
   caption: number
+  category: number
+  consentConfirmed: number
   sortOrder: number
   createdAt: number
   _all: number
@@ -80,6 +86,8 @@ export type TrainerPhotoMinAggregateInputType = {
   url?: true
   publicId?: true
   caption?: true
+  category?: true
+  consentConfirmed?: true
   sortOrder?: true
   createdAt?: true
 }
@@ -90,6 +98,8 @@ export type TrainerPhotoMaxAggregateInputType = {
   url?: true
   publicId?: true
   caption?: true
+  category?: true
+  consentConfirmed?: true
   sortOrder?: true
   createdAt?: true
 }
@@ -100,6 +110,8 @@ export type TrainerPhotoCountAggregateInputType = {
   url?: true
   publicId?: true
   caption?: true
+  category?: true
+  consentConfirmed?: true
   sortOrder?: true
   createdAt?: true
   _all?: true
@@ -197,6 +209,8 @@ export type TrainerPhotoGroupByOutputType = {
   url: string
   publicId: string
   caption: string | null
+  category: string
+  consentConfirmed: boolean
   sortOrder: number
   createdAt: Date
   _count: TrainerPhotoCountAggregateOutputType | null
@@ -230,6 +244,8 @@ export type TrainerPhotoWhereInput = {
   url?: Prisma.StringFilter<"TrainerPhoto"> | string
   publicId?: Prisma.StringFilter<"TrainerPhoto"> | string
   caption?: Prisma.StringNullableFilter<"TrainerPhoto"> | string | null
+  category?: Prisma.StringFilter<"TrainerPhoto"> | string
+  consentConfirmed?: Prisma.BoolFilter<"TrainerPhoto"> | boolean
   sortOrder?: Prisma.IntFilter<"TrainerPhoto"> | number
   createdAt?: Prisma.DateTimeFilter<"TrainerPhoto"> | Date | string
   trainerProfile?: Prisma.XOR<Prisma.TrainerProfileScalarRelationFilter, Prisma.TrainerProfileWhereInput>
@@ -241,6 +257,8 @@ export type TrainerPhotoOrderByWithRelationInput = {
   url?: Prisma.SortOrder
   publicId?: Prisma.SortOrder
   caption?: Prisma.SortOrderInput | Prisma.SortOrder
+  category?: Prisma.SortOrder
+  consentConfirmed?: Prisma.SortOrder
   sortOrder?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   trainerProfile?: Prisma.TrainerProfileOrderByWithRelationInput
@@ -255,6 +273,8 @@ export type TrainerPhotoWhereUniqueInput = Prisma.AtLeast<{
   url?: Prisma.StringFilter<"TrainerPhoto"> | string
   publicId?: Prisma.StringFilter<"TrainerPhoto"> | string
   caption?: Prisma.StringNullableFilter<"TrainerPhoto"> | string | null
+  category?: Prisma.StringFilter<"TrainerPhoto"> | string
+  consentConfirmed?: Prisma.BoolFilter<"TrainerPhoto"> | boolean
   sortOrder?: Prisma.IntFilter<"TrainerPhoto"> | number
   createdAt?: Prisma.DateTimeFilter<"TrainerPhoto"> | Date | string
   trainerProfile?: Prisma.XOR<Prisma.TrainerProfileScalarRelationFilter, Prisma.TrainerProfileWhereInput>
@@ -266,6 +286,8 @@ export type TrainerPhotoOrderByWithAggregationInput = {
   url?: Prisma.SortOrder
   publicId?: Prisma.SortOrder
   caption?: Prisma.SortOrderInput | Prisma.SortOrder
+  category?: Prisma.SortOrder
+  consentConfirmed?: Prisma.SortOrder
   sortOrder?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   _count?: Prisma.TrainerPhotoCountOrderByAggregateInput
@@ -284,6 +306,8 @@ export type TrainerPhotoScalarWhereWithAggregatesInput = {
   url?: Prisma.StringWithAggregatesFilter<"TrainerPhoto"> | string
   publicId?: Prisma.StringWithAggregatesFilter<"TrainerPhoto"> | string
   caption?: Prisma.StringNullableWithAggregatesFilter<"TrainerPhoto"> | string | null
+  category?: Prisma.StringWithAggregatesFilter<"TrainerPhoto"> | string
+  consentConfirmed?: Prisma.BoolWithAggregatesFilter<"TrainerPhoto"> | boolean
   sortOrder?: Prisma.IntWithAggregatesFilter<"TrainerPhoto"> | number
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"TrainerPhoto"> | Date | string
 }
@@ -293,6 +317,8 @@ export type TrainerPhotoCreateInput = {
   url: string
   publicId: string
   caption?: string | null
+  category?: string
+  consentConfirmed?: boolean
   sortOrder?: number
   createdAt?: Date | string
   trainerProfile: Prisma.TrainerProfileCreateNestedOneWithoutPhotosInput
@@ -304,6 +330,8 @@ export type TrainerPhotoUncheckedCreateInput = {
   url: string
   publicId: string
   caption?: string | null
+  category?: string
+  consentConfirmed?: boolean
   sortOrder?: number
   createdAt?: Date | string
 }
@@ -313,6 +341,8 @@ export type TrainerPhotoUpdateInput = {
   url?: Prisma.StringFieldUpdateOperationsInput | string
   publicId?: Prisma.StringFieldUpdateOperationsInput | string
   caption?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  category?: Prisma.StringFieldUpdateOperationsInput | string
+  consentConfirmed?: Prisma.BoolFieldUpdateOperationsInput | boolean
   sortOrder?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   trainerProfile?: Prisma.TrainerProfileUpdateOneRequiredWithoutPhotosNestedInput
@@ -324,6 +354,8 @@ export type TrainerPhotoUncheckedUpdateInput = {
   url?: Prisma.StringFieldUpdateOperationsInput | string
   publicId?: Prisma.StringFieldUpdateOperationsInput | string
   caption?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  category?: Prisma.StringFieldUpdateOperationsInput | string
+  consentConfirmed?: Prisma.BoolFieldUpdateOperationsInput | boolean
   sortOrder?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -334,6 +366,8 @@ export type TrainerPhotoCreateManyInput = {
   url: string
   publicId: string
   caption?: string | null
+  category?: string
+  consentConfirmed?: boolean
   sortOrder?: number
   createdAt?: Date | string
 }
@@ -343,6 +377,8 @@ export type TrainerPhotoUpdateManyMutationInput = {
   url?: Prisma.StringFieldUpdateOperationsInput | string
   publicId?: Prisma.StringFieldUpdateOperationsInput | string
   caption?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  category?: Prisma.StringFieldUpdateOperationsInput | string
+  consentConfirmed?: Prisma.BoolFieldUpdateOperationsInput | boolean
   sortOrder?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -353,6 +389,8 @@ export type TrainerPhotoUncheckedUpdateManyInput = {
   url?: Prisma.StringFieldUpdateOperationsInput | string
   publicId?: Prisma.StringFieldUpdateOperationsInput | string
   caption?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  category?: Prisma.StringFieldUpdateOperationsInput | string
+  consentConfirmed?: Prisma.BoolFieldUpdateOperationsInput | boolean
   sortOrder?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -373,6 +411,8 @@ export type TrainerPhotoCountOrderByAggregateInput = {
   url?: Prisma.SortOrder
   publicId?: Prisma.SortOrder
   caption?: Prisma.SortOrder
+  category?: Prisma.SortOrder
+  consentConfirmed?: Prisma.SortOrder
   sortOrder?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
 }
@@ -387,6 +427,8 @@ export type TrainerPhotoMaxOrderByAggregateInput = {
   url?: Prisma.SortOrder
   publicId?: Prisma.SortOrder
   caption?: Prisma.SortOrder
+  category?: Prisma.SortOrder
+  consentConfirmed?: Prisma.SortOrder
   sortOrder?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
 }
@@ -397,6 +439,8 @@ export type TrainerPhotoMinOrderByAggregateInput = {
   url?: Prisma.SortOrder
   publicId?: Prisma.SortOrder
   caption?: Prisma.SortOrder
+  category?: Prisma.SortOrder
+  consentConfirmed?: Prisma.SortOrder
   sortOrder?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
 }
@@ -452,6 +496,8 @@ export type TrainerPhotoCreateWithoutTrainerProfileInput = {
   url: string
   publicId: string
   caption?: string | null
+  category?: string
+  consentConfirmed?: boolean
   sortOrder?: number
   createdAt?: Date | string
 }
@@ -461,6 +507,8 @@ export type TrainerPhotoUncheckedCreateWithoutTrainerProfileInput = {
   url: string
   publicId: string
   caption?: string | null
+  category?: string
+  consentConfirmed?: boolean
   sortOrder?: number
   createdAt?: Date | string
 }
@@ -500,6 +548,8 @@ export type TrainerPhotoScalarWhereInput = {
   url?: Prisma.StringFilter<"TrainerPhoto"> | string
   publicId?: Prisma.StringFilter<"TrainerPhoto"> | string
   caption?: Prisma.StringNullableFilter<"TrainerPhoto"> | string | null
+  category?: Prisma.StringFilter<"TrainerPhoto"> | string
+  consentConfirmed?: Prisma.BoolFilter<"TrainerPhoto"> | boolean
   sortOrder?: Prisma.IntFilter<"TrainerPhoto"> | number
   createdAt?: Prisma.DateTimeFilter<"TrainerPhoto"> | Date | string
 }
@@ -509,6 +559,8 @@ export type TrainerPhotoCreateManyTrainerProfileInput = {
   url: string
   publicId: string
   caption?: string | null
+  category?: string
+  consentConfirmed?: boolean
   sortOrder?: number
   createdAt?: Date | string
 }
@@ -518,6 +570,8 @@ export type TrainerPhotoUpdateWithoutTrainerProfileInput = {
   url?: Prisma.StringFieldUpdateOperationsInput | string
   publicId?: Prisma.StringFieldUpdateOperationsInput | string
   caption?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  category?: Prisma.StringFieldUpdateOperationsInput | string
+  consentConfirmed?: Prisma.BoolFieldUpdateOperationsInput | boolean
   sortOrder?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -527,6 +581,8 @@ export type TrainerPhotoUncheckedUpdateWithoutTrainerProfileInput = {
   url?: Prisma.StringFieldUpdateOperationsInput | string
   publicId?: Prisma.StringFieldUpdateOperationsInput | string
   caption?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  category?: Prisma.StringFieldUpdateOperationsInput | string
+  consentConfirmed?: Prisma.BoolFieldUpdateOperationsInput | boolean
   sortOrder?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -536,6 +592,8 @@ export type TrainerPhotoUncheckedUpdateManyWithoutTrainerProfileInput = {
   url?: Prisma.StringFieldUpdateOperationsInput | string
   publicId?: Prisma.StringFieldUpdateOperationsInput | string
   caption?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  category?: Prisma.StringFieldUpdateOperationsInput | string
+  consentConfirmed?: Prisma.BoolFieldUpdateOperationsInput | boolean
   sortOrder?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -548,6 +606,8 @@ export type TrainerPhotoSelect<ExtArgs extends runtime.Types.Extensions.Internal
   url?: boolean
   publicId?: boolean
   caption?: boolean
+  category?: boolean
+  consentConfirmed?: boolean
   sortOrder?: boolean
   createdAt?: boolean
   trainerProfile?: boolean | Prisma.TrainerProfileDefaultArgs<ExtArgs>
@@ -559,6 +619,8 @@ export type TrainerPhotoSelectCreateManyAndReturn<ExtArgs extends runtime.Types.
   url?: boolean
   publicId?: boolean
   caption?: boolean
+  category?: boolean
+  consentConfirmed?: boolean
   sortOrder?: boolean
   createdAt?: boolean
   trainerProfile?: boolean | Prisma.TrainerProfileDefaultArgs<ExtArgs>
@@ -570,6 +632,8 @@ export type TrainerPhotoSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.
   url?: boolean
   publicId?: boolean
   caption?: boolean
+  category?: boolean
+  consentConfirmed?: boolean
   sortOrder?: boolean
   createdAt?: boolean
   trainerProfile?: boolean | Prisma.TrainerProfileDefaultArgs<ExtArgs>
@@ -581,11 +645,13 @@ export type TrainerPhotoSelectScalar = {
   url?: boolean
   publicId?: boolean
   caption?: boolean
+  category?: boolean
+  consentConfirmed?: boolean
   sortOrder?: boolean
   createdAt?: boolean
 }
 
-export type TrainerPhotoOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "trainerProfileId" | "url" | "publicId" | "caption" | "sortOrder" | "createdAt", ExtArgs["result"]["trainerPhoto"]>
+export type TrainerPhotoOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "trainerProfileId" | "url" | "publicId" | "caption" | "category" | "consentConfirmed" | "sortOrder" | "createdAt", ExtArgs["result"]["trainerPhoto"]>
 export type TrainerPhotoInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   trainerProfile?: boolean | Prisma.TrainerProfileDefaultArgs<ExtArgs>
 }
@@ -607,6 +673,8 @@ export type $TrainerPhotoPayload<ExtArgs extends runtime.Types.Extensions.Intern
     url: string
     publicId: string
     caption: string | null
+    category: string
+    consentConfirmed: boolean
     sortOrder: number
     createdAt: Date
   }, ExtArgs["result"]["trainerPhoto"]>
@@ -1038,6 +1106,8 @@ export interface TrainerPhotoFieldRefs {
   readonly url: Prisma.FieldRef<"TrainerPhoto", 'String'>
   readonly publicId: Prisma.FieldRef<"TrainerPhoto", 'String'>
   readonly caption: Prisma.FieldRef<"TrainerPhoto", 'String'>
+  readonly category: Prisma.FieldRef<"TrainerPhoto", 'String'>
+  readonly consentConfirmed: Prisma.FieldRef<"TrainerPhoto", 'Boolean'>
   readonly sortOrder: Prisma.FieldRef<"TrainerPhoto", 'Int'>
   readonly createdAt: Prisma.FieldRef<"TrainerPhoto", 'DateTime'>
 }

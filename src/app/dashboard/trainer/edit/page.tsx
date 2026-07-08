@@ -12,12 +12,11 @@ import { cn } from "@/lib/utils";
 import {
   ChevronLeft, Camera, Plus, X, Loader2, CheckCircle, Trash2, Upload,
 } from "lucide-react";
-
-const SPECIALTIES = [
-  "Weight Loss", "Strength Training", "HIIT / Cardio", "Yoga / Flexibility",
-  "Sports Performance", "Nutrition Coaching", "Senior Fitness", "Pre/Post Natal",
-  "Bodybuilding", "Rehabilitation",
-];
+import { CityAutocomplete } from "@/components/ui/city-autocomplete";
+import {
+  CERTIFICATIONS, TRAINING_STYLES, CLIENT_FOCUS_AREAS, SESSION_TYPES, TRAINING_LOCATIONS,
+  SESSION_LENGTHS, LANGUAGES, PRICING_MODELS, AVAILABILITY_TYPES, DAYS_OF_WEEK,
+} from "@/lib/constants";
 
 const US_STATES = [
   "AL","AK","AZ","AR","CA","CO","CT","DE","FL","GA","HI","ID","IL","IN","IA",
@@ -26,7 +25,8 @@ const US_STATES = [
   "VA","WA","WV","WI","WY",
 ];
 
-interface Photo { id: string; url: string; publicId: string; caption?: string | null }
+interface Photo { id: string; url: string; publicId: string; caption?: string | null; category?: string }
+interface Certification { name: string; certDocUrl?: string; isVerified?: boolean }
 
 interface TrainerData {
   displayName: string;
@@ -34,6 +34,8 @@ interface TrainerData {
   bio: string;
   experience: string;
   whoIWorkWith: string;
+  education: string;
+  philosophy: string;
   yearsExperience: string;
   photoUrl: string;
   phone: string;
@@ -42,16 +44,37 @@ interface TrainerData {
   virtualAvailable: boolean;
   bookingUrl: string;
   gymName: string;
-  specialties: string[];
-  certifications: string[];
+  trainingStyles: string[];
+  clientFocus: string[];
+  sessionTypes: string[];
+  trainingLocations: string[];
+  languages: string[];
+  pricingModel: string;
+  priceMin: string;
+  priceMax: string;
+  availabilityType: string;
+  availabilityDays: string[];
+  sessionLengths: number[];
+  instagramHandle: string;
+  youtubeHandle: string;
+  certifications: Certification[];
   photos: Photo[];
 }
 
 const empty: TrainerData = {
   displayName: "", headline: "", bio: "", experience: "", whoIWorkWith: "",
+  education: "", philosophy: "",
   yearsExperience: "", photoUrl: "", phone: "", city: "", state: "",
-  virtualAvailable: false, bookingUrl: "", gymName: "", specialties: [], certifications: [], photos: [],
+  virtualAvailable: false, bookingUrl: "", gymName: "",
+  trainingStyles: [], clientFocus: [], sessionTypes: [], trainingLocations: [], languages: [],
+  pricingModel: "", priceMin: "", priceMax: "", availabilityType: "", availabilityDays: [], sessionLengths: [],
+  instagramHandle: "", youtubeHandle: "",
+  certifications: [], photos: [],
 };
+
+function toggleInArray<T>(arr: T[], value: T): T[] {
+  return arr.includes(value) ? arr.filter((v) => v !== value) : [...arr, value];
+}
 
 export default function TrainerEditPage() {
   const router = useRouter();
@@ -61,10 +84,17 @@ export default function TrainerEditPage() {
   const [saved, setSaved] = useState(false);
   const [error, setError] = useState("");
   const [certInput, setCertInput] = useState("");
+  const [languageInput, setLanguageInput] = useState("");
   const [uploadingPhoto, setUploadingPhoto] = useState(false);
   const [uploadingGallery, setUploadingGallery] = useState(false);
+  const [uploadingTransformation, setUploadingTransformation] = useState(false);
+  const [uploadingCertName, setUploadingCertName] = useState<string | null>(null);
+  const [consentConfirmed, setConsentConfirmed] = useState(false);
   const avatarRef = useRef<HTMLInputElement>(null);
   const galleryRef = useRef<HTMLInputElement>(null);
+  const transformationRef = useRef<HTMLInputElement>(null);
+  const certProofRef = useRef<HTMLInputElement>(null);
+  const certUploadTarget = useRef<string | null>(null);
 
   useEffect(() => {
     fetch("/api/trainer/profile")
@@ -72,12 +102,15 @@ export default function TrainerEditPage() {
       .then((json) => {
         if (!json.trainer) { router.replace("/dashboard/trainer/setup"); return; }
         const t = json.trainer;
+        const allPhotos: Photo[] = t.photos ?? [];
         setData({
           displayName: t.displayName ?? "",
           headline: t.headline ?? "",
           bio: t.bio ?? "",
           experience: t.experience ?? "",
           whoIWorkWith: t.whoIWorkWith ?? "",
+          education: t.education ?? "",
+          philosophy: t.philosophy ?? "",
           yearsExperience: t.yearsExperience != null ? String(t.yearsExperience) : "",
           photoUrl: t.photoUrl ?? "",
           phone: t.phone ?? "",
@@ -86,9 +119,21 @@ export default function TrainerEditPage() {
           virtualAvailable: t.virtualAvailable ?? false,
           bookingUrl: t.bookingUrl ?? "",
           gymName: t.gymName ?? "",
-          specialties: t.specialties?.map((s: { specialty: string }) => s.specialty) ?? [],
-          certifications: t.certifications?.map((c: { name: string }) => c.name) ?? [],
-          photos: t.photos ?? [],
+          trainingStyles: t.specialties?.filter((s: { category: string }) => s.category === "STYLE").map((s: { specialty: string }) => s.specialty) ?? [],
+          clientFocus: t.specialties?.filter((s: { category: string }) => s.category !== "STYLE").map((s: { specialty: string }) => s.specialty) ?? [],
+          sessionTypes: t.sessionTypes ?? [],
+          trainingLocations: t.trainingLocations ?? [],
+          languages: t.languages ?? [],
+          pricingModel: t.pricingModel ?? "",
+          priceMin: t.priceMin != null ? String(t.priceMin) : "",
+          priceMax: t.priceMax != null ? String(t.priceMax) : "",
+          availabilityType: t.availabilityType ?? "",
+          availabilityDays: t.availabilityDays ?? [],
+          sessionLengths: t.sessionLengths ?? [],
+          instagramHandle: t.instagramHandle ?? "",
+          youtubeHandle: t.youtubeHandle ?? "",
+          certifications: t.certifications?.map((c: { name: string; certDocUrl?: string; isVerified?: boolean }) => ({ name: c.name, certDocUrl: c.certDocUrl, isVerified: c.isVerified })) ?? [],
+          photos: allPhotos.filter((p) => p.category !== "transformation"),
         });
         setLoading(false);
       })
@@ -100,25 +145,44 @@ export default function TrainerEditPage() {
     setSaved(false);
   }
 
-  function toggleSpecialty(s: string) {
-    setData((prev) => ({
-      ...prev,
-      specialties: prev.specialties.includes(s)
-        ? prev.specialties.filter((x) => x !== s)
-        : [...prev.specialties, s],
-    }));
+  function toggleCert(name: string) {
+    setData((prev) => {
+      const exists = prev.certifications.some((c) => c.name === name);
+      return {
+        ...prev,
+        certifications: exists
+          ? prev.certifications.filter((c) => c.name !== name)
+          : [...prev.certifications, { name }],
+      };
+    });
     setSaved(false);
   }
 
   function addCert() {
     const trimmed = certInput.trim();
-    if (!trimmed || data.certifications.includes(trimmed)) return;
-    update("certifications", [...data.certifications, trimmed]);
+    if (!trimmed || data.certifications.some((c) => c.name.toLowerCase() === trimmed.toLowerCase())) return;
+    update("certifications", [...data.certifications, { name: trimmed }]);
     setCertInput("");
   }
 
-  function removeCert(i: number) {
-    update("certifications", data.certifications.filter((_, idx) => idx !== i));
+  function removeCert(name: string) {
+    update("certifications", data.certifications.filter((c) => c.name !== name));
+  }
+
+  function requestCertProofUpload(name: string) {
+    certUploadTarget.current = name;
+    certProofRef.current?.click();
+  }
+
+  function addLanguage(lang: string) {
+    const trimmed = lang.trim();
+    if (!trimmed || data.languages.includes(trimmed)) return;
+    update("languages", [...data.languages, trimmed]);
+    setLanguageInput("");
+  }
+
+  function removeLanguage(lang: string) {
+    update("languages", data.languages.filter((l) => l !== lang));
   }
 
   async function uploadImage(file: File, folder: string): Promise<{ url: string; publicId: string }> {
@@ -144,6 +208,25 @@ export default function TrainerEditPage() {
     }
   }
 
+  async function handleCertProofChange(e: React.ChangeEvent<HTMLInputElement>) {
+    const file = e.target.files?.[0];
+    const name = certUploadTarget.current;
+    if (!file || !name) return;
+    setUploadingCertName(name);
+    try {
+      const { url } = await uploadImage(file, "nextfit/trainer-cert-proofs");
+      setData((prev) => ({
+        ...prev,
+        certifications: prev.certifications.map((c) => (c.name === name ? { ...c, certDocUrl: url } : c)),
+      }));
+    } catch {
+      setError("Failed to upload certificate proof. Try again.");
+    } finally {
+      setUploadingCertName(null);
+      if (certProofRef.current) certProofRef.current.value = "";
+    }
+  }
+
   async function handleGalleryChange(e: React.ChangeEvent<HTMLInputElement>) {
     const files = Array.from(e.target.files ?? []);
     if (!files.length) return;
@@ -158,7 +241,7 @@ export default function TrainerEditPage() {
         const res = await fetch("/api/trainer/photos", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ url, publicId }),
+          body: JSON.stringify({ url, publicId, category: "gallery" }),
         });
         if (!res.ok) throw new Error("Failed to save photo");
         const { photo } = await res.json();
@@ -169,6 +252,32 @@ export default function TrainerEditPage() {
     } finally {
       setUploadingGallery(false);
       if (galleryRef.current) galleryRef.current.value = "";
+    }
+  }
+
+  async function handleTransformationChange(e: React.ChangeEvent<HTMLInputElement>) {
+    const files = Array.from(e.target.files ?? []);
+    if (!files.length) return;
+    if (!consentConfirmed) {
+      setError("Please confirm consent before uploading transformation photos.");
+      return;
+    }
+    setUploadingTransformation(true);
+    try {
+      for (const file of files) {
+        const { url, publicId } = await uploadImage(file, "nextfit/trainer-transformations");
+        const res = await fetch("/api/trainer/photos", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ url, publicId, category: "transformation", consentConfirmed: true }),
+        });
+        if (!res.ok) throw new Error("Failed to save photo");
+      }
+    } catch {
+      setError("Failed to upload transformation photo. Try again.");
+    } finally {
+      setUploadingTransformation(false);
+      if (transformationRef.current) transformationRef.current.value = "";
     }
   }
 
@@ -187,12 +296,42 @@ export default function TrainerEditPage() {
     setSaving(true);
     setError("");
     try {
+      const specialties = [
+        ...data.trainingStyles.map((specialty) => ({ specialty, category: "STYLE" as const })),
+        ...data.clientFocus.map((specialty) => ({ specialty, category: "FOCUS" as const })),
+      ];
       const res = await fetch("/api/trainer/profile", {
         method: "PATCH",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          ...data,
+          displayName: data.displayName,
+          headline: data.headline,
+          bio: data.bio,
+          experience: data.experience,
+          whoIWorkWith: data.whoIWorkWith,
+          education: data.education,
+          philosophy: data.philosophy,
           yearsExperience: data.yearsExperience ? parseInt(data.yearsExperience) : null,
+          photoUrl: data.photoUrl,
+          phone: data.phone,
+          city: data.city,
+          state: data.state,
+          virtualAvailable: data.virtualAvailable,
+          bookingUrl: data.bookingUrl,
+          gymName: data.gymName,
+          sessionTypes: data.sessionTypes,
+          trainingLocations: data.trainingLocations,
+          languages: data.languages,
+          pricingModel: data.pricingModel || undefined,
+          priceMin: data.priceMin ? parseInt(data.priceMin) : null,
+          priceMax: data.priceMax ? parseInt(data.priceMax) : null,
+          availabilityType: data.availabilityType || undefined,
+          availabilityDays: data.availabilityType === "limited" ? data.availabilityDays : [],
+          sessionLengths: data.sessionLengths,
+          instagramHandle: data.instagramHandle,
+          youtubeHandle: data.youtubeHandle,
+          specialties,
+          certifications: data.certifications,
         }),
       });
       if (!res.ok) {
@@ -304,7 +443,15 @@ export default function TrainerEditPage() {
         <div className="grid grid-cols-2 gap-3">
           <div className="space-y-1.5">
             <Label>City</Label>
-            <Input value={data.city} onChange={(e) => update("city", e.target.value)} placeholder="Los Angeles" />
+            <CityAutocomplete
+              cityValue={data.city}
+              onCityChange={(v) => update("city", v)}
+              onSelect={({ city, state }) => {
+                update("city", city);
+                update("state", state);
+              }}
+              placeholder="Los Angeles"
+            />
           </div>
           <div className="space-y-1.5">
             <Label>State</Label>
@@ -432,38 +579,304 @@ export default function TrainerEditPage() {
           />
           <p className="text-xs text-gray-400 text-right">{data.whoIWorkWith.length}/1000</p>
         </div>
+
+        <div className="space-y-1.5">
+          <Label>Training philosophy <span className="text-gray-400 font-normal text-xs">(1-2 sentences)</span></Label>
+          <textarea
+            className="flex min-h-[60px] w-full rounded-md border border-gray-300 bg-white px-3 py-2 text-sm text-gray-900 placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-emerald-500 resize-none"
+            value={data.philosophy}
+            onChange={(e) => update("philosophy", e.target.value)}
+            placeholder="e.g. I believe sustainable results come from consistency, not intensity."
+            maxLength={300}
+            rows={2}
+          />
+        </div>
+
+        <div className="space-y-1.5">
+          <Label>Education <span className="text-gray-400 font-normal text-xs">(optional)</span></Label>
+          <textarea
+            className="flex min-h-[60px] w-full rounded-md border border-gray-300 bg-white px-3 py-2 text-sm text-gray-900 placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-emerald-500 resize-none"
+            value={data.education}
+            onChange={(e) => update("education", e.target.value)}
+            placeholder="e.g. BS Exercise Science, University of Texas"
+            maxLength={2000}
+            rows={2}
+          />
+        </div>
+
+        <div className="space-y-2">
+          <Label>Languages spoken</Label>
+          <div className="flex gap-2">
+            <Input
+              value={languageInput}
+              onChange={(e) => setLanguageInput(e.target.value)}
+              placeholder="e.g. English"
+              onKeyDown={(e) => { if (e.key === "Enter") { e.preventDefault(); addLanguage(languageInput); } }}
+            />
+            <Button type="button" variant="outline" size="icon" onClick={() => addLanguage(languageInput)}>
+              <Plus className="h-4 w-4" />
+            </Button>
+          </div>
+          <div className="flex flex-wrap gap-2">
+            {LANGUAGES.filter((l) => !data.languages.includes(l)).slice(0, 6).map((l) => (
+              <button key={l} type="button" onClick={() => addLanguage(l)} className="px-2.5 py-1 rounded-full text-xs border border-gray-300 text-gray-500 hover:border-emerald-400">
+                + {l}
+              </button>
+            ))}
+          </div>
+          {data.languages.length > 0 && (
+            <div className="flex flex-wrap gap-2">
+              {data.languages.map((l) => (
+                <Badge key={l} variant="secondary" className="gap-1.5 pr-1">
+                  {l}
+                  <button type="button" onClick={() => removeLanguage(l)} className="hover:text-red-500 ml-0.5">
+                    <X className="h-3 w-3" />
+                  </button>
+                </Badge>
+              ))}
+            </div>
+          )}
+        </div>
       </section>
 
-      {/* ── Specialties ── */}
-      <section className="bg-white rounded-xl border border-gray-200 p-6 space-y-3">
-        <h2 className="font-semibold text-gray-900">Specialties</h2>
-        <div className="flex flex-wrap gap-2">
-          {SPECIALTIES.map((s) => (
-            <button
-              key={s}
-              type="button"
-              onClick={() => toggleSpecialty(s)}
-              className={cn(
-                "px-3 py-1.5 rounded-full border text-sm transition-colors",
-                data.specialties.includes(s)
-                  ? "border-emerald-500 bg-emerald-500 text-white"
-                  : "border-gray-200 text-gray-600 hover:border-gray-300"
-              )}
-            >
-              {s}
-            </button>
-          ))}
+      {/* ── What you do ── */}
+      <section className="bg-white rounded-xl border border-gray-200 p-6 space-y-5">
+        <h2 className="font-semibold text-gray-900">What you do</h2>
+
+        <div className="space-y-2">
+          <Label className="block">Training styles</Label>
+          <div className="flex flex-wrap gap-2">
+            {TRAINING_STYLES.map((s) => (
+              <button
+                key={s}
+                type="button"
+                onClick={() => update("trainingStyles", toggleInArray(data.trainingStyles, s))}
+                className={cn(
+                  "px-3 py-1.5 rounded-full border text-sm transition-colors",
+                  data.trainingStyles.includes(s)
+                    ? "border-emerald-500 bg-emerald-500 text-white"
+                    : "border-gray-200 text-gray-600 hover:border-gray-300"
+                )}
+              >
+                {s}
+              </button>
+            ))}
+          </div>
+        </div>
+
+        <div className="space-y-2">
+          <Label className="block">Client focus</Label>
+          <div className="flex flex-wrap gap-2">
+            {CLIENT_FOCUS_AREAS.map((s) => (
+              <button
+                key={s}
+                type="button"
+                onClick={() => update("clientFocus", toggleInArray(data.clientFocus, s))}
+                className={cn(
+                  "px-3 py-1.5 rounded-full border text-sm transition-colors",
+                  data.clientFocus.includes(s)
+                    ? "border-emerald-500 bg-emerald-500 text-white"
+                    : "border-gray-200 text-gray-600 hover:border-gray-300"
+                )}
+              >
+                {s}
+              </button>
+            ))}
+          </div>
+        </div>
+
+        <div className="space-y-2">
+          <Label className="block">Session types offered</Label>
+          <div className="flex flex-wrap gap-2">
+            {SESSION_TYPES.map((s) => (
+              <button
+                key={s}
+                type="button"
+                onClick={() => update("sessionTypes", toggleInArray(data.sessionTypes, s))}
+                className={cn(
+                  "px-3 py-1.5 rounded-full border text-sm transition-colors",
+                  data.sessionTypes.includes(s)
+                    ? "border-emerald-500 bg-emerald-500 text-white"
+                    : "border-gray-200 text-gray-600 hover:border-gray-300"
+                )}
+              >
+                {s}
+              </button>
+            ))}
+          </div>
+        </div>
+
+        <div className="space-y-2">
+          <Label className="block">Where you train</Label>
+          <div className="flex flex-wrap gap-2">
+            {TRAINING_LOCATIONS.map((s) => (
+              <button
+                key={s}
+                type="button"
+                onClick={() => update("trainingLocations", toggleInArray(data.trainingLocations, s))}
+                className={cn(
+                  "px-3 py-1.5 rounded-full border text-sm transition-colors",
+                  data.trainingLocations.includes(s)
+                    ? "border-emerald-500 bg-emerald-500 text-white"
+                    : "border-gray-200 text-gray-600 hover:border-gray-300"
+                )}
+              >
+                {s}
+              </button>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ── Logistics ── */}
+      <section className="bg-white rounded-xl border border-gray-200 p-6 space-y-5">
+        <h2 className="font-semibold text-gray-900">Logistics</h2>
+
+        <div className="space-y-2">
+          <Label className="block">Pricing model <span className="text-gray-400 font-normal text-xs">(optional)</span></Label>
+          <div className="grid grid-cols-3 gap-2">
+            {PRICING_MODELS.map((pm) => (
+              <button
+                key={pm.value}
+                type="button"
+                onClick={() => update("pricingModel", data.pricingModel === pm.value ? "" : pm.value)}
+                className={cn(
+                  "py-2 px-2 rounded-lg border text-sm font-medium transition-colors",
+                  data.pricingModel === pm.value ? "border-emerald-500 bg-emerald-50 text-emerald-800" : "border-gray-200 text-gray-600 hover:border-gray-300"
+                )}
+              >
+                {pm.label}
+              </button>
+            ))}
+          </div>
+          <div className="grid grid-cols-2 gap-3 mt-2">
+            <div className="space-y-1.5">
+              <Label>Price min ($)</Label>
+              <Input type="number" min={0} value={data.priceMin} onChange={(e) => update("priceMin", e.target.value)} placeholder="50" />
+            </div>
+            <div className="space-y-1.5">
+              <Label>Price max ($)</Label>
+              <Input type="number" min={0} value={data.priceMax} onChange={(e) => update("priceMax", e.target.value)} placeholder="100" />
+            </div>
+          </div>
+        </div>
+
+        <div className="space-y-2">
+          <Label className="block">Availability</Label>
+          <div className="grid grid-cols-2 gap-2">
+            {AVAILABILITY_TYPES.map((a) => (
+              <button
+                key={a.value}
+                type="button"
+                onClick={() => update("availabilityType", data.availabilityType === a.value ? "" : a.value)}
+                className={cn(
+                  "py-2 px-2 rounded-lg border text-sm font-medium transition-colors",
+                  data.availabilityType === a.value ? "border-emerald-500 bg-emerald-50 text-emerald-800" : "border-gray-200 text-gray-600 hover:border-gray-300"
+                )}
+              >
+                {a.label}
+              </button>
+            ))}
+          </div>
+          {data.availabilityType === "limited" && (
+            <div className="flex flex-wrap gap-2 mt-2">
+              {DAYS_OF_WEEK.map((d) => (
+                <button
+                  key={d}
+                  type="button"
+                  onClick={() => update("availabilityDays", toggleInArray(data.availabilityDays, d))}
+                  className={cn(
+                    "px-3 py-1.5 rounded-full text-sm border transition-colors",
+                    data.availabilityDays.includes(d) ? "bg-emerald-600 text-white border-emerald-600" : "bg-white border-gray-300 hover:border-emerald-400"
+                  )}
+                >
+                  {d}
+                </button>
+              ))}
+            </div>
+          )}
+        </div>
+
+        <div className="space-y-2">
+          <Label className="block">Session length options <span className="text-gray-400 font-normal text-xs">(minutes)</span></Label>
+          <div className="flex flex-wrap gap-2">
+            {SESSION_LENGTHS.map((len) => (
+              <button
+                key={len}
+                type="button"
+                onClick={() => update("sessionLengths", data.sessionLengths.includes(len) ? data.sessionLengths.filter((l) => l !== len) : [...data.sessionLengths, len])}
+                className={cn(
+                  "px-3 py-1.5 rounded-full text-sm border transition-colors",
+                  data.sessionLengths.includes(len) ? "bg-emerald-600 text-white border-emerald-600" : "bg-white border-gray-300 hover:border-emerald-400"
+                )}
+              >
+                {len} min
+              </button>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ── Social proof ── */}
+      <section className="bg-white rounded-xl border border-gray-200 p-6 space-y-5">
+        <h2 className="font-semibold text-gray-900">Social proof</h2>
+
+        <div className="grid grid-cols-2 gap-3">
+          <div className="space-y-1.5">
+            <Label>Instagram <span className="text-gray-400 font-normal text-xs">(optional)</span></Label>
+            <Input value={data.instagramHandle} onChange={(e) => update("instagramHandle", e.target.value)} placeholder="@yourhandle" />
+          </div>
+          <div className="space-y-1.5">
+            <Label>YouTube <span className="text-gray-400 font-normal text-xs">(optional)</span></Label>
+            <Input value={data.youtubeHandle} onChange={(e) => update("youtubeHandle", e.target.value)} placeholder="@yourchannel" />
+          </div>
+        </div>
+
+        <div className="space-y-2">
+          <Label className="block">Transformation photos <span className="text-gray-400 font-normal text-xs">(before/after)</span></Label>
+          <label className="flex items-center gap-2 cursor-pointer">
+            <input type="checkbox" checked={consentConfirmed} onChange={(e) => setConsentConfirmed(e.target.checked)} className="h-4 w-4 rounded border-gray-300 text-emerald-600 focus:ring-emerald-500" />
+            <span className="text-sm text-gray-700">I have consent to share these photos publicly</span>
+          </label>
+          <input ref={transformationRef} type="file" accept="image/*" multiple className="hidden" onChange={handleTransformationChange} />
+          <Button
+            type="button"
+            variant="outline"
+            size="sm"
+            onClick={() => transformationRef.current?.click()}
+            disabled={!consentConfirmed || uploadingTransformation}
+          >
+            {uploadingTransformation ? <><Loader2 className="h-4 w-4 animate-spin" /> Uploading…</> : <><Upload className="h-4 w-4" /> Add photos</>}
+          </Button>
         </div>
       </section>
 
       {/* ── Certifications ── */}
       <section className="bg-white rounded-xl border border-gray-200 p-6 space-y-3">
         <h2 className="font-semibold text-gray-900">Certifications</h2>
+        <input ref={certProofRef} type="file" accept="image/*" className="hidden" onChange={handleCertProofChange} />
+
+        <div className="flex flex-wrap gap-2">
+          {CERTIFICATIONS.map((cert) => (
+            <button
+              key={cert}
+              type="button"
+              onClick={() => toggleCert(cert)}
+              className={cn(
+                "px-3 py-1.5 rounded-full text-sm border transition-colors",
+                data.certifications.some((c) => c.name === cert) ? "bg-emerald-600 text-white border-emerald-600" : "bg-white border-gray-300 hover:border-emerald-400"
+              )}
+            >
+              {cert}
+            </button>
+          ))}
+        </div>
+
         <div className="flex gap-2">
           <Input
             value={certInput}
             onChange={(e) => setCertInput(e.target.value)}
-            placeholder="e.g. NASM CPT, ACE, CSCS"
+            placeholder="Add another certification…"
             onKeyDown={(e) => { if (e.key === "Enter") { e.preventDefault(); addCert(); } }}
           />
           <Button type="button" variant="outline" size="icon" onClick={addCert}>
@@ -471,18 +884,36 @@ export default function TrainerEditPage() {
           </Button>
         </div>
         {data.certifications.length > 0 && (
-          <div className="flex flex-wrap gap-2">
-            {data.certifications.map((c, i) => (
-              <Badge key={i} variant="secondary" className="gap-1.5 pr-1">
-                {c}
-                <button type="button" onClick={() => removeCert(i)} className="hover:text-red-500 ml-0.5">
-                  <X className="h-3 w-3" />
-                </button>
-              </Badge>
+          <div className="space-y-2">
+            {data.certifications.map((c) => (
+              <div key={c.name} className="flex items-center justify-between gap-2 bg-gray-50 rounded-lg px-3 py-2">
+                <span className="text-sm text-gray-700 flex items-center gap-1.5">
+                  {c.name}
+                  {c.isVerified && <Badge variant="default" className="text-[10px] px-1.5 py-0">Verified</Badge>}
+                </span>
+                <div className="flex items-center gap-2">
+                  {c.certDocUrl ? (
+                    <span className="text-xs text-emerald-600 font-medium">✓ Proof added</span>
+                  ) : (
+                    <button
+                      type="button"
+                      onClick={() => requestCertProofUpload(c.name)}
+                      disabled={uploadingCertName === c.name}
+                      className="text-xs text-gray-500 hover:text-emerald-600 flex items-center gap-1"
+                    >
+                      {uploadingCertName === c.name ? <Loader2 className="h-3 w-3 animate-spin" /> : <Upload className="h-3 w-3" />}
+                      Add proof
+                    </button>
+                  )}
+                  <button type="button" onClick={() => removeCert(c.name)} className="text-gray-400 hover:text-red-500">
+                    <X className="h-3.5 w-3.5" />
+                  </button>
+                </div>
+              </div>
             ))}
           </div>
         )}
-        <p className="text-xs text-gray-400">Certifications are reviewed by our team within 48 hours.</p>
+        <p className="text-xs text-gray-400">Certifications are reviewed by our team within 48 hours. Uploading proof speeds up verification.</p>
       </section>
 
       {/* ── Photo gallery ── */}
@@ -490,7 +921,7 @@ export default function TrainerEditPage() {
         <div className="flex items-center justify-between">
           <div>
             <h2 className="font-semibold text-gray-900">Photo gallery</h2>
-            <p className="text-xs text-gray-400 mt-0.5">Add photos of your training sessions, client transformations, and facilities · Max 12</p>
+            <p className="text-xs text-gray-400 mt-0.5">Add photos of your training sessions and facilities · Max 12</p>
           </div>
           <Button
             type="button"

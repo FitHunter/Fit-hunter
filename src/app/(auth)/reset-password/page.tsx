@@ -59,7 +59,7 @@ function ResetPasswordForm() {
     <div className="min-h-screen flex items-center justify-center p-4 bg-gray-50">
       <Card className="w-full max-w-md">
         <CardHeader className="text-center pb-2">
-          <Link href="/" className="flex items-center justify-center gap-2 text-emerald-700 font-bold text-xl mb-4">
+          <Link href="/" className="flex items-center justify-center gap-2 font-heading text-emerald-700 font-bold text-xl mb-4">
             <Dumbbell className="h-6 w-6" />
             NextFit
           </Link>

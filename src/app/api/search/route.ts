@@ -1,8 +1,12 @@
 import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { RESULTS_PER_PAGE } from "@/lib/constants";
+import { enforceRateLimit, getClientIp } from "@/lib/rate-limit";
 
 export async function GET(req: NextRequest) {
+  const limited = await enforceRateLimit("public", getClientIp(req));
+  if (limited) return limited;
+
   const sp = req.nextUrl.searchParams;
   const q = sp.get("q") ?? "";
   const type = sp.get("type") ?? "";

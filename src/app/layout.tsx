@@ -1,11 +1,12 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
+import { Archivo, Inter } from "next/font/google";
 import "./globals.css";
 import { Navbar } from "@/components/layout/navbar";
 import { Toaster } from "@/components/ui/toaster";
 import { SessionProvider } from "@/components/providers/session-provider";
 
-const inter = Inter({ subsets: ["latin"] });
+const archivo = Archivo({ subsets: ["latin"], weight: ["500", "600", "700", "800", "900"], variable: "--font-heading" });
+const inter = Inter({ subsets: ["latin"], variable: "--font-body" });
 
 export const metadata: Metadata = {
   title: {
@@ -26,7 +27,7 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en">
-      <body className={`${inter.className} antialiased bg-gray-50 text-gray-900`}>
+      <body className={`${archivo.variable} ${inter.variable} font-body antialiased bg-background text-foreground`}>
         <SessionProvider>
           <Navbar />
           <main className="min-h-screen">{children}</main>

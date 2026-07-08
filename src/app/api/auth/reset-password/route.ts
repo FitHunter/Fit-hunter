@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { z } from "zod";
 import bcrypt from "bcryptjs";
 import { prisma } from "@/lib/prisma";
+import { enforceRateLimit, getClientIp } from "@/lib/rate-limit";
 
 const schema = z.object({
   token: z.string(),
@@ -9,6 +10,9 @@ const schema = z.object({
 });
 
 export async function POST(req: NextRequest) {
+  const limited = await enforceRateLimit("auth", getClientIp(req));
+  if (limited) return limited;
+
   try {
     const { token, password } = schema.parse(await req.json());
 
@@ -30,7 +34,11 @@ export async function POST(req: NextRequest) {
 
     await prisma.user.update({
       where: { id: user.id },
-      data: { password: await bcrypt.hash(password, 12) },
+      data: {
+        password: await bcrypt.hash(password, 12),
+        failedLoginAttempts: 0,
+        lockedAt: null,
+      },
     });
 
     await prisma.passwordResetToken.update({

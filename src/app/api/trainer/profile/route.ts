@@ -7,14 +7,43 @@ import { MAX_TRAINER_SPECIALTIES_STARTER, MAX_TRAINER_SPECIALTIES_PRO } from "@/
 import { geocodeCityState } from "@/lib/geocode";
 import type { ProfileType } from "@/generated/prisma";
 
+const specialtySchema = z.object({
+  specialty: z.string().min(1),
+  category: z.enum(["STYLE", "FOCUS"]),
+});
+
+const certificationSchema = z.object({
+  name: z.string().min(1),
+  // .nullable(): the edit form round-trips values loaded from the DB, where
+  // unset URLs are null — without it, saving fails for anyone without one.
+  certDocUrl: z.string().url().optional().nullable().or(z.literal("")),
+});
+
+const sharedFields = {
+  education: z.string().max(2000).optional(),
+  philosophy: z.string().max(300).optional(),
+  yearsExperience: z.number().int().min(0).max(60).optional().nullable(),
+  languages: z.array(z.string()).optional(),
+  sessionTypes: z.array(z.string()).optional(),
+  trainingLocations: z.array(z.string()).optional(),
+  sessionLengths: z.array(z.number().int()).optional(),
+  pricingModel: z.enum(["per_session", "package", "monthly"]).optional(),
+  priceMin: z.number().int().min(0).optional().nullable(),
+  priceMax: z.number().int().min(0).optional().nullable(),
+  availabilityType: z.enum(["flexible", "limited"]).optional(),
+  availabilityDays: z.array(z.string()).optional(),
+  instagramHandle: z.string().max(100).optional(),
+  youtubeHandle: z.string().max(100).optional(),
+};
+
 const createSchema = z.object({
-  step: z.number().int().min(1).max(5),
+  step: z.number().int().min(1).max(6),
   profileType: z.enum(["PERSONAL_TRAINER", "GROUP_FITNESS", "NUTRITIONIST", "WELLNESS_COACH", "PHYSICAL_THERAPIST"]).optional(),
   displayName: z.string().min(1).max(100).optional(),
   bio: z.string().max(500).optional(),
-  photoUrl: z.string().url().optional().or(z.literal("")),
-  certifications: z.array(z.string()).optional(),
-  specialties: z.array(z.string()).optional(),
+  photoUrl: z.string().url().optional().nullable().or(z.literal("")),
+  certifications: z.array(certificationSchema).optional(),
+  specialties: z.array(specialtySchema).optional(),
   virtualAvailable: z.boolean().optional(),
   bookingUrl: z.string().optional(),
   vslUrl: z.string().optional(),
@@ -22,8 +51,8 @@ const createSchema = z.object({
   state: z.string().optional(),
   zip: z.string().optional(),
   gymId: z.string().optional(),
-  tier: z.enum(["FREE", "STARTER", "PRO"]).optional(),
   complete: z.boolean().optional(),
+  ...sharedFields,
 });
 
 export async function POST(req: NextRequest) {
@@ -70,6 +99,20 @@ export async function POST(req: NextRequest) {
     if (data.city !== undefined) updates.city = data.city;
     if (data.state !== undefined) updates.state = data.state;
     if (data.zip !== undefined) updates.zip = data.zip;
+    if (data.education !== undefined) updates.education = data.education || null;
+    if (data.philosophy !== undefined) updates.philosophy = data.philosophy || null;
+    if (data.yearsExperience !== undefined) updates.yearsExperience = data.yearsExperience;
+    if (data.languages !== undefined) updates.languages = data.languages;
+    if (data.sessionTypes !== undefined) updates.sessionTypes = data.sessionTypes;
+    if (data.trainingLocations !== undefined) updates.trainingLocations = data.trainingLocations;
+    if (data.sessionLengths !== undefined) updates.sessionLengths = data.sessionLengths;
+    if (data.pricingModel !== undefined) updates.pricingModel = data.pricingModel;
+    if (data.priceMin !== undefined) updates.priceMin = data.priceMin;
+    if (data.priceMax !== undefined) updates.priceMax = data.priceMax;
+    if (data.availabilityType !== undefined) updates.availabilityType = data.availabilityType;
+    if (data.availabilityDays !== undefined) updates.availabilityDays = data.availabilityDays;
+    if (data.instagramHandle !== undefined) updates.instagramHandle = data.instagramHandle || null;
+    if (data.youtubeHandle !== undefined) updates.youtubeHandle = data.youtubeHandle || null;
 
     // Geocode coordinates when city/state are provided (fire-and-forget)
     const geocodeCity = (data.city ?? trainer?.city) as string | null;
@@ -99,10 +142,11 @@ export async function POST(req: NextRequest) {
       updates.vslUrl = data.vslUrl || null;
     }
 
-    if (data.tier) updates.tier = data.tier;
     if (data.complete) updates.wizardComplete = true;
 
-    const maxSpecialties = data.tier === "PRO" ? MAX_TRAINER_SPECIALTIES_PRO : MAX_TRAINER_SPECIALTIES_STARTER;
+    // Tier is set only by the Stripe webhook — never trusted from the client.
+    // Enforce the specialty cap using the trainer's real tier in the database.
+    const maxSpecialties = trainer.tier === "PRO" ? MAX_TRAINER_SPECIALTIES_PRO : MAX_TRAINER_SPECIALTIES_STARTER;
 
     await prisma.$transaction(async (tx: Parameters<Parameters<typeof prisma.$transaction>[0]>[0]) => {
       if (Object.keys(updates).length) {
@@ -113,7 +157,11 @@ export async function POST(req: NextRequest) {
         await tx.trainerCertification.deleteMany({ where: { trainerProfileId: trainer!.id } });
         if (data.certifications.length) {
           await tx.trainerCertification.createMany({
-            data: data.certifications.map((name) => ({ trainerProfileId: trainer!.id, name })),
+            data: data.certifications.map((c) => ({
+              trainerProfileId: trainer!.id,
+              name: c.name,
+              certDocUrl: c.certDocUrl || null,
+            })),
           });
         }
       }
@@ -123,7 +171,12 @@ export async function POST(req: NextRequest) {
         await tx.trainerSpecialty.deleteMany({ where: { trainerProfileId: trainer!.id } });
         if (limited.length) {
           await tx.trainerSpecialty.createMany({
-            data: limited.map((specialty, i) => ({ trainerProfileId: trainer!.id, specialty, sortOrder: i })),
+            data: limited.map((s, i) => ({
+              trainerProfileId: trainer!.id,
+              specialty: s.specialty,
+              category: s.category,
+              sortOrder: i,
+            })),
           });
         }
       }
@@ -142,7 +195,7 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ success: true, trainer: updated });
   } catch (err) {
     if (err instanceof z.ZodError) {
-      return NextResponse.json({ error: err.issues[0].message }, { status: 400 });
+      return NextResponse.json({ error: [err.issues[0].path.join("."), err.issues[0].message].filter(Boolean).join(": ") }, { status: 400 });
     }
     console.error("[trainer/profile]", err);
     return NextResponse.json({ error: "Failed to save profile." }, { status: 500 });
@@ -155,16 +208,16 @@ const editSchema = z.object({
   bio: z.string().max(2000).optional(),
   experience: z.string().max(2000).optional(),
   whoIWorkWith: z.string().max(1000).optional(),
-  yearsExperience: z.number().int().min(0).max(60).optional().nullable(),
-  photoUrl: z.string().url().optional().or(z.literal("")),
+  photoUrl: z.string().url().optional().nullable().or(z.literal("")),
   phone: z.string().optional(),
   city: z.string().optional(),
   state: z.string().optional(),
   virtualAvailable: z.boolean().optional(),
   bookingUrl: z.string().optional(),
   gymName: z.string().max(120).optional(),
-  certifications: z.array(z.string()).optional(),
-  specialties: z.array(z.string()).optional(),
+  certifications: z.array(certificationSchema).optional(),
+  specialties: z.array(specialtySchema).optional(),
+  ...sharedFields,
 });
 
 export async function PATCH(req: NextRequest) {
@@ -191,6 +244,19 @@ export async function PATCH(req: NextRequest) {
     if (data.state !== undefined) updates.state = data.state || null;
     if (data.virtualAvailable !== undefined) updates.virtualAvailable = data.virtualAvailable;
     if (data.gymName !== undefined) updates.gymName = data.gymName || null;
+    if (data.education !== undefined) updates.education = data.education || null;
+    if (data.philosophy !== undefined) updates.philosophy = data.philosophy || null;
+    if (data.languages !== undefined) updates.languages = data.languages;
+    if (data.sessionTypes !== undefined) updates.sessionTypes = data.sessionTypes;
+    if (data.trainingLocations !== undefined) updates.trainingLocations = data.trainingLocations;
+    if (data.sessionLengths !== undefined) updates.sessionLengths = data.sessionLengths;
+    if (data.pricingModel !== undefined) updates.pricingModel = data.pricingModel;
+    if (data.priceMin !== undefined) updates.priceMin = data.priceMin;
+    if (data.priceMax !== undefined) updates.priceMax = data.priceMax;
+    if (data.availabilityType !== undefined) updates.availabilityType = data.availabilityType;
+    if (data.availabilityDays !== undefined) updates.availabilityDays = data.availabilityDays;
+    if (data.instagramHandle !== undefined) updates.instagramHandle = data.instagramHandle || null;
+    if (data.youtubeHandle !== undefined) updates.youtubeHandle = data.youtubeHandle || null;
     if (data.bookingUrl !== undefined) {
       if (data.bookingUrl && !isValidUrl(data.bookingUrl)) {
         return NextResponse.json({ error: "Invalid booking URL" }, { status: 400 });
@@ -224,7 +290,11 @@ export async function PATCH(req: NextRequest) {
         await tx.trainerCertification.deleteMany({ where: { trainerProfileId: trainer.id } });
         if (data.certifications.length) {
           await tx.trainerCertification.createMany({
-            data: data.certifications.map((name) => ({ trainerProfileId: trainer.id, name })),
+            data: data.certifications.map((c) => ({
+              trainerProfileId: trainer.id,
+              name: c.name,
+              certDocUrl: c.certDocUrl || null,
+            })),
           });
         }
       }
@@ -232,7 +302,12 @@ export async function PATCH(req: NextRequest) {
         await tx.trainerSpecialty.deleteMany({ where: { trainerProfileId: trainer.id } });
         if (data.specialties.length) {
           await tx.trainerSpecialty.createMany({
-            data: data.specialties.map((specialty, i) => ({ trainerProfileId: trainer.id, specialty, sortOrder: i })),
+            data: data.specialties.map((s, i) => ({
+              trainerProfileId: trainer.id,
+              specialty: s.specialty,
+              category: s.category,
+              sortOrder: i,
+            })),
           });
         }
       }
@@ -241,7 +316,7 @@ export async function PATCH(req: NextRequest) {
     return NextResponse.json({ success: true });
   } catch (err) {
     if (err instanceof z.ZodError) {
-      return NextResponse.json({ error: err.issues[0].message }, { status: 400 });
+      return NextResponse.json({ error: [err.issues[0].path.join("."), err.issues[0].message].filter(Boolean).join(": ") }, { status: 400 });
     }
     console.error("[trainer/profile PATCH]", err);
     return NextResponse.json({ error: "Failed to save." }, { status: 500 });

@@ -6,7 +6,10 @@ import { prisma } from "@/lib/prisma";
 import { auth } from "@/lib/auth";
 import { formatRating, formatReviewerName, getVslEmbedUrl } from "@/lib/utils";
 import { PROFILE_TYPES } from "@/lib/constants";
-import { Star, MapPin, Shield, ExternalLink, Wifi, Calendar, Pencil } from "lucide-react";
+import {
+  Star, MapPin, Shield, ExternalLink, Wifi, Calendar, Pencil,
+  GraduationCap, DollarSign, Clock, Languages, AtSign, Video,
+} from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { ContactTrainerModal } from "@/components/trainer/contact-trainer-modal";
@@ -152,6 +155,17 @@ export default async function TrainerProfilePage({ params }: Props) {
               {trainer.bio && (
                 <p className="mt-5 text-gray-700 leading-relaxed">{trainer.bio}</p>
               )}
+              {trainer.philosophy && (
+                <p className="mt-3 text-gray-600 italic border-l-2 border-emerald-200 pl-3">&ldquo;{trainer.philosophy}&rdquo;</p>
+              )}
+              {trainer.languages.length > 0 && (
+                <div className="flex items-center gap-1.5 mt-4 flex-wrap">
+                  <Languages className="h-3.5 w-3.5 text-gray-400" />
+                  {trainer.languages.map((l) => (
+                    <Badge key={l} variant="secondary">{l}</Badge>
+                  ))}
+                </div>
+              )}
             </div>
 
             {/* Certifications */}
@@ -171,15 +185,63 @@ export default async function TrainerProfilePage({ params }: Props) {
               </div>
             )}
 
-            {/* Specialties */}
-            {trainer.specialties.length > 0 && (
+            {/* Education */}
+            {trainer.education && (
               <div className="bg-white rounded-xl border border-gray-200 p-6">
-                <h2 className="font-semibold text-gray-900 mb-4">Specialties</h2>
-                <div className="flex flex-wrap gap-2">
-                  {trainer.specialties.map((s) => (
-                    <Badge key={s.id} variant="outline">{s.specialty}</Badge>
-                  ))}
-                </div>
+                <h2 className="font-semibold text-gray-900 mb-3 flex items-center gap-2">
+                  <GraduationCap className="h-4 w-4 text-gray-400" />
+                  Education
+                </h2>
+                <p className="text-gray-700 leading-relaxed whitespace-pre-line">{trainer.education}</p>
+              </div>
+            )}
+
+            {/* Training styles / Client focus */}
+            {trainer.specialties.length > 0 && (
+              <div className="bg-white rounded-xl border border-gray-200 p-6 space-y-4">
+                {trainer.specialties.some((s) => s.category === "STYLE") && (
+                  <div>
+                    <h2 className="font-semibold text-gray-900 mb-3">Training styles</h2>
+                    <div className="flex flex-wrap gap-2">
+                      {trainer.specialties.filter((s) => s.category === "STYLE").map((s) => (
+                        <Badge key={s.id} variant="outline">{s.specialty}</Badge>
+                      ))}
+                    </div>
+                  </div>
+                )}
+                {trainer.specialties.some((s) => s.category !== "STYLE") && (
+                  <div>
+                    <h2 className="font-semibold text-gray-900 mb-3">Client focus</h2>
+                    <div className="flex flex-wrap gap-2">
+                      {trainer.specialties.filter((s) => s.category !== "STYLE").map((s) => (
+                        <Badge key={s.id} variant="outline">{s.specialty}</Badge>
+                      ))}
+                    </div>
+                  </div>
+                )}
+              </div>
+            )}
+
+            {/* How I work */}
+            {(trainer.sessionTypes.length > 0 || trainer.trainingLocations.length > 0) && (
+              <div className="bg-white rounded-xl border border-gray-200 p-6 space-y-4">
+                <h2 className="font-semibold text-gray-900">How I work</h2>
+                {trainer.sessionTypes.length > 0 && (
+                  <div>
+                    <p className="text-sm text-gray-500 mb-2">Session types</p>
+                    <div className="flex flex-wrap gap-2">
+                      {trainer.sessionTypes.map((s) => <Badge key={s} variant="secondary">{s}</Badge>)}
+                    </div>
+                  </div>
+                )}
+                {trainer.trainingLocations.length > 0 && (
+                  <div>
+                    <p className="text-sm text-gray-500 mb-2">Where I train</p>
+                    <div className="flex flex-wrap gap-2">
+                      {trainer.trainingLocations.map((s) => <Badge key={s} variant="secondary">{s}</Badge>)}
+                    </div>
+                  </div>
+                )}
               </div>
             )}
 
@@ -200,13 +262,27 @@ export default async function TrainerProfilePage({ params }: Props) {
             )}
 
             {/* Photo gallery */}
-            {trainer.photos.length > 0 && (
+            {trainer.photos.filter((p) => p.category !== "transformation").length > 0 && (
               <div className="bg-white rounded-xl border border-gray-200 p-6">
                 <h2 className="font-semibold text-gray-900 mb-4">Photos</h2>
                 <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
-                  {trainer.photos.map((photo) => (
+                  {trainer.photos.filter((p) => p.category !== "transformation").map((photo) => (
                     <div key={photo.id} className="relative aspect-square rounded-lg overflow-hidden bg-gray-100">
                       <Image src={photo.url} alt={photo.caption ?? "Training photo"} fill className="object-cover" sizes="200px" />
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {/* Transformations */}
+            {trainer.photos.filter((p) => p.category === "transformation").length > 0 && (
+              <div className="bg-white rounded-xl border border-gray-200 p-6">
+                <h2 className="font-semibold text-gray-900 mb-4">Transformations</h2>
+                <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
+                  {trainer.photos.filter((p) => p.category === "transformation").map((photo) => (
+                    <div key={photo.id} className="relative aspect-square rounded-lg overflow-hidden bg-gray-100">
+                      <Image src={photo.url} alt={photo.caption ?? "Transformation photo"} fill className="object-cover" sizes="200px" />
                     </div>
                   ))}
                 </div>
@@ -288,6 +364,50 @@ export default async function TrainerProfilePage({ params }: Props) {
                 Contact is sent directly to the trainer — NextFit doesn&apos;t share your info.
               </div>
             </div>
+
+            {(trainer.priceMin != null || trainer.priceMax != null || trainer.availabilityType || trainer.sessionLengths.length > 0) && (
+              <div className="bg-white rounded-xl border border-gray-200 p-5 space-y-3">
+                <h3 className="font-semibold text-gray-900 text-sm">Pricing &amp; Availability</h3>
+                {(trainer.priceMin != null || trainer.priceMax != null) && (
+                  <div className="flex items-center gap-2 text-sm text-gray-700">
+                    <DollarSign className="h-4 w-4 text-gray-400" />
+                    {trainer.priceMin != null && trainer.priceMax != null
+                      ? `$${trainer.priceMin}–$${trainer.priceMax}`
+                      : `$${trainer.priceMin ?? trainer.priceMax}`}
+                    {trainer.pricingModel && <span className="text-gray-400">/ {trainer.pricingModel.replace("_", " ")}</span>}
+                  </div>
+                )}
+                {trainer.availabilityType && (
+                  <div className="flex items-center gap-2 text-sm text-gray-700">
+                    <Calendar className="h-4 w-4 text-gray-400" />
+                    {trainer.availabilityType === "flexible" ? "Flexible availability" : trainer.availabilityDays.join(", ") || "Limited availability"}
+                  </div>
+                )}
+                {trainer.sessionLengths.length > 0 && (
+                  <div className="flex items-center gap-2 text-sm text-gray-700">
+                    <Clock className="h-4 w-4 text-gray-400" />
+                    {trainer.sessionLengths.join(", ")} min sessions
+                  </div>
+                )}
+              </div>
+            )}
+
+            {(trainer.instagramHandle || trainer.youtubeHandle) && (
+              <div className="bg-white rounded-xl border border-gray-200 p-5 space-y-2">
+                {trainer.instagramHandle && (
+                  <div className="flex items-center gap-2 text-sm text-gray-700">
+                    <AtSign className="h-4 w-4 text-gray-400" />
+                    {trainer.instagramHandle}
+                  </div>
+                )}
+                {trainer.youtubeHandle && (
+                  <div className="flex items-center gap-2 text-sm text-gray-700">
+                    <Video className="h-4 w-4 text-gray-400" />
+                    {trainer.youtubeHandle}
+                  </div>
+                )}
+              </div>
+            )}
           </div>
         </div>
       </div>

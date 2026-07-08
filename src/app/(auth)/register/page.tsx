@@ -7,11 +7,10 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
-import { Dumbbell, Plus, X, ChevronLeft, Eye, EyeOff } from "lucide-react";
+import { Dumbbell, ChevronLeft, Eye, EyeOff } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 type AccountTypeChoice = "CONSUMER" | "TRAINER" | "GYM";
-type TrainingMode = "in-person" | "virtual" | "both";
 
 interface FormData {
   accountType: AccountTypeChoice;
@@ -22,21 +21,12 @@ interface FormData {
   phone: string;
   city: string;
   state: string;
-  trainingMode: TrainingMode;
-  specialties: string[];
-  certifications: string[];
   gymName: string;
   addressLine1: string;
   zip: string;
   knownFor: string;
   amenities: string[];
 }
-
-const TRAINER_SPECIALTIES = [
-  "Weight Loss", "Strength Training", "HIIT / Cardio", "Yoga / Flexibility",
-  "Sports Performance", "Nutrition Coaching", "Senior Fitness", "Pre/Post Natal",
-  "Bodybuilding", "Rehabilitation",
-];
 
 const GYM_AMENITIES = [
   "Free Weights", "Cardio Equipment", "Swimming Pool", "Group Classes",
@@ -81,9 +71,6 @@ const initialData: FormData = {
   phone: "",
   city: "",
   state: "",
-  trainingMode: "in-person",
-  specialties: [],
-  certifications: [],
   gymName: "",
   addressLine1: "",
   zip: "",
@@ -94,7 +81,6 @@ const initialData: FormData = {
 export default function RegisterPage() {
   const [step, setStep] = useState(1);
   const [formData, setFormData] = useState<FormData>(initialData);
-  const [certInput, setCertInput] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [fieldErrors, setFieldErrors] = useState<Record<string, string>>({});
@@ -102,20 +88,11 @@ export default function RegisterPage() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [success, setSuccess] = useState(false);
 
-  const totalSteps = formData.accountType === "CONSUMER" ? 2 : 3;
+  const totalSteps = formData.accountType === "GYM" ? 3 : 2;
 
   function update<K extends keyof FormData>(key: K, value: FormData[K]) {
     setFormData((prev) => ({ ...prev, [key]: value }));
     setFieldErrors((prev) => ({ ...prev, [key]: "" }));
-  }
-
-  function toggleSpecialty(s: string) {
-    setFormData((prev) => ({
-      ...prev,
-      specialties: prev.specialties.includes(s)
-        ? prev.specialties.filter((x) => x !== s)
-        : [...prev.specialties, s],
-    }));
   }
 
   function toggleAmenity(a: string) {
@@ -124,20 +101,6 @@ export default function RegisterPage() {
       amenities: prev.amenities.includes(a)
         ? prev.amenities.filter((x) => x !== a)
         : [...prev.amenities, a],
-    }));
-  }
-
-  function addCert() {
-    const trimmed = certInput.trim();
-    if (!trimmed) return;
-    setFormData((prev) => ({ ...prev, certifications: [...prev.certifications, trimmed] }));
-    setCertInput("");
-  }
-
-  function removeCert(i: number) {
-    setFormData((prev) => ({
-      ...prev,
-      certifications: prev.certifications.filter((_, idx) => idx !== i),
     }));
   }
 
@@ -158,12 +121,6 @@ export default function RegisterPage() {
 
   function validateStep3() {
     const errs: Record<string, string> = {};
-    if (formData.accountType === "TRAINER") {
-      if (!formData.city.trim()) errs.city = "City is required";
-      if (!formData.state) errs.state = "State is required";
-      if (formData.specialties.length === 0) errs.specialties = "Select at least one specialty";
-      if (formData.certifications.length === 0) errs.certifications = "Add at least one certification";
-    }
     if (formData.accountType === "GYM") {
       if (!formData.addressLine1.trim()) errs.addressLine1 = "Street address is required";
       if (!formData.city.trim()) errs.city = "City is required";
@@ -194,7 +151,7 @@ export default function RegisterPage() {
   function goNext() {
     if (step === 2) {
       if (!validateStep2()) return;
-      if (formData.accountType === "CONSUMER") {
+      if (formData.accountType !== "GYM") {
         handleSubmit();
         return;
       }
@@ -210,13 +167,15 @@ export default function RegisterPage() {
       <div className="min-h-screen flex items-center justify-center p-4 bg-gray-50">
         <Card className="w-full max-w-md text-center">
           <CardContent className="pt-8 pb-8">
-            <div className="text-5xl mb-4">📬</div>
-            <h2 className="text-xl font-bold text-gray-900 mb-2">Check your inbox</h2>
+            <div className="text-5xl mb-4">🎉</div>
+            <h2 className="text-xl font-bold text-gray-900 mb-2">Account created</h2>
             <p className="text-gray-500 text-sm">
-              We sent a verification link to your email. Click it to activate your account.
+              {formData.accountType === "TRAINER"
+                ? "Log in to start building your trainer profile."
+                : "Log in to get started."}
             </p>
             <Link href="/login" className="mt-6 block">
-              <Button variant="outline" className="w-full">Back to login</Button>
+              <Button className="w-full">Log in</Button>
             </Link>
           </CardContent>
         </Card>
@@ -228,7 +187,7 @@ export default function RegisterPage() {
     <div className="min-h-screen flex items-center justify-center p-4 bg-gray-50">
       <Card className="w-full max-w-lg">
         <CardHeader className="pb-2">
-          <Link href="/" className="flex items-center justify-center gap-2 text-emerald-700 font-bold text-xl mb-4">
+          <Link href="/" className="flex items-center justify-center gap-2 font-heading text-emerald-700 font-bold text-xl mb-4">
             <Dumbbell className="h-6 w-6" />
             NextFit
           </Link>
@@ -413,162 +372,7 @@ export default function RegisterPage() {
               )}
 
               <Button className="w-full" onClick={goNext} loading={isSubmitting}>
-                {formData.accountType === "CONSUMER" ? "Create account" : "Continue"}
-              </Button>
-            </div>
-          )}
-
-          {/* ── Step 3: Trainer details ── */}
-          {step === 3 && formData.accountType === "TRAINER" && (
-            <div className="space-y-5">
-              <h2 className="font-semibold text-gray-900 text-lg">Tell us how you train</h2>
-
-              <div className="space-y-2">
-                <Label>How do you work with clients?</Label>
-                <div className="grid grid-cols-3 gap-2">
-                  {(["in-person", "virtual", "both"] as TrainingMode[]).map((mode) => (
-                    <button
-                      key={mode}
-                      type="button"
-                      onClick={() => update("trainingMode", mode)}
-                      className={cn(
-                        "py-2.5 px-2 rounded-lg border text-sm font-medium transition-colors",
-                        formData.trainingMode === mode
-                          ? "border-emerald-500 bg-emerald-50 text-emerald-800"
-                          : "border-gray-200 text-gray-600 hover:border-gray-300"
-                      )}
-                    >
-                      {mode === "in-person" ? "In-Person" : mode === "virtual" ? "Virtual" : "Both"}
-                    </button>
-                  ))}
-                </div>
-              </div>
-
-              <div className="grid grid-cols-2 gap-3">
-                <div className="space-y-1.5">
-                  <Label>City</Label>
-                  <Input
-                    value={formData.city}
-                    onChange={(e) => update("city", e.target.value)}
-                    placeholder="Los Angeles"
-                  />
-                  {fieldErrors.city && <p className="text-xs text-red-600">{fieldErrors.city}</p>}
-                </div>
-                <div className="space-y-1.5">
-                  <Label>State</Label>
-                  <select
-                    className="flex h-10 w-full rounded-md border border-gray-300 bg-white px-3 py-2 text-sm text-gray-900 focus:outline-none focus:ring-2 focus:ring-emerald-500"
-                    value={formData.state}
-                    onChange={(e) => update("state", e.target.value)}
-                  >
-                    <option value="">Select state</option>
-                    {US_STATES.map((s) => (
-                      <option key={s} value={s}>{s}</option>
-                    ))}
-                  </select>
-                  {fieldErrors.state && <p className="text-xs text-red-600">{fieldErrors.state}</p>}
-                </div>
-              </div>
-
-              <div className="space-y-1.5">
-                <Label>Phone number <span className="text-gray-400 font-normal">(optional)</span></Label>
-                <Input
-                  type="tel"
-                  value={formData.phone}
-                  onChange={(e) => update("phone", e.target.value)}
-                  placeholder="(555) 000-0000"
-                />
-              </div>
-
-              <div className="space-y-2">
-                <Label>Your specialties <span className="text-gray-400 font-normal text-xs">(select all that apply)</span></Label>
-                <div className="flex flex-wrap gap-2">
-                  {TRAINER_SPECIALTIES.map((s) => (
-                    <button
-                      key={s}
-                      type="button"
-                      onClick={() => {
-                        toggleSpecialty(s);
-                        setFieldErrors((prev) => ({ ...prev, specialties: "" }));
-                      }}
-                      className={cn(
-                        "px-3 py-1.5 rounded-full border text-sm transition-colors",
-                        formData.specialties.includes(s)
-                          ? "border-emerald-500 bg-emerald-500 text-white"
-                          : "border-gray-200 text-gray-600 hover:border-gray-300"
-                      )}
-                    >
-                      {s}
-                    </button>
-                  ))}
-                </div>
-                {fieldErrors.specialties && (
-                  <p className="text-xs text-red-600">{fieldErrors.specialties}</p>
-                )}
-              </div>
-
-              <div className="space-y-2">
-                <Label>Certifications</Label>
-                <div className="flex gap-2">
-                  <Input
-                    value={certInput}
-                    onChange={(e) => setCertInput(e.target.value)}
-                    placeholder="e.g. NASM CPT, ACE, CSCS"
-                    onKeyDown={(e) => {
-                      if (e.key === "Enter") {
-                        e.preventDefault();
-                        addCert();
-                        setFieldErrors((prev) => ({ ...prev, certifications: "" }));
-                      }
-                    }}
-                  />
-                  <Button
-                    type="button"
-                    variant="outline"
-                    size="icon"
-                    onClick={() => {
-                      addCert();
-                      setFieldErrors((prev) => ({ ...prev, certifications: "" }));
-                    }}
-                  >
-                    <Plus className="h-4 w-4" />
-                  </Button>
-                </div>
-                {formData.certifications.length > 0 && (
-                  <div className="flex flex-wrap gap-2 mt-1">
-                    {formData.certifications.map((c, i) => (
-                      <span
-                        key={i}
-                        className="flex items-center gap-1.5 px-3 py-1 bg-gray-100 rounded-full text-sm text-gray-700"
-                      >
-                        {c}
-                        <button
-                          type="button"
-                          onClick={() => removeCert(i)}
-                          className="text-gray-400 hover:text-gray-600"
-                        >
-                          <X className="h-3 w-3" />
-                        </button>
-                      </span>
-                    ))}
-                  </div>
-                )}
-                {fieldErrors.certifications && (
-                  <p className="text-xs text-red-600">{fieldErrors.certifications}</p>
-                )}
-                <p className="text-xs text-gray-400">
-                  Our team will verify your certifications within 48 hours of registration.
-                </p>
-              </div>
-
-              {serverError && (
-                <div className="rounded-lg bg-red-50 border border-red-200 px-3 py-2 text-sm text-red-700">
-                  {serverError}
-                </div>
-              )}
-
-              <Button className="w-full" onClick={goNext} loading={isSubmitting}>
-                Create account
+                {formData.accountType === "GYM" ? "Continue" : "Create account"}
               </Button>
             </div>
           )}

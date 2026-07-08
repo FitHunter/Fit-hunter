@@ -63,7 +63,10 @@ export async function POST(req: NextRequest) {
         where: { id: reviewId },
         data: { status: "REJECTED", rejectionReason: reason },
       });
-      await sendReviewRejectedEmail(review.user.email, reason!);
+      // Best-effort: the rejection is already recorded.
+      await sendReviewRejectedEmail(review.user.email, reason!).catch((err) =>
+        console.error("[moderate] rejection email failed:", err)
+      );
     } else {
       await prisma.review.update({
         where: { id: reviewId },

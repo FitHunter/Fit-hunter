@@ -38,6 +38,7 @@ export type TrainerSpecialtyMinAggregateOutputType = {
   id: string | null
   trainerProfileId: string | null
   specialty: string | null
+  category: $Enums.SpecialtyCategory | null
   sortOrder: number | null
 }
 
@@ -45,6 +46,7 @@ export type TrainerSpecialtyMaxAggregateOutputType = {
   id: string | null
   trainerProfileId: string | null
   specialty: string | null
+  category: $Enums.SpecialtyCategory | null
   sortOrder: number | null
 }
 
@@ -52,6 +54,7 @@ export type TrainerSpecialtyCountAggregateOutputType = {
   id: number
   trainerProfileId: number
   specialty: number
+  category: number
   sortOrder: number
   _all: number
 }
@@ -69,6 +72,7 @@ export type TrainerSpecialtyMinAggregateInputType = {
   id?: true
   trainerProfileId?: true
   specialty?: true
+  category?: true
   sortOrder?: true
 }
 
@@ -76,6 +80,7 @@ export type TrainerSpecialtyMaxAggregateInputType = {
   id?: true
   trainerProfileId?: true
   specialty?: true
+  category?: true
   sortOrder?: true
 }
 
@@ -83,6 +88,7 @@ export type TrainerSpecialtyCountAggregateInputType = {
   id?: true
   trainerProfileId?: true
   specialty?: true
+  category?: true
   sortOrder?: true
   _all?: true
 }
@@ -177,6 +183,7 @@ export type TrainerSpecialtyGroupByOutputType = {
   id: string
   trainerProfileId: string
   specialty: string
+  category: $Enums.SpecialtyCategory
   sortOrder: number
   _count: TrainerSpecialtyCountAggregateOutputType | null
   _avg: TrainerSpecialtyAvgAggregateOutputType | null
@@ -207,6 +214,7 @@ export type TrainerSpecialtyWhereInput = {
   id?: Prisma.StringFilter<"TrainerSpecialty"> | string
   trainerProfileId?: Prisma.StringFilter<"TrainerSpecialty"> | string
   specialty?: Prisma.StringFilter<"TrainerSpecialty"> | string
+  category?: Prisma.EnumSpecialtyCategoryFilter<"TrainerSpecialty"> | $Enums.SpecialtyCategory
   sortOrder?: Prisma.IntFilter<"TrainerSpecialty"> | number
   trainerProfile?: Prisma.XOR<Prisma.TrainerProfileScalarRelationFilter, Prisma.TrainerProfileWhereInput>
 }
@@ -215,6 +223,7 @@ export type TrainerSpecialtyOrderByWithRelationInput = {
   id?: Prisma.SortOrder
   trainerProfileId?: Prisma.SortOrder
   specialty?: Prisma.SortOrder
+  category?: Prisma.SortOrder
   sortOrder?: Prisma.SortOrder
   trainerProfile?: Prisma.TrainerProfileOrderByWithRelationInput
 }
@@ -226,6 +235,7 @@ export type TrainerSpecialtyWhereUniqueInput = Prisma.AtLeast<{
   NOT?: Prisma.TrainerSpecialtyWhereInput | Prisma.TrainerSpecialtyWhereInput[]
   trainerProfileId?: Prisma.StringFilter<"TrainerSpecialty"> | string
   specialty?: Prisma.StringFilter<"TrainerSpecialty"> | string
+  category?: Prisma.EnumSpecialtyCategoryFilter<"TrainerSpecialty"> | $Enums.SpecialtyCategory
   sortOrder?: Prisma.IntFilter<"TrainerSpecialty"> | number
   trainerProfile?: Prisma.XOR<Prisma.TrainerProfileScalarRelationFilter, Prisma.TrainerProfileWhereInput>
 }, "id">
@@ -234,6 +244,7 @@ export type TrainerSpecialtyOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
   trainerProfileId?: Prisma.SortOrder
   specialty?: Prisma.SortOrder
+  category?: Prisma.SortOrder
   sortOrder?: Prisma.SortOrder
   _count?: Prisma.TrainerSpecialtyCountOrderByAggregateInput
   _avg?: Prisma.TrainerSpecialtyAvgOrderByAggregateInput
@@ -249,12 +260,14 @@ export type TrainerSpecialtyScalarWhereWithAggregatesInput = {
   id?: Prisma.StringWithAggregatesFilter<"TrainerSpecialty"> | string
   trainerProfileId?: Prisma.StringWithAggregatesFilter<"TrainerSpecialty"> | string
   specialty?: Prisma.StringWithAggregatesFilter<"TrainerSpecialty"> | string
+  category?: Prisma.EnumSpecialtyCategoryWithAggregatesFilter<"TrainerSpecialty"> | $Enums.SpecialtyCategory
   sortOrder?: Prisma.IntWithAggregatesFilter<"TrainerSpecialty"> | number
 }
 
 export type TrainerSpecialtyCreateInput = {
   id?: string
   specialty: string
+  category?: $Enums.SpecialtyCategory
   sortOrder?: number
   trainerProfile: Prisma.TrainerProfileCreateNestedOneWithoutSpecialtiesInput
 }
@@ -263,12 +276,14 @@ export type TrainerSpecialtyUncheckedCreateInput = {
   id?: string
   trainerProfileId: string
   specialty: string
+  category?: $Enums.SpecialtyCategory
   sortOrder?: number
 }
 
 export type TrainerSpecialtyUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   specialty?: Prisma.StringFieldUpdateOperationsInput | string
+  category?: Prisma.EnumSpecialtyCategoryFieldUpdateOperationsInput | $Enums.SpecialtyCategory
   sortOrder?: Prisma.IntFieldUpdateOperationsInput | number
   trainerProfile?: Prisma.TrainerProfileUpdateOneRequiredWithoutSpecialtiesNestedInput
 }
@@ -277,6 +292,7 @@ export type TrainerSpecialtyUncheckedUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   trainerProfileId?: Prisma.StringFieldUpdateOperationsInput | string
   specialty?: Prisma.StringFieldUpdateOperationsInput | string
+  category?: Prisma.EnumSpecialtyCategoryFieldUpdateOperationsInput | $Enums.SpecialtyCategory
   sortOrder?: Prisma.IntFieldUpdateOperationsInput | number
 }
 
@@ -284,12 +300,14 @@ export type TrainerSpecialtyCreateManyInput = {
   id?: string
   trainerProfileId: string
   specialty: string
+  category?: $Enums.SpecialtyCategory
   sortOrder?: number
 }
 
 export type TrainerSpecialtyUpdateManyMutationInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   specialty?: Prisma.StringFieldUpdateOperationsInput | string
+  category?: Prisma.EnumSpecialtyCategoryFieldUpdateOperationsInput | $Enums.SpecialtyCategory
   sortOrder?: Prisma.IntFieldUpdateOperationsInput | number
 }
 
@@ -297,6 +315,7 @@ export type TrainerSpecialtyUncheckedUpdateManyInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   trainerProfileId?: Prisma.StringFieldUpdateOperationsInput | string
   specialty?: Prisma.StringFieldUpdateOperationsInput | string
+  category?: Prisma.EnumSpecialtyCategoryFieldUpdateOperationsInput | $Enums.SpecialtyCategory
   sortOrder?: Prisma.IntFieldUpdateOperationsInput | number
 }
 
@@ -314,6 +333,7 @@ export type TrainerSpecialtyCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
   trainerProfileId?: Prisma.SortOrder
   specialty?: Prisma.SortOrder
+  category?: Prisma.SortOrder
   sortOrder?: Prisma.SortOrder
 }
 
@@ -325,6 +345,7 @@ export type TrainerSpecialtyMaxOrderByAggregateInput = {
   id?: Prisma.SortOrder
   trainerProfileId?: Prisma.SortOrder
   specialty?: Prisma.SortOrder
+  category?: Prisma.SortOrder
   sortOrder?: Prisma.SortOrder
 }
 
@@ -332,6 +353,7 @@ export type TrainerSpecialtyMinOrderByAggregateInput = {
   id?: Prisma.SortOrder
   trainerProfileId?: Prisma.SortOrder
   specialty?: Prisma.SortOrder
+  category?: Prisma.SortOrder
   sortOrder?: Prisma.SortOrder
 }
 
@@ -381,15 +403,21 @@ export type TrainerSpecialtyUncheckedUpdateManyWithoutTrainerProfileNestedInput 
   deleteMany?: Prisma.TrainerSpecialtyScalarWhereInput | Prisma.TrainerSpecialtyScalarWhereInput[]
 }
 
+export type EnumSpecialtyCategoryFieldUpdateOperationsInput = {
+  set?: $Enums.SpecialtyCategory
+}
+
 export type TrainerSpecialtyCreateWithoutTrainerProfileInput = {
   id?: string
   specialty: string
+  category?: $Enums.SpecialtyCategory
   sortOrder?: number
 }
 
 export type TrainerSpecialtyUncheckedCreateWithoutTrainerProfileInput = {
   id?: string
   specialty: string
+  category?: $Enums.SpecialtyCategory
   sortOrder?: number
 }
 
@@ -426,30 +454,35 @@ export type TrainerSpecialtyScalarWhereInput = {
   id?: Prisma.StringFilter<"TrainerSpecialty"> | string
   trainerProfileId?: Prisma.StringFilter<"TrainerSpecialty"> | string
   specialty?: Prisma.StringFilter<"TrainerSpecialty"> | string
+  category?: Prisma.EnumSpecialtyCategoryFilter<"TrainerSpecialty"> | $Enums.SpecialtyCategory
   sortOrder?: Prisma.IntFilter<"TrainerSpecialty"> | number
 }
 
 export type TrainerSpecialtyCreateManyTrainerProfileInput = {
   id?: string
   specialty: string
+  category?: $Enums.SpecialtyCategory
   sortOrder?: number
 }
 
 export type TrainerSpecialtyUpdateWithoutTrainerProfileInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   specialty?: Prisma.StringFieldUpdateOperationsInput | string
+  category?: Prisma.EnumSpecialtyCategoryFieldUpdateOperationsInput | $Enums.SpecialtyCategory
   sortOrder?: Prisma.IntFieldUpdateOperationsInput | number
 }
 
 export type TrainerSpecialtyUncheckedUpdateWithoutTrainerProfileInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   specialty?: Prisma.StringFieldUpdateOperationsInput | string
+  category?: Prisma.EnumSpecialtyCategoryFieldUpdateOperationsInput | $Enums.SpecialtyCategory
   sortOrder?: Prisma.IntFieldUpdateOperationsInput | number
 }
 
 export type TrainerSpecialtyUncheckedUpdateManyWithoutTrainerProfileInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   specialty?: Prisma.StringFieldUpdateOperationsInput | string
+  category?: Prisma.EnumSpecialtyCategoryFieldUpdateOperationsInput | $Enums.SpecialtyCategory
   sortOrder?: Prisma.IntFieldUpdateOperationsInput | number
 }
 
@@ -459,6 +492,7 @@ export type TrainerSpecialtySelect<ExtArgs extends runtime.Types.Extensions.Inte
   id?: boolean
   trainerProfileId?: boolean
   specialty?: boolean
+  category?: boolean
   sortOrder?: boolean
   trainerProfile?: boolean | Prisma.TrainerProfileDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["trainerSpecialty"]>
@@ -467,6 +501,7 @@ export type TrainerSpecialtySelectCreateManyAndReturn<ExtArgs extends runtime.Ty
   id?: boolean
   trainerProfileId?: boolean
   specialty?: boolean
+  category?: boolean
   sortOrder?: boolean
   trainerProfile?: boolean | Prisma.TrainerProfileDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["trainerSpecialty"]>
@@ -475,6 +510,7 @@ export type TrainerSpecialtySelectUpdateManyAndReturn<ExtArgs extends runtime.Ty
   id?: boolean
   trainerProfileId?: boolean
   specialty?: boolean
+  category?: boolean
   sortOrder?: boolean
   trainerProfile?: boolean | Prisma.TrainerProfileDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["trainerSpecialty"]>
@@ -483,10 +519,11 @@ export type TrainerSpecialtySelectScalar = {
   id?: boolean
   trainerProfileId?: boolean
   specialty?: boolean
+  category?: boolean
   sortOrder?: boolean
 }
 
-export type TrainerSpecialtyOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "trainerProfileId" | "specialty" | "sortOrder", ExtArgs["result"]["trainerSpecialty"]>
+export type TrainerSpecialtyOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "trainerProfileId" | "specialty" | "category" | "sortOrder", ExtArgs["result"]["trainerSpecialty"]>
 export type TrainerSpecialtyInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   trainerProfile?: boolean | Prisma.TrainerProfileDefaultArgs<ExtArgs>
 }
@@ -506,6 +543,7 @@ export type $TrainerSpecialtyPayload<ExtArgs extends runtime.Types.Extensions.In
     id: string
     trainerProfileId: string
     specialty: string
+    category: $Enums.SpecialtyCategory
     sortOrder: number
   }, ExtArgs["result"]["trainerSpecialty"]>
   composites: {}
@@ -934,6 +972,7 @@ export interface TrainerSpecialtyFieldRefs {
   readonly id: Prisma.FieldRef<"TrainerSpecialty", 'String'>
   readonly trainerProfileId: Prisma.FieldRef<"TrainerSpecialty", 'String'>
   readonly specialty: Prisma.FieldRef<"TrainerSpecialty", 'String'>
+  readonly category: Prisma.FieldRef<"TrainerSpecialty", 'SpecialtyCategory'>
   readonly sortOrder: Prisma.FieldRef<"TrainerSpecialty", 'Int'>
 }
     

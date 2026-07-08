@@ -8,7 +8,6 @@ import { formatRating, formatReviewerName } from "@/lib/utils";
 import { DAYS_OF_WEEK } from "@/lib/constants";
 import { Star, MapPin, Shield, Phone, Globe, Clock } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
 import { ReviewList } from "@/components/reviews/review-list";
 import { ContactGymModal } from "@/components/gym/contact-gym-modal";
 
@@ -255,13 +254,13 @@ function GymStubPage({ gym }: { gym: { id: string; name: string; addressLine1: s
         <p className="text-gray-500 mb-1">{gym.addressLine1}</p>
         <p className="text-gray-500 mb-6">{[gym.city, gym.state, gym.zip].filter(Boolean).join(", ")}</p>
         {gym.phone && <p className="text-gray-500 mb-6">{gym.phone}</p>}
-        <div className="bg-amber-50 rounded-lg border border-amber-200 p-4 mb-6">
+        <div className="bg-amber-50 rounded-lg border border-amber-200 p-4">
           <p className="text-sm text-amber-800 font-medium">Is this your gym?</p>
-          <p className="text-sm text-amber-700 mt-1">Claim this profile to add photos, hours, amenities, and respond to reviews.</p>
+          <p className="text-sm text-amber-700 mt-1">
+            Claiming lets you add photos, hours, amenities, and respond to reviews.
+            Register a gym account to get started.
+          </p>
         </div>
-        <Link href={`/gym/${gym.id}/claim`}>
-          <Button className="w-full">Claim This Profile</Button>
-        </Link>
       </div>
     </div>
   );

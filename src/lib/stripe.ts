@@ -4,12 +4,23 @@ export const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
   apiVersion: "2026-04-22.dahlia",
 });
 
+// Checkout currently subscribes trainers at the Starter tier and gyms at
+// Basic (matching the env vars that exist). The un-suffixed names are kept
+// as an override for backward compatibility.
 export function getTrainerPriceId(): string | null {
-  return process.env.STRIPE_TRAINER_PRICE_ID ?? null;
+  return (
+    process.env.STRIPE_TRAINER_PRICE_ID ??
+    process.env.STRIPE_TRAINER_STARTER_PRICE_ID ??
+    null
+  );
 }
 
 export function getGymPriceId(): string | null {
-  return process.env.STRIPE_GYM_PRICE_ID ?? null;
+  return (
+    process.env.STRIPE_GYM_PRICE_ID ??
+    process.env.STRIPE_GYM_BASIC_PRICE_ID ??
+    null
+  );
 }
 
 export async function createStripeCustomer(email: string, name: string) {

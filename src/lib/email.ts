@@ -4,9 +4,29 @@ const resend = new Resend(process.env.RESEND_API_KEY);
 const FROM = process.env.EMAIL_FROM ?? "NextFit <onboarding@resend.dev>";
 const APP_URL = process.env.NEXT_PUBLIC_APP_URL!;
 
+// The Resend SDK does NOT throw on API errors — it resolves with
+// { data, error }. Without this check, failed sends are silently swallowed
+// (callers' .catch() never fires). Log and throw so failures are visible.
+async function send(args: Parameters<typeof resend.emails.send>[0]) {
+  const result = await resend.emails.send(args);
+  if (result.error) {
+    console.error("[email] send failed:", result.error);
+    throw new Error(`Email send failed: ${result.error.message}`);
+  }
+  return result;
+}
+
+// Escape any user-supplied value before interpolating it into email HTML,
+// otherwise senders can inject markup/links (phishing) into recipients' inboxes.
+function esc(value: string): string {
+  return value.replace(/[&<>"']/g, (c) =>
+    ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[c]!
+  );
+}
+
 export async function sendVerificationEmail(email: string, token: string) {
   const url = `${APP_URL}/api/auth/verify-email?token=${token}`;
-  return resend.emails.send({
+  return send({
     from: FROM,
     to: email,
     subject: "Verify your NextFit account",
@@ -16,7 +36,7 @@ export async function sendVerificationEmail(email: string, token: string) {
 
 export async function sendPasswordResetEmail(email: string, token: string) {
   const url = `${APP_URL}/reset-password?token=${token}`;
-  return resend.emails.send({
+  return send({
     from: FROM,
     to: email,
     subject: "Reset your NextFit password",
@@ -31,15 +51,15 @@ export async function sendContactNotificationToTrainer(opts: {
   senderEmail: string;
   message: string;
 }) {
-  return resend.emails.send({
+  return send({
     from: FROM,
     to: opts.trainerEmail,
     subject: `New consult request from ${opts.senderName}`,
     html: `
       <h2>You have a new contact request on NextFit</h2>
-      <p><strong>From:</strong> ${opts.senderName} (${opts.senderEmail})</p>
+      <p><strong>From:</strong> ${esc(opts.senderName)} (${esc(opts.senderEmail)})</p>
       <p><strong>Message:</strong></p>
-      <p>${opts.message}</p>
+      <p>${esc(opts.message)}</p>
       <p><a href="${APP_URL}/dashboard/trainer">View in Dashboard</a></p>
     `,
   });
@@ -50,13 +70,13 @@ export async function sendContactConfirmationToSender(opts: {
   senderName: string;
   recipientName: string;
 }) {
-  return resend.emails.send({
+  return send({
     from: FROM,
     to: opts.senderEmail,
     subject: `Your message to ${opts.recipientName} was sent`,
     html: `
-      <p>Hi ${opts.senderName},</p>
-      <p>Your message to <strong>${opts.recipientName}</strong> has been sent. They'll be in touch with you soon.</p>
+      <p>Hi ${esc(opts.senderName)},</p>
+      <p>Your message to <strong>${esc(opts.recipientName)}</strong> has been sent. They'll be in touch with you soon.</p>
       <p>— The NextFit Team</p>
     `,
   });
@@ -70,23 +90,23 @@ export async function sendContactNotificationToGym(opts: {
   subject: string;
   message: string;
 }) {
-  return resend.emails.send({
+  return send({
     from: FROM,
     to: opts.gymEmail,
     subject: `New inquiry: ${opts.subject}`,
     html: `
-      <h2>New inquiry at ${opts.gymName}</h2>
-      <p><strong>From:</strong> ${opts.senderName} (${opts.senderEmail})</p>
-      <p><strong>Subject:</strong> ${opts.subject}</p>
+      <h2>New inquiry at ${esc(opts.gymName)}</h2>
+      <p><strong>From:</strong> ${esc(opts.senderName)} (${esc(opts.senderEmail)})</p>
+      <p><strong>Subject:</strong> ${esc(opts.subject)}</p>
       <p><strong>Message:</strong></p>
-      <p>${opts.message}</p>
+      <p>${esc(opts.message)}</p>
       <p><a href="${APP_URL}/dashboard/gym">View in Dashboard</a></p>
     `,
   });
 }
 
 export async function sendReviewSubmittedConfirmation(email: string) {
-  return resend.emails.send({
+  return send({
     from: FROM,
     to: email,
     subject: "Your review has been submitted",
@@ -95,32 +115,33 @@ export async function sendReviewSubmittedConfirmation(email: string) {
 }
 
 export async function sendReviewRejectedEmail(email: string, reason: string) {
-  return resend.emails.send({
+  return send({
     from: FROM,
     to: email,
     subject: "Your NextFit review was not approved",
-    html: `<p>Unfortunately, your review was not approved.</p><p><strong>Reason:</strong> ${reason}</p>`,
+    html: `<p>Unfortunately, your review was not approved.</p><p><strong>Reason:</strong> ${esc(reason)}</p>`,
   });
 }
 
 export async function sendCertRejectedEmail(email: string, certName: string) {
-  return resend.emails.send({
+  return send({
     from: FROM,
     to: email,
     subject: `Certification not verified: ${certName}`,
-    html: `<p>We were unable to verify your <strong>${certName}</strong> certification. Please re-upload a clear copy of your certificate.</p>`,
+    html: `<p>We were unable to verify your <strong>${esc(certName)}</strong> certification. Please re-upload a clear copy of your certificate.</p>`,
   });
 }
 
 export async function sendPaymentFailedEmail(email: string, name: string) {
-  return resend.emails.send({
+  return send({
     from: FROM,
     to: email,
     subject: "Action required: payment failed",
     html: `
-      <p>Hi ${name},</p>
+      <p>Hi ${esc(name)},</p>
       <p>We were unable to process your NextFit subscription payment. You have 7 days to update your payment method before your account is downgraded.</p>
-      <p><a href="${APP_URL}/dashboard/billing">Update payment method</a></p>
+      <p>Sign in and open your dashboard, then click <strong>Manage Billing</strong> to update your payment method.</p>
+      <p><a href="${APP_URL}">Sign in to NextFit</a></p>
     `,
   });
 }

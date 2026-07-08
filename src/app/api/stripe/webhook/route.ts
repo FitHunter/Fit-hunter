@@ -73,14 +73,19 @@ export async function POST(req: NextRequest) {
       include: { user: { select: { email: true, name: true } } },
     });
     if (trainer) {
-      await sendPaymentFailedEmail(trainer.user.email, trainer.user.name ?? trainer.displayName);
+      // Best-effort: never nack the webhook over a notification email.
+      await sendPaymentFailedEmail(trainer.user.email, trainer.user.name ?? trainer.displayName).catch((err) =>
+        console.error("[stripe/webhook] payment-failed email failed:", err)
+      );
     } else {
       const gym = await prisma.gymProfile.findUnique({
         where: { stripeCustomerId: invoice.customer },
         include: { user: { select: { email: true, name: true } } },
       });
       if (gym?.user) {
-        await sendPaymentFailedEmail(gym.user.email, gym.user.name ?? gym.name);
+        await sendPaymentFailedEmail(gym.user.email, gym.user.name ?? gym.name).catch((err) =>
+          console.error("[stripe/webhook] payment-failed email failed:", err)
+        );
       }
     }
   }

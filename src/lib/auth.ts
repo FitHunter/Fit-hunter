@@ -1,10 +1,15 @@
-import NextAuth from "next-auth";
+import NextAuth, { CredentialsSignin } from "next-auth";
 import { PrismaAdapter } from "@auth/prisma-adapter";
 import Credentials from "next-auth/providers/credentials";
 import bcrypt from "bcryptjs";
 import { prisma } from "@/lib/prisma";
 import { authConfig } from "@/lib/auth.config";
+import { MAX_LOGIN_ATTEMPTS, LOCKOUT_DURATION_MINUTES } from "@/lib/constants";
 import type { AccountType } from "@/generated/prisma";
+
+class AccountLockedError extends CredentialsSignin {
+  code = "account-locked";
+}
 
 export const { handlers, signIn, signOut, auth } = NextAuth({
   ...authConfig,
@@ -20,7 +25,6 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
       },
       async authorize(credentials) {
         if (!credentials?.email || !credentials?.password) {
-          console.log("[auth] missing credentials");
           return null;
         }
 
@@ -28,17 +32,44 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
           where: { email: credentials.email as string },
         });
 
-        console.log("[auth] login attempt:", credentials.email, "userFound:", !!user, "hasPassword:", !!user?.password, "emailVerified:", user?.emailVerified);
-
         if (!user || !user.password) return null;
         if (user.isSuspended) return null;
+
+        // Time-based lockout: after MAX_LOGIN_ATTEMPTS the account is locked for
+        // LOCKOUT_DURATION_MINUTES, then auto-unlocks. This prevents a permanent
+        // lockout DoS while still throttling brute-force attempts.
+        if (user.lockedAt) {
+          const unlockAt = user.lockedAt.getTime() + LOCKOUT_DURATION_MINUTES * 60_000;
+          if (Date.now() < unlockAt) throw new AccountLockedError();
+          await prisma.user.update({
+            where: { id: user.id },
+            data: { lockedAt: null, failedLoginAttempts: 0 },
+          });
+        }
 
         const passwordMatch = await bcrypt.compare(
           credentials.password as string,
           user.password
         );
-        console.log("[auth] passwordMatch:", passwordMatch);
-        if (!passwordMatch) return null;
+
+        if (!passwordMatch) {
+          const attempts = user.failedLoginAttempts + 1;
+          await prisma.user.update({
+            where: { id: user.id },
+            data: {
+              failedLoginAttempts: attempts,
+              lockedAt: attempts >= MAX_LOGIN_ATTEMPTS ? new Date() : undefined,
+            },
+          });
+          return null;
+        }
+
+        if (user.failedLoginAttempts > 0) {
+          await prisma.user.update({
+            where: { id: user.id },
+            data: { failedLoginAttempts: 0 },
+          });
+        }
 
         return {
           id: user.id,

@@ -1,5 +1,6 @@
 import { type ClassValue, clsx } from "clsx";
 import { twMerge } from "tailwind-merge";
+import { randomBytes } from "crypto";
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
@@ -29,8 +30,15 @@ export function formatReviewerName(firstName: string, lastName?: string | null):
   return `${firstName} ${lastName.charAt(0)}.`;
 }
 
+// Non-security use only (e.g. slug suffixes). Do NOT use for tokens.
 export function generateRandomCode(length = 6): string {
   return Math.random().toString(36).substring(2, 2 + length).toUpperCase();
+}
+
+// Cryptographically secure token for email verification, password resets, etc.
+// Returns a URL-safe hex string of `bytes * 2` characters.
+export function generateSecureToken(bytes = 32): string {
+  return randomBytes(bytes).toString("hex");
 }
 
 export function isValidUrl(url: string): boolean {

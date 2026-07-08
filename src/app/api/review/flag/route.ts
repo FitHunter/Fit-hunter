@@ -2,12 +2,16 @@ import { NextRequest, NextResponse } from "next/server";
 import { z } from "zod";
 import { auth } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
+import { enforceRateLimit } from "@/lib/rate-limit";
 
 const schema = z.object({ reviewId: z.string(), reason: z.string().optional() });
 
 export async function POST(req: NextRequest) {
   const session = await auth();
   if (!session) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+
+  const limited = await enforceRateLimit("email", session.user.id);
+  if (limited) return limited;
 
   try {
     const { reviewId, reason } = schema.parse(await req.json());

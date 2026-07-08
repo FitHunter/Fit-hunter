@@ -1,12 +1,47 @@
 export const CERTIFICATIONS = [
   "ACE", "NASM", "ISSA", "CSCS", "ACSM", "RD", "RDN", "CPT", "CES", "PES",
-  "CFSC", "FMS", "CrossFit L1", "CrossFit L2", "Other",
+  "CFSC", "FMS", "CrossFit L1", "CrossFit L2", "Pre/Postnatal Cert",
+  "Precision Nutrition (PN1/PN2)", "Other",
 ] as const;
 
-export const SPECIALTIES = [
-  "Weight Loss", "Strength Training", "Sports Performance", "Prenatal/Postnatal",
-  "Senior Fitness", "Bodybuilding", "Mobility & Flexibility", "Nutrition Coaching",
-  "Group Fitness", "Yoga", "Pilates", "Rehabilitation", "Online Coaching",
+export const TRAINING_STYLES = [
+  "Strength Training", "HIIT / Cardio", "Bodybuilding", "Functional Training",
+  "Mobility & Flexibility", "Yoga", "Pilates", "CrossFit-Style", "Online Coaching",
+] as const;
+
+export const CLIENT_FOCUS_AREAS = [
+  "Weight Loss", "Athletic Performance", "Beginners", "Senior Fitness",
+  "Post-Injury / Rehabilitation", "Prenatal/Postnatal", "Bodybuilding Prep",
+  "Nutrition Coaching", "Group Fitness",
+] as const;
+
+// Kept as a union so existing imports (e.g. the search filter dropdown) keep working
+export const SPECIALTIES = [...TRAINING_STYLES, ...CLIENT_FOCUS_AREAS] as const;
+
+export const SESSION_TYPES = [
+  "1-on-1", "Small Group", "Online Programming", "Nutrition Coaching",
+] as const;
+
+export const TRAINING_LOCATIONS = [
+  "My Gym / Studio", "Client's Home", "Specific Gym Locations", "Virtual",
+] as const;
+
+export const SESSION_LENGTHS = [30, 45, 60, 90, 120] as const;
+
+export const LANGUAGES = [
+  "English", "Spanish", "Mandarin", "French", "Portuguese", "Arabic",
+  "Hindi", "Vietnamese", "Korean", "Tagalog",
+] as const;
+
+export const PRICING_MODELS = [
+  { value: "per_session", label: "Per session" },
+  { value: "package", label: "Package" },
+  { value: "monthly", label: "Monthly" },
+] as const;
+
+export const AVAILABILITY_TYPES = [
+  { value: "flexible", label: "Flexible" },
+  { value: "limited", label: "Limited" },
 ] as const;
 
 export const AMENITIES = [
@@ -55,6 +90,8 @@ export const MAX_GYM_PHOTOS = 20;
 export const MAX_PHOTO_SIZE_MB = 5;
 export const MAX_TRAINER_SPECIALTIES_PRO = 5;
 export const MAX_TRAINER_SPECIALTIES_STARTER = 1;
+export const MAX_LOGIN_ATTEMPTS = 5;
+export const LOCKOUT_DURATION_MINUTES = 15;
 export const REVIEW_EDIT_WINDOW_HOURS = 48;
 export const REVIEW_RESPONSE_EDIT_WINDOW_HOURS = 48;
 export const POSTCARD_EXPIRY_DAYS = 14;

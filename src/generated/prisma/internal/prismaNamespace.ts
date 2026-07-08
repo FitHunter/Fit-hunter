@@ -2027,6 +2027,8 @@ export const UserScalarFieldEnum = {
   accountType: 'accountType',
   isAdmin: 'isAdmin',
   isSuspended: 'isSuspended',
+  failedLoginAttempts: 'failedLoginAttempts',
+  lockedAt: 'lockedAt',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 } as const
@@ -2095,12 +2097,16 @@ export const TrainerProfileScalarFieldEnum = {
   bio: 'bio',
   experience: 'experience',
   whoIWorkWith: 'whoIWorkWith',
+  education: 'education',
+  philosophy: 'philosophy',
   yearsExperience: 'yearsExperience',
   photoUrl: 'photoUrl',
   phone: 'phone',
   virtualAvailable: 'virtualAvailable',
   bookingUrl: 'bookingUrl',
   vslUrl: 'vslUrl',
+  instagramHandle: 'instagramHandle',
+  youtubeHandle: 'youtubeHandle',
   gymName: 'gymName',
   addressLine1: 'addressLine1',
   city: 'city',
@@ -2108,6 +2114,15 @@ export const TrainerProfileScalarFieldEnum = {
   zip: 'zip',
   lat: 'lat',
   lng: 'lng',
+  languages: 'languages',
+  sessionTypes: 'sessionTypes',
+  trainingLocations: 'trainingLocations',
+  sessionLengths: 'sessionLengths',
+  pricingModel: 'pricingModel',
+  priceMin: 'priceMin',
+  priceMax: 'priceMax',
+  availabilityType: 'availabilityType',
+  availabilityDays: 'availabilityDays',
   tier: 'tier',
   stripeCustomerId: 'stripeCustomerId',
   stripeSubscriptionId: 'stripeSubscriptionId',
@@ -2140,6 +2155,7 @@ export const TrainerSpecialtyScalarFieldEnum = {
   id: 'id',
   trainerProfileId: 'trainerProfileId',
   specialty: 'specialty',
+  category: 'category',
   sortOrder: 'sortOrder'
 } as const
 
@@ -2162,6 +2178,8 @@ export const TrainerPhotoScalarFieldEnum = {
   url: 'url',
   publicId: 'publicId',
   caption: 'caption',
+  category: 'category',
+  consentConfirmed: 'consentConfirmed',
   sortOrder: 'sortOrder',
   createdAt: 'createdAt'
 } as const
@@ -2503,6 +2521,20 @@ export type EnumSubscriptionStatusFieldRefInput<$PrismaModel> = FieldRefInputTyp
  * Reference to a field of type 'SubscriptionStatus[]'
  */
 export type ListEnumSubscriptionStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'SubscriptionStatus[]'>
+    
+
+
+/**
+ * Reference to a field of type 'SpecialtyCategory'
+ */
+export type EnumSpecialtyCategoryFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'SpecialtyCategory'>
+    
+
+
+/**
+ * Reference to a field of type 'SpecialtyCategory[]'
+ */
+export type ListEnumSpecialtyCategoryFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'SpecialtyCategory[]'>
     
 
 

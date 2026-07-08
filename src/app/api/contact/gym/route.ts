@@ -4,6 +4,7 @@ import { auth } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import { sendContactNotificationToGym, sendContactConfirmationToSender } from "@/lib/email";
 import { CONTACT_SUBJECTS } from "@/lib/constants";
+import { enforceRateLimit } from "@/lib/rate-limit";
 
 const schema = z.object({
   gymProfileId: z.string(),
@@ -14,6 +15,9 @@ const schema = z.object({
 export async function POST(req: NextRequest) {
   const session = await auth();
   if (!session) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+
+  const limited = await enforceRateLimit("email", session.user.id);
+  if (limited) return limited;
 
   try {
     const data = schema.parse(await req.json());
@@ -36,6 +40,8 @@ export async function POST(req: NextRequest) {
       },
     });
 
+    // Best-effort: the request is already recorded above and appears in the
+    // gym's dashboard — a failed notification email must not fail the API.
     await Promise.all([
       sendContactNotificationToGym({
         gymEmail: gym.user.email,
@@ -50,7 +56,7 @@ export async function POST(req: NextRequest) {
         senderName: session.user.name ?? "there",
         recipientName: gym.name,
       }),
-    ]);
+    ]).catch((err) => console.error("[contact/gym] notification email failed:", err));
 
     return NextResponse.json({ success: true });
   } catch (err) {
