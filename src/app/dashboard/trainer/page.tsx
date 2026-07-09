@@ -8,6 +8,7 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Eye, MessageSquare, Star, ExternalLink, Settings } from "lucide-react";
 import { BillingButton } from "@/components/dashboard/billing-button";
+import { FREE_LAUNCH } from "@/lib/constants";
 
 export default async function TrainerDashboardPage() {
   const session = await auth();
@@ -40,7 +41,8 @@ export default async function TrainerDashboardPage() {
     prisma.profileView.count({ where: { trainerProfileId: trainer.id, viewedAt: { gte: thirtyDaysAgo } } }),
   ]);
 
-  const isActive = trainer.subscriptionStatus === "ACTIVE";
+  // Free-launch phase: a completed profile is live — no subscription needed.
+  const isActive = FREE_LAUNCH ? trainer.wizardComplete : trainer.subscriptionStatus === "ACTIVE";
   const profileUrl = `${process.env.NEXT_PUBLIC_APP_URL}/trainer/${trainer.slug}`;
 
   return (
@@ -51,23 +53,33 @@ export default async function TrainerDashboardPage() {
           <p className="text-gray-500 text-sm mt-0.5">{trainer.displayName}</p>
         </div>
         <div className="flex items-center gap-2">
-          <Badge variant={isActive ? "default" : "secondary"}>{isActive ? "Active" : "Inactive"}</Badge>
+          <Badge variant={isActive ? "default" : "secondary"}>
+            {isActive ? (FREE_LAUNCH ? "Live" : "Active") : FREE_LAUNCH ? "Setup incomplete" : "Inactive"}
+          </Badge>
           <Link href="/dashboard/trainer/edit">
             <Button variant="outline" size="sm"><Settings className="h-4 w-4" />Edit Profile</Button>
           </Link>
         </div>
       </div>
 
-      {/* Inactive subscription banner */}
+      {/* Not-visible-in-search banner */}
       {!isActive && (
         <div className="rounded-xl border border-amber-200 bg-amber-50 px-5 py-4 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
           <div>
             <p className="font-semibold text-amber-900">Your profile is not visible in search</p>
             <p className="text-sm text-amber-700 mt-0.5">
-              An active subscription is required for your profile to appear in search results.
+              {FREE_LAUNCH
+                ? "Finish your profile setup and it goes live immediately — free during our launch."
+                : "An active subscription is required for your profile to appear in search results."}
             </p>
           </div>
-          <BillingButton label="Subscribe to appear in search" />
+          {FREE_LAUNCH ? (
+            <Link href="/dashboard/trainer/setup">
+              <Button>Finish setup</Button>
+            </Link>
+          ) : (
+            <BillingButton label="Subscribe to appear in search" />
+          )}
         </div>
       )}
 
@@ -110,7 +122,7 @@ export default async function TrainerDashboardPage() {
             <Button variant="outline" size="sm"><ExternalLink className="h-4 w-4" />View</Button>
           </a>
         </div>
-        <BillingButton label="Manage Billing" />
+        {!FREE_LAUNCH && <BillingButton label="Manage Billing" />}
       </div>
 
       {/* Contact requests */}

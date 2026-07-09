@@ -8,6 +8,7 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Eye, Star, ExternalLink, MessageSquare } from "lucide-react";
 import { BillingButton } from "@/components/dashboard/billing-button";
+import { FREE_LAUNCH } from "@/lib/constants";
 
 export default async function GymDashboardPage() {
   const session = await auth();
@@ -74,7 +75,7 @@ export default async function GymDashboardPage() {
             <Button variant="outline" size="sm"><ExternalLink className="h-4 w-4" />View</Button>
           </a>
         </div>
-        <BillingButton />
+        {!FREE_LAUNCH && <BillingButton />}
       </div>
 
       {/* Reviews */}

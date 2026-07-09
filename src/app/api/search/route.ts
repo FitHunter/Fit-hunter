@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
-import { RESULTS_PER_PAGE } from "@/lib/constants";
+import { FREE_LAUNCH, RESULTS_PER_PAGE } from "@/lib/constants";
 import { enforceRateLimit, getClientIp } from "@/lib/rate-limit";
 
 export async function GET(req: NextRequest) {
@@ -32,7 +32,9 @@ export async function GET(req: NextRequest) {
 
     const trainers = await prisma.trainerProfile.findMany({
       where: {
-        subscriptionStatus: "ACTIVE",
+        // Free-launch phase: completed profiles are searchable without a
+        // subscription. The paid gate returns when FREE_LAUNCH is false.
+        ...(FREE_LAUNCH ? {} : { subscriptionStatus: "ACTIVE" }),
         wizardComplete: true,
         ...(q ? {
           OR: [

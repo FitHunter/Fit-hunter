@@ -11,7 +11,7 @@ import { CityAutocomplete } from "@/components/ui/city-autocomplete";
 import {
   CERTIFICATIONS, TRAINING_STYLES, CLIENT_FOCUS_AREAS, SESSION_TYPES,
   TRAINING_LOCATIONS, SESSION_LENGTHS, LANGUAGES, PRICING_MODELS,
-  AVAILABILITY_TYPES, DAYS_OF_WEEK, PROFILE_TYPES,
+  AVAILABILITY_TYPES, DAYS_OF_WEEK, PROFILE_TYPES, FREE_LAUNCH,
 } from "@/lib/constants";
 import { Dumbbell, ChevronRight, ChevronLeft, Camera, Plus, X, Loader2, Upload } from "lucide-react";
 import { cn } from "@/lib/utils";
@@ -398,6 +398,12 @@ export function TrainerSetupWizard() {
       complete: true,
     });
     if (result.error) { setError(result.error); setSaving(false); return; }
+
+    if (FREE_LAUNCH) {
+      // Free-launch phase: profile goes live immediately, no checkout.
+      window.location.href = "/dashboard/trainer?published=1";
+      return;
+    }
 
     const checkoutRes = await fetch("/api/stripe/checkout", {
       method: "POST",

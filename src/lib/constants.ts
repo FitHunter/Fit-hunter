@@ -1,3 +1,16 @@
+// ============================================================
+// FREE LAUNCH MODE — market-validation phase (see Product Brief:
+// "everything is free right now, build both sides of the network").
+// While true:
+//   - trainers appear in search once their setup wizard is complete,
+//     no subscription required
+//   - the setup wizard skips Stripe checkout entirely
+//   - dashboards hide subscribe/billing buttons
+// Flip to false (and configure real Stripe keys + price IDs) to
+// re-enable the paid-subscription gate.
+// ============================================================
+export const FREE_LAUNCH = true;
+
 export const CERTIFICATIONS = [
   "ACE", "NASM", "ISSA", "CSCS", "ACSM", "RD", "RDN", "CPT", "CES", "PES",
   "CFSC", "FMS", "CrossFit L1", "CrossFit L2", "Pre/Postnatal Cert",
