@@ -86,6 +86,13 @@ export function Navbar() {
                         Admin Panel
                       </Link>
                     )}
+                    <Link
+                      href="/account"
+                      className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-50"
+                      onClick={() => setProfileOpen(false)}
+                    >
+                      Account Settings
+                    </Link>
                     <div className="border-t border-gray-100 mt-1 pt-1">
                       <button
                         onClick={() => signOut({ callbackUrl: "/" })}
@@ -147,6 +154,9 @@ export function Navbar() {
                   Edit My Profile
                 </Link>
               )}
+              <Link href="/account" className="block text-sm font-medium text-gray-700" onClick={() => setMobileOpen(false)}>
+                Account Settings
+              </Link>
               <button
                 onClick={() => signOut({ callbackUrl: "/" })}
                 className="block text-sm font-medium text-red-600"

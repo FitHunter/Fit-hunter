@@ -90,7 +90,8 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         token.isAdmin = (user as { isAdmin: boolean }).isAdmin;
       }
       if (trigger === "update" && session) {
-        token.accountType = session.accountType;
+        if (session.accountType) token.accountType = session.accountType;
+        if (session.name) token.name = session.name;
       }
       return token;
     },
